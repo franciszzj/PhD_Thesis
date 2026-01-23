@@ -1,0 +1,5 @@
+$out_dir = 'build';
+$aux_dir = 'build';
+
+$interaction = 'nonstopmode';
+$halt_on_error = 1;

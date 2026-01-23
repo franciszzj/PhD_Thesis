@@ -52,6 +52,8 @@ CUED PhD thesis template
 
 This template supports `XeLaTeX` compilation chain. To generate  PDF run
 
+Note: this repo is configured with a `.latexmkrc` that writes all LaTeX auxiliary outputs to `build/` to keep the source tree clean.
+
     latexmk -xelatex thesis.tex
     makeindex thesis.nlo -s nomencl.ist -o thesis.nls
     latexmk -xelatex -g thesis.tex
