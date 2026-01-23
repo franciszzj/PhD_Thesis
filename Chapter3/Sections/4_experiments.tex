@@ -29,10 +29,10 @@ To ensure consistent comparison with PSGTR, we adopted the same data augmentatio
 Our model is trained for 12 epochs with a step scheduler at epoch 10, taking approximately 18 hours to train on four A100 GPUs with a batch size of 1 for each GPU.
 
 \subsection{Comparison to the state-of-the-art}
-\label{sec:experiments:main_results}
+\label{hilo:sec:experiments:main_results}
 
 \noindent \textbf{PSG}. 
-Tab.~\ref{table:psg_main_results} reports the performance of our method compared to the state-of-the-art on the PSG dataset~\cite{yang2022panoptic}.
+Tab.~\ref{hilo:tab:psg_main_results} reports the performance of our method compared to the state-of-the-art on the PSG dataset~\cite{yang2022panoptic}.
 We separate the methods into two groups. 
 The first are two-stage methods consisting of a separate segmentor and relation predictor, which are modified for the PSG task in \cite{yang2022panoptic}.
 The second are one-stage end-to-end methods, which are able to simultaneously predict panoptic segmentation and relations.
@@ -48,8 +48,8 @@ Our results are consistently improved over all metrics due the powerful feature 
 
 \noindent \textbf{SGG}.
 Here we study whether our approach that was developed for the PSG task can also be applied to the SGG task.
-In Tab.~\ref{table:vg_main_results}, we conduct experiments on the VG-150 dataset.
-Following IETrans~\cite{zhang2022fine}, we extend our \emph{unbiased} HiLo framework (Sec.~\ref{sec:framework}) without our PSG-specific baseline (Sec.~\ref{sec:baseline}) to four state-of-the-art \emph{biased} SGG methods, namely MOTIF \cite{zellers2018neural}, VCTree \cite{tang2019learning}, Transformer \cite{tang2020unbiased} and GPSNet \cite{lin2020gps}, using the implementation of \cite{zhang2022fine}.
+In Tab.~\ref{hilo:tab:vg_main_results}, we conduct experiments on the VG-150 dataset.
+Following IETrans~\cite{zhang2022fine}, we extend our \emph{unbiased} HiLo framework (Sec.~\ref{hilo:sec:framework}) without our PSG-specific baseline (Sec.~\ref{hilo:sec:baseline}) to four state-of-the-art \emph{biased} SGG methods, namely MOTIF \cite{zellers2018neural}, VCTree \cite{tang2019learning}, Transformer \cite{tang2020unbiased} and GPSNet \cite{lin2020gps}, using the implementation of \cite{zhang2022fine}.
 %
 Compared to the unbiased IETrans \cite{zhang2022fine} method, our method improves mean recall without sacrificing recall, demonstrating its effectiveness in enhancing the performance of low-frequency relations.
 %
@@ -85,7 +85,7 @@ It also shows that the HiLo framework is a general technique that yields systema
     \vspace{+1mm}
     \caption{Comparison between our HiLo framework and other methods on the VG-150 dataset. Similar to \cite{zhang2022fine}, we apply IETrans and our own method on top of four leading baselines.
     }
-    \label{table:vg_main_results}
+    \label{hilo:tab:vg_main_results}
 \end{table}
 
 
@@ -106,8 +106,8 @@ It also shows that the HiLo framework is a general technique that yields systema
 Consistent with the paper, we use HiLo with a Resnet-50 backbone to perform ablation experiments on the PSG dataset.
 
 \noindent \textbf{HiLo framework for different baselines}.
-In this section we investigate whether our HiLo framework~(Sec.~\ref{sec:framework}) yields improvements for other baselines, rather than just the one presented in Sec.~\ref{sec:baseline}.
-Tab.~\ref{table:different_baselines} shows the results for two baselines, with and without the HiLo framework.
+In this section we investigate whether our HiLo framework~(Sec.~\ref{hilo:sec:framework}) yields improvements for other baselines, rather than just the one presented in Sec.~\ref{hilo:sec:baseline}.
+Tab.~\ref{hilo:tab:different_baselines} shows the results for two baselines, with and without the HiLo framework.
 We observe that our biased baseline outperforms the previous PSGTR~\cite{yang2022panoptic} method on all metrics.
 Furthermore, by applying the HiLo framework, we can substantially improve the performance over both baselines.
 It is worth mentioning that the HiLo framework improves recall and mean recall simultaneously, whereas other methods typically improve one metric at the cost of the other \cite{tang2020unbiased, yu2020cogtree}.
@@ -130,13 +130,13 @@ It is worth mentioning that the HiLo framework improves recall and mean recall s
     \vspace{+1mm}
     \caption{Comparison of different baselines, with and without HiLo framework. Using the HiLo framework, we see significant improvements on both metrics.
     }
-    \label{table:different_baselines}
+    \label{hilo:tab:different_baselines}
 \end{table}
 
 \noindent \textbf{HiLo relation augmentation.}
-We observe that out of 260,296 labeled triplets in the PSG dataset, only about 10\% of subject-object pairs have multiple relations, for which we can apply relation swapping~(Sec.~\ref{sec:framework:relation_generation}).
-After applying our proposed relation augmentation technique~(Sec.~\ref{sec:framework:relation_generation}), this ratio significantly increases to 40\%.
-Our experimental results in Tab.~\ref{table:proportion_of_swappable_triplets} demonstrate that only applying the HiLo framework on 10\% already gives an improvement over the baseline from Tab.~\ref{table:different_baselines}. As the number of swappable triplets increases due to augmentation, the model's performance is further enhanced, highlighting the potential of our method.
+We observe that out of 260,296 labeled triplets in the PSG dataset, only about 10\% of subject-object pairs have multiple relations, for which we can apply relation swapping~(Sec.~\ref{hilo:sec:framework:relation_generation}).
+After applying our proposed relation augmentation technique~(Sec.~\ref{hilo:sec:framework:relation_generation}), this ratio significantly increases to 40\%.
+Our experimental results in Tab.~\ref{hilo:tab:proportion_of_swappable_triplets} demonstrate that only applying the HiLo framework on 10\% already gives an improvement over the baseline from Tab.~\ref{hilo:tab:different_baselines}. As the number of swappable triplets increases due to augmentation, the model's performance is further enhanced, highlighting the potential of our method.
 
 \begin{table}\small
     \centering
@@ -153,12 +153,12 @@ Our experimental results in Tab.~\ref{table:proportion_of_swappable_triplets} de
     \vspace{+1mm}
     \caption{Ablation study for HiLo relation augmentation. Relation augmentation affects the ratio of subject-object pairs with multiple relations. The larger this ratio, the more relations can be swapped, which leads to better results.
     }
-    \label{table:proportion_of_swappable_triplets}
+    \label{hilo:tab:proportion_of_swappable_triplets}
 \end{table}
 
 \noindent \textbf{HiLo prediction alignment}.
-We conduct ablation experiments on the subject-object consistency loss and relation consistency loss~(Sec.~\ref{sec:framework:prediction_alignment}), which are used to align the predictions from the high and low frequency branches.
-The results, as presented in Tab.~\ref{table:prediction_alignment}, demonstrate that using both losses yields the best performance.
+We conduct ablation experiments on the subject-object consistency loss and relation consistency loss~(Sec.~\ref{hilo:sec:framework:prediction_alignment}), which are used to align the predictions from the high and low frequency branches.
+The results, as presented in Tab.~\ref{hilo:tab:prediction_alignment}, demonstrate that using both losses yields the best performance.
 It is worth mentioning that we have explored the margin in the relation consistency loss and found that setting the margin to zero leads to a small performance degradation.
 This finding confirms that there is a partial semantic overlap between swapped relations, indicating that they are not entirely consistent.
 
@@ -180,12 +180,12 @@ This finding confirms that there is a partial semantic overlap between swapped r
     \vspace{+1mm}
     \caption{Ablation study for different losses in HiLo prediction alignment. \emph{Object} refers to the subject-object consistency loss and \emph{relation} refers to the relation consistency loss. The margin parameter is defined in Eq.~\ref{eq:relation_consistency_loss}.
     }
-    \label{table:prediction_alignment}
+    \label{hilo:tab:prediction_alignment}
 \end{table}
 
 \noindent \textbf{HiLo inference fusion}.
-We ablate the inference fusion~(Sec.~\ref{sec:framework:inference_fusion}) and evaluate the performance of each branch's output separately.
-In Tab.~\ref{table:inference_fusion}, experimental results suggest that fusion can effectively leverage the uniqueness of the high and low frequency branch predictions to achieve comprehensive improvements on all metrics.
+We ablate the inference fusion~(Sec.~\ref{hilo:sec:framework:inference_fusion}) and evaluate the performance of each branch's output separately.
+In Tab.~\ref{hilo:tab:inference_fusion}, experimental results suggest that fusion can effectively leverage the uniqueness of the high and low frequency branch predictions to achieve comprehensive improvements on all metrics.
 
 \begin{table}\small
     \centering
@@ -200,12 +200,12 @@ In Tab.~\ref{table:inference_fusion}, experimental results suggest that fusion c
     \end{tabular}
     \vspace{+1mm}
     \caption{Ablation study for HiLo inference fusion.}
-    \label{table:inference_fusion}
+    \label{hilo:tab:inference_fusion}
 \end{table}
 
 \vspace{+4mm}
 \noindent \textbf{Convergence speed analysis}.
-We evaluate the convergence of our model by assessing its performance on the validation set at various epochs, as illustrated in Fig.~\ref{figure:convergence_speed}.
+We evaluate the convergence of our model by assessing its performance on the validation set at various epochs, as illustrated in Fig.~\ref{hilo:fig:convergence_speed}.
 Our analysis reveals that our proposed method outperforms prior methods \cite{yang2022panoptic} both in terms of final performance and convergence speed.
 Specifically, PSGTR \cite{yang2022panoptic} achieves negligible performance in the initial 12 epochs, requiring 60 epochs to converge, as per the authors.
 In contrast, our HiLo method achieves better results in just 12 epochs, indicating its superior convergence speed.
@@ -218,14 +218,14 @@ In contrast, our HiLo method achieves better results in just 12 epochs, indicati
 \caption{Training convergence speed analysis of different methods. 
 Our method converges significantly faster than previous methods.}
 \vspace{-2mm}
-\label{figure:convergence_speed}
+\label{hilo:fig:convergence_speed}
 \end{figure}
 
 
 \noindent \textbf{Masked relation attention}.
-We investigate the impact of different mask input types for cross-attention on the HiLo baseline~(Sec.~\ref{sec:baseline}) performance.
+We investigate the impact of different mask input types for cross-attention on the HiLo baseline~(Sec.~\ref{hilo:sec:baseline}) performance.
 Specifically, we compare two different attention focus regions, namely the subject-object region and the full image.
-The results are shown in Tab.~\ref{table:masked_relation_attention}.
+The results are shown in Tab.~\ref{hilo:tab:masked_relation_attention}.
 Focusing on the full image presents a more challenging optimization task for the model since no target region is specified.
 Consequently, we observe a drop of 1.8\% in R@100 and 1.6\% in mR@100.
 This shows that it is crucial to apply masked relation attention to the subject and object.
@@ -243,5 +243,5 @@ This shows that it is crucial to apply masked relation attention to the subject 
     \vspace{+1mm}
     \caption{Ablation study for masked relation attention.
     }
-    \label{table:masked_relation_attention}
+    \label{hilo:tab:masked_relation_attention}
 \end{table}

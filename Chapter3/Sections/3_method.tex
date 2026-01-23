@@ -17,12 +17,12 @@ b) Input data into our HiLo framework with HiLo baseline model, there are two br
 c) In addition to task losses for PSG, we propose HiLo prediction alignment, which includes subject-object consistency loss and relation consistency loss, so that the parallel branch can be better optimized.
 }
 \vspace{-2mm}
-\label{figure:hilofex_baseline}
+\label{hilo:fig:baseline}
 \end{figure*}
 
 
 \subsection{HiLo Baseline}
-\label{sec:baseline}
+\label{hilo:sec:baseline}
 High-quality panoptic segmentation is crucial for achieving good PSG performance.
 We build our method upon the latest advances in DETR-based panoptic segmentation, Mask2Former \cite{cheng2022masked}.
 Below we present its structure, as well as our proposed modifications for the PSG task.  
@@ -56,12 +56,12 @@ The baseline loss with (${\lambda}_{1} = 1$, ${\lambda}_{2} = 1$, ${\lambda}_{3}
 \end{align}
 
 \subsection{HiLo Framework}
-\label{sec:framework}
+\label{hilo:sec:framework}
 
 The key insight of our HiLo is to build a model that can take into account both high frequency and low frequency relations, and effectively improve the performance on low frequency relations without degrading the performance on high frequency relations.
 
 \subsubsection{HiLo relation generation}
-\label{sec:framework:relation_generation}
+\label{hilo:sec:framework:relation_generation}
 In the PSG task, multiple relations can be used to describe the connection between a subject and an object from different perspectives, such as \emph{spatial} relations, \emph{actions} and \emph{prepositions}. Since the subject, object and their relative position in the image are fixed, all these relations share the same visual information.
 %
 This is reflected in the PSG dataset~\cite{yang2022panoptic} where many subject-object pairs are annotated with multiple relation labels. These relation labels are of different frequencies in the dataset. In this section we introduce the HiLo relation generation module to prepare two sets of training data, biasing towards high and low-frequency relations respectively.
@@ -93,7 +93,7 @@ Hence, we obtain two new sets of triplets, denoted by $\mathcal T^\text{H-L}$ an
 The H-L and L-H decoders favour the predictions for low and high-frequency relations, respectively. Despite their difference, for the corresponding triplet query in the two decoders, their predictions are highly correlated: on one hand, the subject and object predictions should be the same; on the other hand, the distribution of relation predictions should be overlapping.  Below we first build the query correspondence in the two decoders and then introduce the HiLo subject-object and relation consistency loss to align the predictions from two the decoders. 
 
 \subsubsection{HiLo prediction alignment}
-\label{sec:framework:prediction_alignment}
+\label{hilo:sec:framework:prediction_alignment}
 Training two different relation distributions simultaneously confuse the model.
 To make the model differentiate between the two branches, we built a HiLo prediction alignment module, including triplet query correspondence, subject-object consistency loss and relation consistency loss respectively.
 
@@ -147,7 +147,7 @@ The final loss $\mathcal{L}$ is thus:
 \end{align}
 
 \subsubsection{HiLo inference fusion}
-\label{sec:framework:inference_fusion}
+\label{hilo:sec:framework:inference_fusion}
 The H-L and L-H decoders favour low-frequency relation prediction and high-frequency relation prediction, respectively. 
 To combine the strength of both during inference, we introduce the HiLo inference fusion module. 
 %
@@ -186,5 +186,5 @@ Remove any follow-up triplet from the list if it 1) has the same subject, object
     \caption{Comparison between our HiLo and other methods on the PSG dataset.
     Our method shows superior performance compared to all previous methods.
     }
-    \label{table:psg_main_results}
+    \label{hilo:tab:psg_main_results}
 \end{table*}
