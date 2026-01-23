@@ -1,0 +1,35 @@
+\section{Related Work}
+\label{leffa:sec:related_work}
+
+\subsection{Controllable Person Image Generation}
+
+\noindent \textbf{Appearance Control}.
+Virtual try-on seeks to automate outfit changes in person images without distorting garment details, which is a longstanding challenge~\citep{yang2020towards, choi2021viton, ge2021disentangled, ge2021parser, he2022style}.
+Recently, diffusion-based methods have emerged as the de facto solutions~\citep{zhu2023tryondiffusion, kim2024stableviton, xu2024ootdiffusion, wan2024improving, shen2024imagdressing}.
+Some pioneering works~\citep{morelli2023ladi, gou2023taming, zeng2024cat}
+enhance fine-grained detail preservation by incorporating additional modules, such as a textual inversion module with CLIP~\citep{radford2021learning} for enhanced conditions, a warping model to merge garments with garment-agnostic person images, and ControlNet~\citep{zhang2023adding} with DINOv2~\citep{oquab2023dinov2} to extract garment details.
+Further improvements~\citep{kim2024stableviton, choi2024improving, xu2024ootdiffusion, wan2024improving} leverage complex model structure designs, external models and textual information for enhanced performance.
+Recently, \citet{chong2024catvton} achieve detail preservation without extra models but requires complex training strategies~\citep{zhou2024dream} to reduce the training instability.
+
+\noindent \textbf{Pose Control}.
+Similarly, pose transfer presents a challenge in capturing the intricate structure of the pose transformation while preserving the fine-grained details of the textures~\citep{ma2017pose, siarohin2018deformable, li2019dense, zhu2019progressive, ren2020deep, men2020controllable, zhang2021pise, albahar2021pose, zhou2021cocosnet, sanyal2021learning, zhang2022exploring, zhou2022cross, ren2022neural, shen2023advancing, shen2024imagpose}. 
+\citet{bhunia2023person} first leverage diffusion models with a texture diffusion module for quality enhancement.
+\citet{han2023controllable} further propose a pose-constrained attention module and replace skeletons with dense pose~\citep{guler2018densepose} for more accurate pose conditioning.
+\citet{lu2024coarse} introduce a perception-refined decoder to progressively generate person images from coarse to fine while employing hybrid-granularity attention to enhance detail.
+Recently, \citet{pham2024cross} replace UNet~\citep{ronneberger2015u} with the masked diffusion transformer~\citep{peebles2023scalable, gao2023masked}, achieving efficient and high-quality generation.
+
+Although the existing methods have achieved significant progress on both virtual try-on and pose transfer tasks, most of them rely on complex module designs and extra models for fine-grained detail preservation.
+In contrast, we introduce a method that ensures stable training without complex designs, reducing detail distortion without adding any inference cost or extra parameters.
+
+
+\subsection{Attention in Controllable Generation}
+
+The attention mechanism, a crucial module in generative models, has been extensively studied and shown to significantly enhance model generation quality when effectively guided~\citep{liu2024faster, xie2023boxdiff, phung2024grounded, guo2024focus, chefer2023attend, cao2023masactrl, xiao2024fastcomposer, hertzprompt}.
+How to improve attention mechanism has also been studied in controllable person image generation.
+Some methods~\citep{ren2020deep, zhou2021cocosnet, ren2022neural, tang2020xinggan} propose customized attention mechanisms.
+For instance, \citet{ren2020deep} develop a differentiable global-local attention to reassemble inputs at the feature level, while \citet{zhou2021cocosnet} leverage iterative patch matching to enhance attention quality.
+\citet{ren2022neural} apply neural texture extraction and distribution, using semantic filters to improve attention maps and image quality.
+On the other hand, several methods directly optimize attention maps via supervision.
+\citet{han2023controllable} propose a pose-constrained attention loss to model appearance-pose interactions.
+\citet{kim2024stableviton} introduce an attention total variation loss to enhance focus on garment regions, though it lacks explicit guidance to attend to correct regions.
+In contrast, we propose a regularization loss that guides attention maps to attend to correct regions without additional annotations, enhancing attention quality and reducing fine-grained detail distortion.

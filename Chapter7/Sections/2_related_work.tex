@@ -1,0 +1,30 @@
+\vspace{-2mm}
+\section{Related Work}
+\label{saber:sec:related_work}
+
+
+\subsection{Video Generation}
+The rapid progress of diffusion models~\citep{rombach2022high} has greatly advanced video generation.
+Early methods~\citep{blattmann2023stable, guo2023animatediff, chen2024gentron} extended pre-trained text-to-image models~\citep{rombach2022high, podell2023sdxl} with temporal modules to synthesize videos.
+More recently, large-scale models based on Diffusion Transformer~\citep{peebles2023scalable} and trained on massive video-text datasets~\citep{chen2024panda, wang2025koala} have achieved state-of-the-art, high-fidelity video generation~\citep{yang2024cogvideox, kong2024hunyuanvideo, chen2025goku, wan2025wan, gao2025seedance, zhang2025waver}. 
+Despite these advances, existing methods mainly focus on text-to-video and image-to-video tasks.
+While fine-grained, subject-driven control, as required by reference-to-video generation, remains a significant challenge, the complex, costly data construction for R2V datasets~\citep{yuan2025opens2v, liu2025phantom} makes the large-scale training seen in T2V and I2V infeasible.
+
+\subsection{Reference-to-Video Generation}
+Building on the progress of text-to-video and image-to-video models~\citep{hong2022cogvideo, yang2024cogvideox, kong2024hunyuanvideo, hacohen2024ltx, wan2025wan}, reference-to-video generation~\citep{yuan2025identity, jiang2025vace, liu2025phantom, hu2025hunyuancustom, hu2025polyvivid, li2025bindweave} has seen significant advancement.
+Early studies~\citep{gao2025identity, yuan2025identity, shen2025identity} mainly focused on human reference images, termed identity-preserving video generation, where facial or body features are injected into models to maintain identity consistency.
+Later, reference images extended from humans to various objects and backgrounds~\citep{liu2025phantom, jiang2025vace, hu2025hunyuancustom}, allowing more flexible control.
+Some works~\citep{liu2025phantom, yuan2025opens2v} also refer to this task as subject-consistent or subject-to-video generation, which is equivalent to reference-to-video generation.
+
+Representative works include Phantom~\citep{liu2025phantom}, which learns cross-modal alignment with a joint text-image injection model using image-video-text triplet data.
+VACE~\citep{jiang2025vace} introduces a context adapter to process reference images and enable temporal-spatial feature interaction within a unified framework.
+SkyReels-A2~\citep{fei2025skyreels} builds an image-text joint embedding model to inject multi-element representations, balancing consistency and coherence.
+HunyuanCustom~\citep{hu2025hunyuancustom} employs a LLaVA-based~\citep{liu2023visual} fusion module and an image ID enhancement module to strengthen multimodal understanding and identity consistency.
+MAGREF~\citep{deng2025magref} uses region-aware masking and pixel-wise concatenation for effective multi-reference interaction.
+PolyVivid~\citep{hu2025polyvivid} adds a 3D-RoPE enhancement and attention-inherited identity injection to reduce identity drift.
+BindWeave~\citep{li2025bindweave} leverages an MLLM~\citep{bai2025qwen2} to link complex prompts with visual subjects, improving video generation quality.
+
+However, a critical limitation unites these approaches: these methods rely on explicit reference image-video-text triplet datasets, which are costly and difficult to construct.
+Datasets such as OpenS2V-5M~\citep{yuan2025opens2v} and Phantom-Data~\citep{chen2025phantom} require complex construction pipelines, including candidate extraction, low-quality sample filtering, sample clustering, cross-pair matching, and expensive API calls for reference image generation.
+Such processes result in uncontrolled data quality, poor scalability, and high construction complexity.
+In contrast, we propose a zero-shot R2V framework trained solely on video-text pairs, achieving strong performance on public benchmarks.

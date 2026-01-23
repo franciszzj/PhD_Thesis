@@ -1,0 +1,55 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{optiona}{RGB}{255,69,0}
+\definecolor{optionb}{RGB}{138,43,226}
+
+\begin{axis}[
+width=1.56\textwidth,
+height=1.2\textwidth,
+ymajorgrids,
+grid style=dashed,
+legend columns=-1,
+legend cell align={left},
+legend style={
+    fill=none,
+    draw opacity=1,
+    text opacity=1,
+    at={(0.5,1.18)},
+    anchor=north,
+    draw=none,
+    very thick,
+}, 
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={\large temperature $\tau$},
+xmin=0, xmax=4,
+xtick={0,1,2,3,4},
+xticklabels={0.1,0.5,1.0,2.0,5.0},
+ylabel={FID},
+ymin=4, ymax=10.5,
+ytick={4,5,6,7,8,9,10},
+y label style={at={(axis description cs:0.12,.5)}, anchor=south},
+]
+\addplot [ultra thick, optiona, mark=*, mark size=2, mark options={solid,rotate=180}]
+table {%
+0 5.46
+1 4.8
+2 4.71
+3 4.59
+4 5.48
+};
+\addlegendentry{Paired}
+\addplot [ultra thick, optionb, mark=*, mark size=2, mark options={solid,rotate=180}]
+table {%
+0 9.94
+1 8.85
+2 8.78
+3 8.54
+4 9.32
+};
+\addlegendentry{Unpaired}
+\end{axis}
+
+\end{tikzpicture}

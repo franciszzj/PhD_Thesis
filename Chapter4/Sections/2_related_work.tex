@@ -1,0 +1,38 @@
+\section{Related Work}
+\label{vlprompt:sec:related_work}
+
+\subsection{Scene Graph Generation}
+\label{vlprompt:sec:sgg}
+
+Scene graph generation (SGG)~\citep{lu2016visual} is a crucial task in scene understanding and has garnered widespread attention in the computer vision community.
+In recent years, numerous methods~\citep{xu2017scene, zellers2018neural, tang2019learning, lin2020gps, li2022sgtr, shit2022relationformer, zhang2022fine, yu2023visually, hayder2024dsgg, im2024egtr, li2024leveraging, li2025fine} have achieved notable progress.
+Various model architectures have been proposed, such as intricately designed message passing structures~\citep{li2017vip, dai2017detecting, li2017scene, zellers2018neural, gu2019scene, hu2022neural}, attention-based networks~\citep{zheng2019visual, qi2019attentive}, tree-based networks~\citep{zhang2017visual, hung2020contextual}, DETR-based networks~\citep{li2022sgtr, shit2022relationformer, cong2023reltr} and transformer-based networks~\citep{hayder2024dsgg, im2024egtr}.
+Specifically, to address the long-tail problem, some methods enhance the prediction accuracy of rare relations through data re-sampling~\citep{li2021bipartite} and loss re-weighting~\citep{kang2023skew}.
+Relevant techniques that have been developed include constructing enhanced datasets~\citep{zhang2022fine, yu2023visually}, grouping relations for training~\citep{dong2022stacked}, constructing multi-stage hierarchical training~\citep{deng2022hierarchical}, and designing de-bias loss functions~\citep{yu2020cogtree, kang2023skew}.
+Most methods leverage images as sole inputs.
+Besides, some methods~\citep{lu2016visual, hwang2018tensorize, liao2019natural, zhang2019large, dupty2020visual, zhong2021learning, ye2021linguistic} have begun exploring language information or knowledge graphs in SGG; specifically, the explored language information is so far confined to basic language concepts of objects or relations.
+
+
+\subsection{Panoptic Scene Graph Generation}
+\label{vlprompt:sec:psg}
+
+Panoptic scene graph generation (PSG)~\citep{yang2022panoptic} has emerged as a novel task in scene understanding in recent years.
+Unlike SGG~\citep{lu2016visual}, PSG employs panoptic segmentation~\citep{kirillov2019panoptic} instead of bounding boxes to represent objects, enabling a more comprehensive understanding.
+Similar to SGG methods, current methods in PSG~\citep{yang2022panoptic, zhou2023hilo, wang2023pair, li2023panoptic, hayder2024dsgg, lorenz2024fair} also mainly rely on the image input and do not utilize any language information.
+For instance, PSGTR~\citep{yang2022panoptic} build a baseline PSG model by adding a relation prediction head to DETR~\citep{carion2020end}.
+PSGFormer~\citep{yang2022panoptic} advances PSGTR by separately modeling objects and relations in two transformer decoders and introducing an interaction mechanism. 
+Recently, HiLo~\citep{zhou2023hilo} addresses the long-tail problem by specializing different network branches in learning both high and low frequency relations. 
+PairNet~\citep{wang2023pair} develops a novel framework using a pair proposal network to filter sparse pairwise relations, improving PSG performance.
+TextPSG~\citep{zhao2023textpsg} leverages language information for model training but adopts a semi-supervised approach without applying language information to a fully supervised method, resulting in poor performance.
+DSGG~\citep{hayder2024dsgg} builds a transformer-based network with graph-aware queries to predict unbiased relations.
+In addition, some works~\citep{yang2023panoptic, yang20234d} extend panoptic scene graph generation to video~\citep{yang2023panoptic} and 4D~\citep{yang20234d} scenes.
+In contrast to previous methods that rely solely on vision as input, we propose a fully supervised PSG method that leverages both vision and language inputs.
+
+
+\subsection{Large Language Models for Vision Tasks}
+\label{vlprompt:sec:llm}
+LLMs have led to large improvements in natural language processing tasks~\citep{min2023recent}.
+They are normally trained on extensive text corpora by learning to autoregressively predict the next word, hence encapsulate a broad spectrum of common sense knowledge of linguistic patterns, cultural norms, and basic worldly facts.
+Prominent examples of LLMs include GPT series~\citep{chatgpt}, Llama series~\citep{touvron2023llama1, touvron2023llama}, Gemini~\citep{gemini}, and Claude~\citep{claude}, with Llama series being open-source publicly available.
+Given the extensive common sense information contained in LLMs, some researchers start to propose multimodal sockets to LLMs~\citep{zhang2024vision, wu2024towards} and apply them to various vision tasks, such as recognition~\citep{huang2023inject, wang2023all}, detection~\citep{tang2023cotdet, zhang2023next, qi2024generalizable}, segmentation~\citep{lai2023lisa, zhou2023text, xia2024gsva}, visual question answering~\citep{liu2023large, xenos2023simple}, image reasoning~\citep{chen2023large, zhang2024omg} and robotic navigation~\citep{tsai2023multimodal, shah2023lm}; nevertheless, there are no such models specifically designed for panoptic scene graph generation so far.
+In contrast, our method designs various prompts to stimulate LLMs to elicit rich language information to enhance relation prediction.

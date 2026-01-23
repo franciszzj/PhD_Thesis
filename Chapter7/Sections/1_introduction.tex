@@ -1,0 +1,34 @@
+\section{Introduction}
+\label{saber:sec:introduction}
+
+
+Reference-to-video (R2V) generation synthesizes videos that align with a given text prompt while preserving the identity and appearance of subjects in reference images.
+This task represents a crucial step toward personalized video generation, enabling applications such as customized storytelling~\citep{rahman2023make, wang2024evolving, zhou2024storydiffusion} and virtual avatars~\citep{guo2024liveportrait, yuan2025identity, gao2025identity, shen2025identity}.
+Despite recent progress in text-to-video (T2V) and image-to-video (I2V) generation~\citep{hong2022cogvideo, yang2024cogvideox, liu2024mardini, hacohen2024ltx, kong2024hunyuanvideo, wan2025wan, gao2025seedance, zhang2025waver}, R2V remains uniquely challenging as it must simultaneously ensure semantic alignment with text and maintain high-fidelity subject identity from the reference images.
+
+Existing R2V methods~\citep{zhou2024sugar, liu2025phantom, jiang2025vace, deng2025magref, fei2025skyreels, hu2025polyvivid, xue2025stand, li2025bindweave} typically rely on constructing explicit R2V datasets (\eg, OpenS2V-5M~\citep{yuan2025opens2v} and Phantom-Data~\citep{chen2025phantom}) that contain triplets of reference images, videos, and text prompts.
+Building such datasets involves complex pipelines for data collection, annotation, clustering and filtering, which are costly and difficult to scale.
+Moreover, the limited diversity of reference images in these datasets restrict generalization, making it difficult to handle unseen subject categories.
+
+We propose Saber, a scalable, zero-shot framework that bypasses this data bottleneck.
+Saber is trained solely on large-scale video-text pairs, the same data paradigm used for T2V and I2V models.
+This design allows Saber to leverage abundant video-text datasets~\citep{chen2024panda, wang2025koala, sstk}, completely eliminating the need for bespoke R2V data construction.
+
+To this end, our method introduces a masked training strategy that uses randomly sampled and partially masked video frames as reference images during training, where the randomness of masking provides diverse reference conditions and improves generalization across subject categories.
+This process compels the model to learn identity- and appearance-consistent representations from the reference context, effectively simulating the R2V task without R2V data.
+This strategy is complemented by a tailored attention mechanism, guided by attention masks, which directs the model to focus on reference-aware features while suppressing background noise.
+To further enhance visual fidelity and mitigate the copy-paste artifacts which is common in reference-to-video generation~\cite{liu2025phantom, fei2025skyreels, hu2025hunyuancustom}, we integrate a series of spatial mask augmentations, effectively improving the visual quality of the generated videos.
+
+Saber's design is inherently scalable.
+It naturally supports a varying number of reference images (see Fig.~\ref{saber:fig:teaser} and Fig.~\ref{saber:fig:vis_opens2v_eval}), without additional data preparation or modification to the training pipeline, allowing for richer, multi-subject customization.
+The stochasticity of the masked training strategy also allows Saber to robustly handle multiple reference views of the same subject (see Fig.~\ref{saber:fig:one_subject_multi_view}).
+
+We evaluate Saber on the OpenS2V-Eval~\citep{yuan2025opens2v} benchmark, where it consistently outperforms models~\citep{zhou2024sugar, liu2025phantom, jiang2025vace, deng2025magref, fei2025skyreels, hu2025polyvivid, li2025bindweave} that were explicitly trained on R2V data.
+In addition, by simply adjusting the masking ratio during training, Saber can adapt to references depicting either foreground subjects or background scenes (see Fig.~\ref{saber:fig:teaser}).
+% These results demonstrate that Saber achieves strong zero-shot generalization and scalability, showing that effective R2V models can be trained without dedicated R2V datasets, paving the way for future research in scaling reference-to-video generation.
+
+Our contributions are summarized as follows:
+\begin{itemize}
+    \item We introduce Saber, the first zero-shot R2V framework that eliminates the need for explicit R2V data through masked training on video-text pairs.
+    \item Saber surpasses previous R2V-data-trained methods on OpenS2V-Eval~\citep{yuan2025opens2v} and demonstrates strong generalization and scalability, paving the way for future research in scaling reference-to-video generation.
+\end{itemize}
