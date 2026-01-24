@@ -82,9 +82,9 @@ This process is repeated to create the full set of $K$ masked frames $\{ \hat{\m
 
 
 \paragraph{Mask Generator.}
-We randomly select one mask type from predefined shape categories (\eg, ellipse, Fourier blob, convex/concave polygon, \etc) to generate a binary mask $\mathbf{M} \in \{ 0, 1 \}^{H \times W}$ with a target foreground area ratio $r \in [r_\text{min}, r_\text{max}]$.
+We randomly select one mask type from predefined shape categories (\eg, ellipse, Fourier blob, convex/\allowbreak concave polygon, \etc) to generate a binary mask $\mathbf{M} \in \{ 0, 1 \}^{H \times W}$ with a target foreground area ratio $r \in [r_\text{min}, r_\text{max}]$.
 Specifically, we first randomly select a foreground center.
-To ensure that the generated mask meets the desired foreground area ratio $r$, we define a continuous scale parameter for each shape category, where the mask’s foreground area increases monotonically with the scale.
+To ensure that the generated mask meets the desired foreground area ratio $r$, we define a continuous scale parameter for each shape category, where the mask's foreground area increases monotonically with the scale.
 A bisection search over the scale is then performed to satisfy the area ratio constraint.
 When pixel discretization prevents an exact match, small topology-preserving adjustments are applied: ``growth'' dilates background boundary pixels, while ``shrinkage'' erases background boundary pixels.
 This design ensures controllable foreground area ratios while maintaining diversity in mask shapes.

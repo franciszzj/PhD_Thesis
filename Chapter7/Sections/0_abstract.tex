@@ -4,3 +4,12 @@ We bypass this bottleneck by introducing Saber, a scalable zero-shot framework t
 Trained exclusively on video-text pairs, Saber employs a masked training strategy and a tailored attention-based model design to learn identity-consistent and reference-aware representations.
 Mask augmentation techniques are further integrated to mitigate copy-paste artifacts common in reference-to-video generation.
 Moreover, Saber demonstrates remarkable generalization capabilities across a varying number of references and achieves superior performance on the OpenS2V-Eval benchmark compared to methods trained with R2V data.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{Chapter7/Figures/teaser}
+\caption{
+Saber is a zero-shot reference-to-video method trained only on video-text pairs.
+It preserves identity and appearance while coherently integrating single/multiple references into videos guided by text prompts.}
+\label{saber:fig:teaser}
+\end{figure}

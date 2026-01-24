@@ -280,9 +280,15 @@ supported!}
   \pdfcompresslevel=9
   \graphicspath{{Figs/Raster/}{Figs/}}
 \else
-  \RequirePackage{graphicx}
-  \DeclareGraphicsExtensions{.eps, .ps}
-  \graphicspath{{Figs/Vector/}{Figs/}}
+  \ifxetex
+    \RequirePackage{graphicx}
+    \DeclareGraphicsExtensions{.png, .jpg, .pdf}
+    \graphicspath{{Figs/Raster/}{Figs/}{Figs/Vector/}}
+  \else
+    \RequirePackage{graphicx}
+    \DeclareGraphicsExtensions{.eps, .ps}
+    \graphicspath{{Figs/Vector/}{Figs/}}
+  \fi
 \fi
 
 
@@ -513,7 +519,8 @@ supported!}
 \fi
 
 % ********************************** Fonts **********************************
-\RequirePackage{textcomp}
+% Keep options compatible with font packages (e.g., newtxtext).
+\RequirePackage[full]{textcomp}
 % Font Selection
 \ifPHD@times
   \ifxetex
@@ -552,21 +559,39 @@ supported!}
 
 \ifxetex
   % XeLaTeX
-  \usepackage{amsmath}
-  \usepackage{fontspec}
-  \usepackage[]{unicode-math}
-  \setmainfont[
-    Extension = .otf,
-    UprightFont = *-regular,
-    BoldFont = *-bold,
-    ItalicFont = *-italic,
-    BoldItalicFont = *-bolditalic,
-  ]{xits}
-  
-  \setmathfont[ 
-    Extension = .otf,
-    BoldFont = *bold,
-  ]{xits-math}
+  \RequirePackage{amsmath}
+
+  % Default XeLaTeX setup: use TeX fonts (robust in restricted environments).
+  % Only enable fontspec/unicode-math when user explicitly requests custom fonts.
+  \ifsetCustomFont
+    \RequirePackage{fontspec}
+    \RequirePackage{unicode-math}
+    \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+
+    % Prefer well-supported OpenType fonts, with graceful fallback for minimal
+    % TeX installations that may not ship XITS.
+    \IfFontExistsTF{XITS}{
+      \setmainfont{XITS}
+      \IfFontExistsTF{XITS Math}{\setmathfont{XITS Math}}{}
+    }{
+      \IfFontExistsTF{TeX Gyre Termes}{
+        \setmainfont{TeX Gyre Termes}
+        \IfFontExistsTF{TeX Gyre Termes Math}{\setmathfont{TeX Gyre Termes Math}}{}
+      }{
+        % Leave fonts as-is; unicode-math will use its default math font.
+      }
+    }
+  \else
+    % Times-like text+math fonts for XeLaTeX without fontspec/unicode-math.
+    \ifPHD@times
+      \IfFileExists{newtxtext.sty}{
+        \RequirePackage{newtxtext}
+        \RequirePackage{newtxmath}
+      }{
+        \RequirePackage{mathptmx}
+      }
+    \fi
+  \fi
   
 \else
   % default: pdfLaTeX
@@ -669,12 +694,18 @@ supported!}
  {\renewcommand{\UrlFont}{\normalsize}}}
 \urlstyle{leo}
 
-% option to split urls over multiple lines for latex >> DVIPS >> PDF option
+% Option to split URLs over multiple lines for non-PDFTeX workflows.
+% - pdfLaTeX: handled automatically
+% - XeLaTeX/LuaLaTeX: prefer xurl (works with hyperref)
+% - latex->dvips: use breakurl
 \ifpdf
   % PDFLaTeX does it automatically.
 \else
-  % dvips
-  \RequirePackage{breakurl} % to split the url over multiple lines
+  \ifxetex
+    \IfFileExists{xurl.sty}{\RequirePackage{xurl}}{}
+  \else
+    \RequirePackage{breakurl} % dvips
+  \fi
 \fi
   
 % ******************************************************************************
@@ -1255,4 +1286,3 @@ wish to left align your text}
 			- \totalheightof{\usebox{\PHD@collegedate}}
 }
 }
-

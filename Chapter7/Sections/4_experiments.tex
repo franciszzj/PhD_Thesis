@@ -100,9 +100,9 @@ Our method also achieves competitive results on GmeScore (text-video alignment) 
 
 \subsection{Qualitative Results}
 
-We further conduct a qualitative comparison between Saber and other methods (Kling1.6~\citep{kling}, Phantom~\citep{liu2025phantom} and VACE~\citep{jiang2025vace}) across various visual scenarios, as shown in Fig.~\ref{saber:fig:vis_opens2v_eval}.
+We further conduct a qualitative comparison between Saber and existing methods, including Kling1.6~\citep{kling}, Phantom~\citep{liu2025phantom}, and VACE~\citep{jiang2025vace}. As shown in Fig.~\ref{saber:fig:vis_opens2v_eval}, we evaluate four scenarios with single/multiple human and object references.
 i) In the top-left (single human reference), both Kling1.6 and Phantom fail to embed the reference subject into the generated video, leading to inconsistent facial appearances. VACE suffers from a copy-paste issue, directly overlaying the face from the reference image. In contrast, Saber generates a video with a consistent and text-aligned facial identity.
-ii) In the bottom-left (single object reference), Kling1.6 produces a bowl with an incorrect leg structure, while Phantom and VACE fail to capture both the shape and appearance of the bowl from the reference. In contrast, our method, benefiting from the rich diversity of masked frames during masked training, accurately integrates the bowl’s shape and appearance into the generated video.
+ii) In the bottom-left (single object reference), Kling1.6 produces a bowl with an incorrect leg structure, while Phantom and VACE fail to capture both the shape and appearance of the bowl from the reference. In contrast, our method, benefiting from the rich diversity of masked frames during masked training, accurately integrates the bowl's shape and appearance into the generated video.
 iii) In the top-right (multiple human references), Kling1.6 embeds only one subject, Phantom duplicates the same identity twice, and VACE fails to inject facial information from the references. In contrast, Saber incorporates all three subjects and generates a coherent, natural video.
 iv) In the bottom-right (multiple object references), Kling1.6 produces incorrect patterns on the cup, while Phantom and VACE generate correct cup textures but omit the ashtray, with VACE also showing temporal discontinuity. Saber, on the other hand, generates all referenced objects correctly and maintains smooth, consistent video quality.
 
@@ -226,7 +226,7 @@ In this section, we explore several interesting capabilities of Saber that emerg
 We test Saber's ability to handle multiple reference images corresponding to different views of the same subject.
 As shown in Fig.~\ref{saber:fig:one_subject_multi_view}, we use the front, side, and back views of a robot as reference inputs to Saber.
 The results show that Saber successfully understands that all reference images depict the same subject (the robot) and integrates the appearance feature from different views into a single coherent video subject.
-Despite the robot’s complex surface details and wiring structure, Saber accurately captures and synthesizes these visual characteristics into the generated video.
+Despite the robot's complex surface details and wiring structure, Saber accurately captures and synthesizes these visual characteristics into the generated video.
 
 
 
