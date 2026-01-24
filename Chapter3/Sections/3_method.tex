@@ -123,7 +123,6 @@ Specifically, for a pair of subject and object, we use $p_{r}^\text{H-L}$ to den
 We use $\text{RIE}(\cdot)$ to denote this operation.
 % \holger{What does RIE stand for? Define it.}
 For example, for relations $r_k$ and $r_{k+1}$, $\text{RIE}(\cdot)$ exchanges the values between $p_{r,k}$ and $p_{r,{k+1}}$ in $p_r$. We can therefore compute the distance between $p_{r}^\text{H-L}$ and its mapped  counterpart from $p_{r}^\text{L-H}$,  vice versa: 
-
 \begin{align}
 \begin{split}
 \text{Dist}_\text{HiLo} = &\lVert softmax(p_{r}^\text{H-L}) - \mathit{RIE}(softmax(p_{r}^\text{L-H})) \rVert ^ 2 \\

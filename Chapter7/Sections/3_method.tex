@@ -69,16 +69,16 @@ Specifically, we apply an identical set of spatial augmentations to both $\mathb
 The masked frame $\hat{\mathbf{I}_{k}}$ is then obtained as $\hat{\mathbf{I}}_{k} = \bar{\mathbf{I}}_{k} \odot \bar{\mathbf{M}}_{k}$.
 This process is repeated to create the full set of $K$ masked frames $\{ \hat{\mathbf{I}}_{k} \}_{k=1}^{K}$ that serve as the reference condition.
 
-\begin{wrapfigure}{r}{0.6\textwidth}
+\begin{figure*}[t]
     \centering
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=1.0\linewidth]{Chapter7/Figures/mask_frames.pdf}
+    \includegraphics[width=0.6\linewidth]{Chapter7/Figures/mask_frames.pdf}
     \caption{
     \textbf{Masked reference generation.}
     Given a video, the mask generator produces diverse random masks, which are then applied to each randomly sampled video frame with mask augmentation.
     }
     \label{saber:fig:mask_frames}
-\end{wrapfigure}
+\end{figure*}
 
 
 \paragraph{Mask Generator.}
@@ -96,10 +96,6 @@ Transformation parameters are uniformly sampled within predefined ranges and val
 The same affine transformation is applied to the image and mask using bilinear and nearest-neighbor interpolation, respectively.
 
 The reference code of the mask generator and augmentation are provided in the supplementary materials.
-
-
-
-
 
 
 
@@ -130,12 +126,10 @@ where $\mathsf{cat}[\cdot]_\text{temporal}$ and $\mathsf{cat}[\cdot]_\text{chann
 Note that $\mathbf{z}_\text{ref}$ remains noise-free to preserve accurate conditioning.
 
 
-
-
-\begin{wrapfigure}{r}{0.6\textwidth}
+\begin{figure*}[t]
     \centering
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=1.0\linewidth]{Chapter7/Figures/model_design.pdf}
+    \includegraphics[width=0.6\linewidth]{Chapter7/Figures/model_design.pdf}
     \caption{
     \textbf{Model design overview.}
     Masked frames serve as reference images and are concatenated to the video tokens in latent space.
@@ -143,8 +137,7 @@ Note that $\mathbf{z}_\text{ref}$ remains noise-free to preserve accurate condit
     The VAE, text encoder, and timestep components are omitted for clarity.
     }
     \label{saber:fig:model_design}
-\end{wrapfigure}
-
+\end{figure*}
 
 
 \paragraph{Attention Mechanism.}
