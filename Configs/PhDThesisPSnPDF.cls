@@ -18,6 +18,10 @@
  by Krishna Kumar (v\fileversion)]
 \typeout{https://github.com/kks32/phd-thesis-template/}
 
+% Keep project-specific LaTeX configuration files under Configs/.
+\makeatletter
+\def\input@path{{Configs/}}
+
 
 % ******************************************************************************
 % **************************** Class Definition ********************************
