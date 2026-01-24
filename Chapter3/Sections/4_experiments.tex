@@ -82,7 +82,6 @@ It also shows that the HiLo framework is a general technique that yields systema
         \quad \textbf{+HiLo (ours)} & 25.6 / \textbf{15.8} & 27.9 / \textbf{18.0} \\
         \hline
     \end{tabular}
-    \vspace{+1mm}
     \caption{Comparison between our HiLo framework and other methods on the VG-150 dataset. Similar to \cite{zhang2022fine}, we apply IETrans and our own method on top of four leading baselines.
     }
     \label{hilo:tab:vg_main_results}
@@ -93,7 +92,6 @@ It also shows that the HiLo framework is a general technique that yields systema
 \begin{center}
 \includegraphics[width=\linewidth]{Chapter3/Figures/visual_results.pdf}
 \end{center}
-    \vspace{-5mm}
    \caption{Visualization of panoptic segmentations and the top 20 predicted triplets compared with ground truth.
    The upper left is the original image, the lower left is the ground truth and on the right are the predictions.
    The highlighted triplets represent the subject-object pairs with multiple relations, where the blue highlights represent the high frequency relations and the red highlights represents the low frequency relations.
@@ -127,7 +125,6 @@ It is worth mentioning that the HiLo framework improves recall and mean recall s
         \hline
     \end{tabular}
     }
-    \vspace{+1mm}
     \caption{Comparison of different baselines, with and without HiLo framework. Using the HiLo framework, we see significant improvements on both metrics.
     }
     \label{hilo:tab:different_baselines}
@@ -150,7 +147,6 @@ Our experimental results in Tab.~\ref{hilo:tab:proportion_of_swappable_triplets}
         \hline
     \end{tabular}
     }
-    \vspace{+1mm}
     \caption{Ablation study for HiLo relation augmentation. Relation augmentation affects the ratio of subject-object pairs with multiple relations. The larger this ratio, the more relations can be swapped, which leads to better results.
     }
     \label{hilo:tab:proportion_of_swappable_triplets}
@@ -177,7 +173,6 @@ This finding confirms that there is a partial semantic overlap between swapped r
         \hline
     \end{tabular}
     }
-    \vspace{+1mm}
     \caption{Ablation study for different losses in HiLo prediction alignment. \emph{Object} refers to the subject-object consistency loss and \emph{relation} refers to the relation consistency loss. The margin parameter is defined in Eq.~\ref{eq:relation_consistency_loss}.
     }
     \label{hilo:tab:prediction_alignment}
@@ -198,12 +193,10 @@ In Tab.~\ref{hilo:tab:inference_fusion}, experimental results suggest that fusio
         - & \checkmark & 38.5 / 26.5 & 39.5 / 27.8 \\
         \hline
     \end{tabular}
-    \vspace{+1mm}
     \caption{Ablation study for HiLo inference fusion.}
     \label{hilo:tab:inference_fusion}
 \end{table}
 
-\vspace{+4mm}
 \noindent \textbf{Convergence speed analysis}.
 We evaluate the convergence of our model by assessing its performance on the validation set at various epochs, as illustrated in Fig.~\ref{hilo:fig:convergence_speed}.
 Our analysis reveals that our proposed method outperforms prior methods \cite{yang2022panoptic} both in terms of final performance and convergence speed.
@@ -214,10 +207,8 @@ In contrast, our HiLo method achieves better results in just 12 epochs, indicati
 \begin{center}
 \includegraphics[width=\columnwidth]{Chapter3/Figures/convergence_speed.pdf}
 \end{center}
-\vspace{-2mm}
 \caption{Training convergence speed analysis of different methods. 
 Our method converges significantly faster than previous methods.}
-\vspace{-2mm}
 \label{hilo:fig:convergence_speed}
 \end{figure}
 
@@ -238,9 +229,8 @@ This shows that it is crucial to apply masked relation attention to the subject 
         \hline
         subject-object & \textbf{32.6} / \textbf{20.9} & \textbf{38.0} / \textbf{27.4} & \textbf{38.9} / \textbf{28.4} \\
         full image & 30.4 / 19.3 & 36.5 / 25.9 & 37.1 / 26.8 \\
-        \hline
+    \hline
     \end{tabular}
-    \vspace{+1mm}
     \caption{Ablation study for masked relation attention.
     }
     \label{hilo:tab:masked_relation_attention}

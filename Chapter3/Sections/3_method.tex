@@ -10,13 +10,11 @@ For the $i$-th object $o_i$ in $\mathcal O = \{o_i\}_{i=1}^{N}$, we use $m_i$ to
 \begin{center}
 \includegraphics[width=\linewidth]{Chapter3/Figures/hilo_overview}
 \end{center}
-\vspace{-2mm}
 \caption{An overview of our HiLo framework with HiLo baseline.
 a) HiLo relation swapping module swaps the multiple relations in the subject-object pair to obtain H-L Data and L-H Data respectively.
 b) Input data into our HiLo framework with HiLo baseline model, there are two branches, namely H-L decoder and L-H decoder, which learn H-L Data and L-H Data respectively.
 c) In addition to task losses for PSG, we propose HiLo prediction alignment, which includes subject-object consistency loss and relation consistency loss, so that the parallel branch can be better optimized.
 }
-\vspace{-2mm}
 \label{hilo:fig:baseline}
 \end{figure*}
 
@@ -182,7 +180,6 @@ Remove any follow-up triplet from the list if it 1) has the same subject, object
         \textbf{HiLo (ours)} & Swin-L & \textbf{40.6} & \textbf{29.7} & \textbf{48.7} & \textbf{37.6} & \textbf{51.4} & \textbf{40.9} \\
         \hline
     \end{tabular}
-    \vspace{+1mm}
     \caption{Comparison between our HiLo and other methods on the PSG dataset.
     Our method shows superior performance compared to all previous methods.
     }

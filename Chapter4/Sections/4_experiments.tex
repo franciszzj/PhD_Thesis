@@ -85,7 +85,6 @@ Additionally, our method achieves a +2.0 improvement on R@20 and comparable perf
     \bottomrule[1.3pt]
     \end{tabular}
     \label{vlprompt:tab:psg_results}
-    \vspace{-6mm}
 \end{table}
 
 \begin{table}[!t]
@@ -130,12 +129,10 @@ Based on visualization results, our VLPrompt exhibits precise capabilities in re
 \begin{figure}[t]
     \centering
     \includegraphics[width=1.0\linewidth]{Chapter4/Figures/vis_v1.pdf}
-    \vspace{-4mm}
     \caption{Visualization results of our VLPrompt.
     We show two examples.
     For each example, the top left displays the predicted segmentation results, the top right shows the top 10 predicted relation triplets (all are correct relation triplets), and bottom is the language snippet utilized for predicting the highlighted triplets in yellow.
     }
-    \vspace{-4mm}
     \label{vlprompt:fig:vis}
 \end{figure}
 
@@ -203,7 +200,6 @@ In this setting, we remove the cross-attention module and rely solely on vision 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.05\linewidth]{Chapter4/Figures/predicate_wise_v2.pdf}
-    \vspace{-2mm}
     \caption{Predicate-wise R@100 results on the PSG dataset show performance improvements across various relations with LLM integration.}
     \label{vlprompt:fig:predicate_wise}
 \end{figure}
@@ -232,7 +228,6 @@ In this setting, we remove the cross-attention module and rely solely on vision 
     \end{subfigure}
     \caption{Visualization of panoptic segmentation (top), ground truth (bottom left), and top 10 relation predictions (bottom right) demonstrates VLPrompt's precision in relation prediction, enhancing scene understanding.}
     \label{vlprompt:fig:more_vis}
-    \vspace{-6mm}
 \end{figure}
 
 
@@ -240,12 +235,10 @@ In this setting, we remove the cross-attention module and rely solely on vision 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=1.0\linewidth]{Chapter4/Figures/failure_case_analysis_v2.pdf}
-    \vspace{-4mm}
     \caption{Visualization of typical failure cases.
     We visualize typical failure cases of VLPrompt, which mainly occur when multiple instances of the same object category appear in the scene.
     In such cases, the model often mismatches the relations between different objects.
     }
-    \vspace{-4mm}
     \label{vlprompt:fig:failure_vis}
 \end{figure}
 
@@ -410,7 +403,6 @@ Results (Compression) shown in Tab.~\ref{vlprompt:tab:ablation_language_feature_
     \end{tabular}
     % }
     \label{vlprompt:tab:ablation_vision_language_prompter}
-    \vspace{-2mm}
 \end{table}
 
 \noindent \textbf{Language information.}

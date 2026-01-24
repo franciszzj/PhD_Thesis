@@ -2,13 +2,11 @@
     \centering
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=1.0\linewidth]{Chapter6/Figures/leffa_final-min.png}
-    \vspace{-6mm}
     \caption{An overview of our \leffa{} training pipeline for controllable person image generation.
     The left is our diffusion-based baseline; the right is our \leffa{} loss.
     Note that $I_\text{src}$ and $I_\text{tgt}$ are the same image during training.
     }
     \label{leffa:fig:overview}
-    \vspace{-6mm}
 \end{figure*}
 
 
@@ -25,11 +23,9 @@ During training, we first use the encoder $\mathcal{E}(\cdot)$ of VAE to encode 
 At a sampled diffusion time step $t \in \{1, \cdots, T\}$, we apply a Gaussian noise $\epsilon \sim \mathcal{N}(0, 1)$ to the latent feature $\mathbf{z}_\text{0}$ based on a noise scheduler, obtaining a noised latent feature $\textbf{z}_t$.
 The UNet $\epsilon_{\theta}(\cdot)$ then denoises the noised latent feature $\textbf{z}_t$ under the control of the conditional feature $\textbf{c}$.
 Formally, the training loss can be formulated as:
-\vspace{-2mm}
 \begin{equation}
     \mathcal{L}_{\text{diffusion}} = \mathbb{E}_{\epsilon \sim \mathcal{N}(0,1),t} [ \| \epsilon - \epsilon_{\theta}(\textbf{z}_t, \textbf{c}, t) \|_{2}^{2} ],
 \label{eq:loss_diffusion}
-\vspace{-2mm}
 \end{equation}
 where $\textbf{c}$ can be either the language feature predicted by the text encoders or the visual feature derived from the reference image, which is the primary focus of our work.
 
@@ -89,10 +85,8 @@ Detail distortion arises when the target query in the attention layer fails to a
 To address this, we propose the \leffa{} loss, which explicitly guides the target query to \textit{spatially focus} on the correct region of the reference key through supervision by learning flow fields in attention.
 
 Specifically, in the $l^{th}$ attention layer of the Generative UNet $\epsilon_{\theta_{\text{gen}}}(\cdot)$, we compute the attention map $A^{l}$ by using $F_{\text{gen}}^{l}$ as the query $Q$ and $F_{\text{ref}}^{l}$ as the key $K$, formulated as the dot-product attention defined in \cite{vaswani2017attention},
-\vspace{-3mm}
 \begin{equation}
     A^{l} = \texttt{softmax} \bigg( \frac{Q K^{\top}}{\sqrt{d}} / \tau \bigg),
-\vspace{-2mm}
 \end{equation}
 where $\tau$ is the temperature coefficient, and $d$ is the token size of the query $Q$.
 We then construct the \leffa{} loss based on the attention map $A^{l}$.
@@ -105,10 +99,8 @@ To achieve this, we average $A^{l}$ across the head dimension, resulting in $\ha
 Next, we convert $\hat{A^{l}}$ to a flow field representing the spatial correspondence between $I_\text{src}$ and $I_\text{ref}$.
 To achieve this, we construct a normalized coordinate map $C^{l} \in \mathbb{R}^{n^{l} \times 2}$, where, reshaped as $\mathbb{R}^{h^{l} \times w^{l} \times 2}$, within the top-left coordinate $(0, 0)$ has the value of $[-1, -1]$ and the bottom-right coordinate $(h-1, w-1)$ has the value of $[1, 1]$.
 We then multiply the attention map $\hat{A^{l}}$ with the coordinate map $C^{l}$ to obtain the flow field $\mathcal{F}^{l} \in \mathbb{R}^{n^{l} \times 2}$, formulated as
-\vspace{-2mm}
 \begin{equation}
     \mathcal{F}^{l} = \hat{A^{l}} \cdot C^{l},
-\vspace{-2mm}
 \end{equation}
 which indicates the coordinates of the region on the reference feature $F_{\text{ref}}^{l}$ that each target query token attends to.
 
@@ -118,10 +110,8 @@ To provide precise pixel-level training supervision, we upsample the flow field 
 We then use this upsampled flow field $\mathcal{F}_{up}^{l}$ to warp the reference image $I_{\text{ref}}$, producing the warped image ${I_{\text{warp}}^{l}} \in \mathbb{R}^{H \times W \times 3}$.
 
 Finally, we compute the L2 loss between ${I_{\text{warp}}^{l}}$ and the corresponding region of the target image $I_{\text{tgt}}$, which defines our \leffa{} loss formulation:
-\vspace{-2mm}
 \begin{equation}
      \mathcal{L}_{\text{leffa}} = \sum\nolimits_{l=1}^{L}  \Vert I_{\text{tgt}} * I_m - {I_{\text{warp}}^{l}} * I_m \Vert_{2}^{2}.
-\vspace{-2mm}
 \end{equation}
 This loss supervises the attention map without additional inputs or parameters, ensuring each target query token attends to the correct reference region and preserving fine-grained detail consistency in the generated images.
 
@@ -135,10 +125,8 @@ In this section, we detail the application of \leffa{} loss to the diffusion-bas
 We follow \citet{zhu2024m} to adopt progressive training with \leffa{} loss, applied in the final finetuning phase to avoid early-stage performance degradation.
 The model is initially trained at a low resolution (\eg, $256$, $512$), then at a higher resolution (\eg, $1024$).
 In the final phase, we fine-tune at $1024$ resolution using a combined loss:
-\vspace{-2mm}
 \begin{equation}
     \mathcal{L}_{\text{finetune}} = \mathcal{L}_{\text{diffusion}} + \lambda_\text{leffa} \mathcal{L}_{\text{leffa}},
-\vspace{-2mm}
 \end{equation}
 where $\lambda_\text{leffa}$ is the loss weight of $\mathcal{L}_{\text{leffa}}$.
 For optimal model performance with \leffa{} loss, we also address the following considerations.

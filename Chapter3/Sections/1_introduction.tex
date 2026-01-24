@@ -33,7 +33,6 @@ This is reflected in the increase in the category-averaged \textit{mean recall} 
 \begin{center}
 \includegraphics[width=0.7\textwidth]{Chapter3/Figures/motivation}
 \end{center}
-\vspace{-0mm}
 \caption{
 An example of the PSG task. We compare the predicted object relations of different approaches. 
 a) An image and its panoptic segmentation. Two persons and a sports ball are shown in different colors.
@@ -41,7 +40,6 @@ b) A biased method predicts mostly high frequency relations.
 c) An unbiased method predicts mostly low frequency relations.
 d) Our method predicts both low and high frequency relations, as well as more relations in total.
 }
-\vspace{-0mm}
 \label{hilo:fig:motivation}
 \end{figure}
 
@@ -52,13 +50,10 @@ We apply our framework on top of a novel baseline. This baseline uses a recent t
 %
 In summary, we make the following contributions:
 \begin{itemize}
-    \vspace{-2mm}
     \item We identify the long-tail problem with relational semantic overlap in the PSG task and propose the HiLo framework to address this problem. The framework is general and can be applied to any PSG method.
 
-    \vspace{-2mm}
     \item We propose a powerful and efficient one-stage end-to-end baseline. This baseline enhances the interaction between mask and relation prediction in the transformer decoder layer.
 
-    \vspace{-2mm}
     \item We conduct extensive experiments to demonstrate the effectiveness of our framework and baseline.
     Our results outperform the state-of-the-art in both recall and mean recall on the PSG dataset and show systematic improvements on the VG dataset.
     We will publish our code upon paper acceptance.

@@ -21,7 +21,6 @@ The VAE encodes videos into temporally and spatially compressed latents ${\mathb
 Wan2.1 trains the diffusion model $\Psi$ using Flow Matching (FM)~\citep{lipman2022flow}, where the forward process linearly interpolates between data and noise.
 For a time step $t \in [0, 1]$, Gaussian noise $\epsilon \sim \mathcal{N}(0, I)$ is added to $\mathbf{z}_{0}$ to obtain $\mathbf{z}_{t}$, following $\mathbf{z}_{t} = (1 - t) \mathbf{z}_{0} + t \epsilon$.
 The model is optimized to predict the target velocity with the following objective:
-% \vspace{-2mm}
 \begin{align}
 \label{eq:loss}
     \mathcal{L}_\text{FM} = \mathbb{E}_{\mathbf{z}_{0}, \epsilon, t, c} \left[\left\|(\mathbf{z}_{0} - \epsilon)  - \Psi_\theta ( \mathbf{z}_{t}, t, c)\right\|_{2}^{2} \right],
@@ -74,13 +73,11 @@ This process is repeated to create the full set of $K$ masked frames $\{ \hat{\m
     \centering
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=1.0\linewidth]{Chapter7/Figures/mask_frames.pdf}
-    \vspace{-6mm}
     \caption{
     \textbf{Masked reference generation.}
     Given a video, the mask generator produces diverse random masks, which are then applied to each randomly sampled video frame with mask augmentation.
     }
     \label{saber:fig:mask_frames}
-    % \vspace{-4mm}
 \end{wrapfigure}
 
 
@@ -120,7 +117,6 @@ We obtain $\mathbf{z}_{t}$ with time step $t$ following Sec.~\ref{saber:sec:vide
 For the reference images, we individually encode each $\hat{\mathbf{I}}_{k}$ using the VAE to obtain $\mathbf{z}_\text{ref} = \{ \mathbf{z}_{k} \in \mathbb{R}^{h \times w \times d} \}_{k=1}^{K}$.
 Accordingly, each $\mathbf{M}_{k}$ is resized to match the latent space resolution, producing $\mathbf{m}_\text{ref} = \{ \mathbf{m}_{k} \in \{0,1\}^{h \times w \times 4} \}_{k=1}^{K}$, where $0$ indicates non-reference and $1$ indicates reference region.
 The transformer input $\mathbf{z}_\text{in}$ is defined as in Eq.~\ref{eq:input_format}:
-% \vspace{-2mm}
 \begin{equation}
 \label{eq:input_format}
 \mathbf{z}_{\text{in}} = \mathsf{cat}
@@ -140,7 +136,6 @@ Note that $\mathbf{z}_\text{ref}$ remains noise-free to preserve accurate condit
     \centering
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=1.0\linewidth]{Chapter7/Figures/model_design.pdf}
-    \vspace{-6mm}
     \caption{
     \textbf{Model design overview.}
     Masked frames serve as reference images and are concatenated to the video tokens in latent space.
@@ -148,7 +143,6 @@ Note that $\mathbf{z}_\text{ref}$ remains noise-free to preserve accurate condit
     The VAE, text encoder, and timestep components are omitted for clarity.
     }
     \label{saber:fig:model_design}
-    \vspace{-4mm}
 \end{wrapfigure}
 
 
