@@ -30,7 +30,7 @@ Additionally in the paired setting, we include SSIM~\citep{wang2004image} and LP
 In pose transfer, we follow the previous methods~\citep{bhunia2023person, han2023controllable, lu2024coarse, pham2024cross} to use FID~\citep{soloveitchik2021conditional}, calculated between the generated test images and all training images; SSIM~\citep{wang2004image} and LPIPS~\citep{zhang2018unreasonable}, computed between the generated images and all images in the test set, as metrics.
 
 \noindent \textbf{Implementation Details.}
-In this paper, we use SD1.5~\citep{rombach2022high} to build our diffusion-based baseline.
+In this chapter, we use SD1.5~\citep{rombach2022high} to build our diffusion-based baseline.
 We adopt the progressive training strategy to train the model.
 For virtual try-on, the model is first trained at $512 \times 384$ resolution for $10\text{k}$ steps with a batch size of 256, then at $1024 \times 768$ for $36\text{k}$ steps with a batch size of 64.
 Finally, we finetune the model for an additional $10k$ steps, incorporating $\mathcal{L}_{\text{leffa}}$ to enhance its capabilities.

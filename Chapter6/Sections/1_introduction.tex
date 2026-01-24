@@ -22,7 +22,7 @@ Additionally, visualization of our method's attention map (see Fig.~\ref{subfig:
 We quantitatively and qualitatively evaluate our method on virtual try-on (appearance control) with VITON-HD~\citep{choi2021viton} and DressCode~\citep{morelli2022dress}; and pose transfer (pose control) with DeepFashion~\citep{liu2016deepfashion}, both achieving state-of-the-art performance and mitigating the distortion of fine-grained details across all datasets.
 Finally, we show that our \leffa{} loss is model-agnostic and generalizes effectively to other diffusion-based methods~\citep{choi2024improving, chong2024catvton}, demonstrating \leffa{} as a versatile and general solution for controllable person image generation.
 
-The contributions of this work are as follows:
+The contributions of this chapter are as follows:
 \begin{itemize}
     \item We propose \leffa{}, a regularization loss that explicitly guides the target queries in attention layers to focus on correct reference keys, mitigating detail distortion without additional parameters and inference cost. 
     \item We evaluate \leffa{} on both virtual try-on and pose transfer across various diffusion-based methods, achieving state-of-the-art quantitative performance and significantly reducing fine-grained detail distortion qualitatively.
@@ -65,6 +65,5 @@ The contributions of this work are as follows:
     }
     \label{leffa:fig:introduction}
 \end{figure}
-
 
 

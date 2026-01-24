@@ -10,7 +10,7 @@ Subsequently, Zhou~\etal~\cite{zhou2023hilo} build a HiLo architecture based on 
 Li~\etal~\cite{li2023panoptic} re-balance the relation prediction  by adaptively transferring information from high-frequency to low-frequency relations.
 Additionally, Zhao~\etal~\cite{zhao2023textpsg} implement a weakly-supervised PSG method given only image-text pairs as annotations, allowing for the learning of panoptic scene graphs from image-level ground truth.
 Recently, Zhou~\etal~\cite{zhou2023vlprompt} leverage the rich language information inherent in large language models~\cite{achiam2023gpt} and design effective image-text interaction modules to assist unbiased PSG.
-All these works are learned in the closed-set setting, in this paper, we study the open-set PSG, which has been unexplored.
+All these works are learned in the closed-set setting, in this chapter, we study the open-set PSG, which has been unexplored.
 
 \subsection{Open-set Scene Graph Generation}
 Open-set SGG has been studied in recent years. 
@@ -18,7 +18,7 @@ Earlier works~\cite{kan2021zero, yu2022zero}, often termed as zero-shot SGG, foc
 Subsequently, with the advancement of large multimodal models, various open-set SGG works~\cite{he2022towards, zhang2023learning, yu2023visually, chen2023expanding} have emerged; for example, He~\etal~\cite{he2022towards} and Zhang~\etal~\cite{zhang2023learning} focus on predicting relations between unknown objects in the SGG using multimodal models.
 Yu~\etal~\cite{yu2023visually} and Chen~\etal~\cite{chen2023expanding} on the other hand focus on the open-set relation prediction in PSG, sharing the same aim with us.
 Specifically, Yu~\etal~\cite{yu2023visually} utilize the CLIP model to match visual features with textual relation features for open-set relation prediction; Chen~\etal~\cite{chen2023expanding} employ a student-teacher network to align visual concepts in multimodal models for predicting open-set relations.
-In this paper, different from previous works, we introduce an auto-regressive method based on the LMM to achieve open-set relation prediction.
+In this chapter, different from previous works, we introduce an auto-regressive method based on the LMM to achieve open-set relation prediction.
 
 \subsection{Large Multimodal Models}
 Since the introduction of large models like the GPT series~\cite{achiam2023gpt}, recent years have witnessed rapid development in large multimodal models~\cite{radford2021learning, li2023blip, liu2024visual}.
@@ -26,4 +26,4 @@ Benefiting from its nature of connecting vision and language, LMMs have signific
 Early multimodal models, such as CLIP~\cite{radford2021learning}, trained on image-text paired datasets through contrastive learning to align the visual and textual information.
 Subsequently, owing to enlightenment of the autoregressive prediction in large language models~\cite{achiam2023gpt, touvron2023llama}, there has been an explosive growth of LMMs~\cite{li2023blip, liu2023improved, liu2024visual}; by introducing mechanisms that can transform visual information into large language models, they facilitate the communication between visual and textual information.
 Furthermore, this has endowed LMMs with the capability to generate free text, leading to substantial improvements in numerous multimodal tasks.
-In this paper, we leverage LMMs to design a multimodal relation decoder to predict relations in an open-set scenarios.
+In this chapter, we leverage LMMs to design a multimodal relation decoder to predict relations in an open-set scenarios.

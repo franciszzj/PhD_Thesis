@@ -6,7 +6,7 @@ Subjects and objects are represented with bounding boxes.
 Since this task links vision and text, it holds great potential for a variety of applications, including visual question answering \cite{hildebrandt2020scene}, image captioning \cite{gao2018image, chen2020say}, image retrieval \cite{johnson2015image, schuster2015generating, qi2017online} and visual reasoning \cite{aditya2018image, shi2019explainable}.
 
 Recently a novel variant of SGG was proposed, which is Panoptic Scene Graph generation (PSG) \cite{yang2022panoptic}.
-Subjects and objects are represented with panoptic segmentation~\cite{kirillov2019panoptic} masks. Unless stated otherwise, in this work we focus on PSG, since it is pixel-level accurate and also covers background classes and their relations with foreground objects.
+Subjects and objects are represented with panoptic segmentation~\cite{kirillov2019panoptic} masks. Unless stated otherwise, in this chapter we focus on PSG, since it is pixel-level accurate and also covers background classes and their relations with foreground objects.
 
 The performance of the PSG model is affected by a \emph{long-tail problem} in its relation categories.
 For instance, relations such as \textit{over}, \textit{in front of} and \textit{holding} occur tens of thousands of times in the PSG dataset~\cite{yang2022panoptic}, while others like \textit{swinging} and \textit{kissing} occur only a few dozen times.
@@ -56,5 +56,4 @@ In summary, we make the following contributions:
 
     \item We conduct extensive experiments to demonstrate the effectiveness of our framework and baseline.
     Our results outperform the state-of-the-art in both recall and mean recall on the PSG dataset and show systematic improvements on the VG dataset.
-    We will publish our code upon paper acceptance.
 \end{itemize}
