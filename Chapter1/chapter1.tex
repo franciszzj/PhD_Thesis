@@ -6,50 +6,42 @@
 \chapter{Introduction}
 
 \section{Motivation}
-Human vision is not a passive classifier; it is a compositional reasoning engine.
-When we look at a scene, we effortlessly identify objects, localize them, infer attributes, and understand relations—who holds what, what occludes what, and what part belongs to which instance.
-Equally importantly, humans can imagine with intent: we can mentally render an object from a description, edit a scene while preserving identity, or generate plausible variations that satisfy constraints.
+Visual intelligence is increasingly defined by two complementary capabilities: \emph{visual understanding} and \emph{visual generation}. Visual understanding converts pixels into structured, queryable knowledge about entities and their interactions. Visual generation creates visual content that is not only realistic, but also faithful to explicit intent, enabling interactive creation and editing.
 
-Recent advances in attention-based architectures, large-scale pretraining, and diffusion-based generative models have substantially improved recognition accuracy and image synthesis quality.
-However, two persistent gaps remain.
+Recent years have witnessed rapid progress in both directions. Transformer-based architectures and dense prediction models have improved segmentation and recognition; vision--language pretraining has enabled transfer across tasks and vocabularies; diffusion models have pushed synthesis quality to photorealistic levels. Yet practical systems still struggle when the problem requires compositional structure or precise control.
 
-First, structured visual understanding is still brittle in the wild.
-Conventional recognition pipelines excel at category prediction but often underrepresent structure: relations are underconstrained, part–whole hierarchies are inconsistently captured, and long-tail concepts are poorly handled. These weaknesses become severe in open-world settings where the vocabulary expands beyond curated labels and where composition—rather than isolated classification—determines correctness.
+On the understanding side, predictions are often \emph{insufficiently structured}. Models may identify objects but fail to produce coherent relational descriptions that support reasoning, especially when predicates are long-tailed or when the vocabulary shifts beyond the closed-set training labels. On the generation side, outputs are often \emph{insufficiently controllable}. Even strong generators may partially follow instructions, entangle multiple constraints, over-edit irrelevant regions, or drift over time in video. These gaps motivate the central focus of this thesis.
 
-Second, controllable visual generation remains unreliable under realistic user demands. While state-of-the-art generators can produce photorealistic images, they frequently misinterpret instructions, ignore fine-grained constraints, or entangle control signals with unintended changes. The central challenge is not merely to generate a plausible image, but to generate the image that satisfies explicit, multi-level controls (e.g., layout, attributes, relations, identity, style) while maintaining coherence and fidelity.
+This thesis, \emph{Visual Intelligence: Structured Understanding and Controllable Generation}, explores one representative direction for each capability. For visual understanding, we study \emph{panoptic scene graph generation} (PSG). For visual generation, we study \emph{controllable image and video generation}.
 
-This thesis is driven by a simple premise: structure and control are two sides of the same coin. Structured representations provide the language of constraints; controllable generation tests whether those constraints are truly understood and operational.
+\section{Visual Understanding via Panoptic Scene Graph Generation}
+Panoptic scene graphs offer a unified, holistic representation of a scene. Nodes correspond to panoptic entities---pixel-accurate ``things'' instances and ``stuff'' regions---and edges represent semantic relations between entity pairs. Compared with object-only graphs or box-based scene graphs, PSG is grounded at the pixel level and describes the full image, making it better aligned with downstream reasoning tasks where context and relations matter.
 
-\section{Thesis Scope and Problem Statement}
-This thesis studies visual intelligence through two tightly connected directions:
-\begin{itemize}
-    \item \textbf{Structured Visual Understanding}: learning models that represent images as structured entities—instances, parts, attributes, and relations—and that remain effective under distribution shift, long-tail categories, and open-vocabulary settings.
-    \item \textbf{Controllable Visual Generation}: designing generative systems that obey user-provided constraints with high precision, supporting controllable synthesis and editing while preserving realism and consistency.
-\end{itemize}
-The overarching goal is to advance both understanding and generation toward practical visual intelligence: systems that can reliably parse complex scenes and faithfully render user intent.
+PSG is challenging because it couples multiple hard subproblems. It requires \textbf{cross-granularity modeling}: relations must be inferred from both fine localization cues (e.g., boundaries, overlaps, contact patterns) and coarse semantics (e.g., functional interactions). It exhibits \textbf{severe long-tail imbalance}: a small number of common predicates dominate, while rare relations are often the most informative. It also calls for \textbf{open-world generalization}: real scenes contain novel categories and relations, and a practical PSG system must scale beyond fixed label sets. Chapters~3--5 address these challenges through successive frameworks that progressively improve structure modeling, incorporate language priors, and extend to open-vocabulary settings.
+
+\section{Visual Generation via Controllable Image and Video Synthesis}
+Generative models have become a powerful interface for content creation. However, many real applications demand fine-grained control: users specify \emph{what} should appear, \emph{where} it should appear, \emph{how} it should look, and \emph{what should remain unchanged}. Such requirements arise in editing, layout-to-image synthesis, identity-preserving generation, and multimodal conditioning scenarios. In these settings, the key challenge is not producing a plausible sample, but producing an output that satisfies explicit constraints while maintaining realism.
+
+Video further elevates the difficulty. Control must be maintained not only spatially but also temporally: identity, texture, and structure should remain consistent across frames; motion should be coherent; and edits should not introduce flicker or drift. Chapters~6--7 study controllable image and video generation and develop mechanisms that improve faithfulness under complex, multi-condition constraints.
 
 \section{Overview of Contributions}
 The thesis comprises five papers, organized into two themes.
 
-\subsection{Structured Visual Understanding (Chapters 3–5)}
-
+\subsection{Panoptic Scene Graph Generation (Chapters~3--5)}
 \begin{itemize}
-    \item \textbf{Chapter 3: HiLo} (Paper 1) introduces a hierarchical modeling approach that captures both high-level semantics and low-level localization for panoptic scene graph generation.
-    \item \textbf{Chapter 4: VLPrompt} (Paper 2) explores vision–language prompting as a mechanism for structured prediction, enabling knowledge transfer from pretrained models to improve generalization.
-    \item \textbf{Chapter 5: OpenPSG} (Paper 3) advances panoptic scene graph generation to open-vocabulary and open-set conditions, addressing scalability and robustness in real-world scenarios.
+    \item \textbf{HiLo (Chapter~3)} studies PSG under long-tailed relations from a representation perspective, improving structure modeling across semantic granularity so that fine localization cues and high-level semantics are jointly exploited for relation prediction.
+    \item \textbf{VLPrompt (Chapter~4)} introduces vision--language prompting for PSG as a lightweight and transferable mechanism that injects linguistic and commonsense priors, improving relation reasoning and generalization without relying solely on visual cues.
+    \item \textbf{OpenPSG (Chapter~5)} pushes PSG toward open-vocabulary and open-set conditions, leveraging large multimodal models to scale relational reasoning beyond predefined label vocabularies and to better handle novel concepts.
 \end{itemize}
-Together, these chapters argue for explicit compositional structure and open-world readiness as first-class objectives in visual understanding.
 
-\subsection{Controllable Visual Generation (Chapters 6–7)}
-
+\subsection{Controllable Image and Video Generation (Chapters~6--7)}
 \begin{itemize}
-    \item \textbf{Chapter 6: Leffa} (Paper 4) investigates control interfaces and representations for faithful controllable image and video synthesis.
-    \item \textbf{Chapter 7: Saber} (Paper 5) strengthens controllability under complex constraints with improved robustness and generalization.
+    \item \textbf{Leffa (Chapter~6)} investigates control interfaces and intermediate representations that improve faithfulness for controllable image and video synthesis while preserving perceptual quality.
+    \item \textbf{Saber (Chapter~7)} strengthens controllability under complex, multi-condition constraints and emphasizes robustness and temporal coherence for practical video generation and editing.
 \end{itemize}
-Together, these chapters position controllable generation as an alignment problem: generation becomes dependable when the model’s generative factors correspond to human-interpretable constraints.
 
 \section{Thesis Organization}
-Chapter 2 reviews foundations in structured prediction, vision–language pretraining, scene graph reasoning, and controllable diffusion models.
-Chapters 3–5 develop methods for structured visual understanding: HiLo, VLPrompt, and OpenPSG.
-Chapters 6–7 present methods for controllable visual generation: Leffa and Saber.
-Chapter 8 concludes with a unified discussion of structure–control duality and outlines future directions, including open-world structured generation and evaluation protocols for faithful controllability.
+Chapter~2 reviews related work on structured visual understanding and controllable visual generation, with emphasis on PSG, vision--language prompting, open-vocabulary recognition, diffusion-based conditioning, and video consistency mechanisms.
+Chapters~3--5 present the PSG contributions.
+Chapters~6--7 present the controllable image and video generation contributions.
+Chapter~8 concludes with a summary, limitations, and future research directions.
