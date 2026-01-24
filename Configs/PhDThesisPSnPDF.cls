@@ -199,8 +199,7 @@ footnotes.}
 \PassOptionsToClass{\PHD@papersize}{book}%
 
 % Column layout
-\newif\if@oneside\@onesidefalse
-\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{book}\@onesidetrue}%
+\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{book}}%
 \DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{book}}%
 
 % ****************************** Draft Option **********************************
@@ -269,7 +268,7 @@ supported!}
 % Hides Contents appearing from TOC, but adds it to bookmarks
 \let\temptableofcontents\tableofcontents
 \renewcommand{\tableofcontents}{
-  \cleardoublepage
+  \clearpage
   \pdfbookmark[0]{\contentsname}{Contents}
   \temptableofcontents
 }
@@ -341,23 +340,19 @@ supported!}
 \ifPHD@lineno
 \RequirePackage[switch,pagewise,mathlines]{lineno}
 \renewcommand{\frontmatter}{%
-  \cleardoublepage
+  \clearpage
   \@mainmatterfalse
   \pagenumbering{roman}
   \nolinenumbers
 }
 \renewcommand{\mainmatter}{%
-  \cleardoublepage
+  \clearpage
   \@mainmattertrue
   \pagenumbering{arabic}
   \linenumbers
 }
 \renewcommand{\backmatter}{%
-  \if@openright
-    \cleardoublepage
-  \else
-    \clearpage
-  \fi
+  \clearpage
   \@mainmatterfalse
   \linenumbers
 }
@@ -654,12 +649,7 @@ supported!}
     \RequirePackage[paper=\PHD@papersize,hmarginratio=1:1,
       vmarginratio=1:1,scale=0.75,bindingoffset=5mm]{geometry}
   \fi
-
-  \if@twoside
-    \hypersetup{pdfpagelayout=TwoPageRight}
-  \else
-    \hypersetup{pdfpagelayout=OneColumn}
-  \fi
+  \hypersetup{pdfpagelayout=OneColumn}
 
 \else
   % For PDF Online version
@@ -769,10 +759,15 @@ wish to left align your text}
   \renewcommand{\chaptermark}[1]{\markboth{##1}{}}
   \renewcommand{\sectionmark}[1]{\markright{\thesection\ ##1\ }}
   \fancyhf{}
-  \fancyhead[RO]{\nouppercase \rightmark\hspace{0.25em} | 
-    \hspace{0.25em} \bfseries{\thepage}}
-  \fancyhead[LE]{ {\bfseries\thepage} \hspace{0.25em} | 
-    \hspace{0.25em} \nouppercase \leftmark}
+  \if@twoside
+    \fancyhead[RO]{\nouppercase \rightmark\hspace{0.25em} | 
+      \hspace{0.25em} \bfseries{\thepage}}
+    \fancyhead[LE]{ {\bfseries\thepage} \hspace{0.25em} | 
+      \hspace{0.25em} \nouppercase \leftmark}
+  \else
+    \fancyhead[R]{\nouppercase \rightmark\hspace{0.25em} | 
+      \hspace{0.25em} \bfseries{\thepage}}
+  \fi
 }
 
 % Style 2: Sets Page Number at the Bottom with Chapter/Section Name on LO/RE
@@ -780,8 +775,13 @@ wish to left align your text}
   \renewcommand{\chaptermark}[1]{\markboth{##1}{}}
   \renewcommand{\sectionmark}[1]{\markright{\thesection\ ##1}}
   \fancyhf{}
-  \fancyhead[RO]{\bfseries\nouppercase \rightmark}
-  \fancyhead[LE]{\bfseries \nouppercase \leftmark}
+  \if@twoside
+    \fancyhead[RO]{\bfseries\nouppercase \rightmark}
+    \fancyhead[LE]{\bfseries \nouppercase \leftmark}
+  \else
+    \fancyhead[R]{\bfseries\nouppercase \rightmark}
+    \fancyhead[L]{\bfseries \nouppercase \leftmark}
+  \fi
   \fancyfoot[C]{\thepage}
 }
 
@@ -802,15 +802,20 @@ wish to left align your text}
   \pagestyle{PageStyleII}
 
   \else
-  % Default Style: Sets Page Number at the Top (LE/RO) with Chapter/Section Name
-  % on LO/RE and an empty footer
-    \renewcommand{\chaptermark}[1]{\markboth {##1}{}}
-    \renewcommand{\sectionmark}[1]{\markright{\thesection\ ##1}}
-    \fancyhf{}
-    \fancyhead[LO]{\nouppercase \rightmark}
-    \fancyhead[LE,RO]{\bfseries\thepage}
-    \fancyhead[RE]{\nouppercase \leftmark}
-  \fi
+	  % Default Style: Sets Page Number at the Top (LE/RO) with Chapter/Section Name
+	  % on LO/RE and an empty footer
+	    \renewcommand{\chaptermark}[1]{\markboth {##1}{}}
+	    \renewcommand{\sectionmark}[1]{\markright{\thesection\ ##1}}
+	    \fancyhf{}
+	    \if@twoside
+	      \fancyhead[LO]{\nouppercase \rightmark}
+	      \fancyhead[LE,RO]{\bfseries\thepage}
+	      \fancyhead[RE]{\nouppercase \leftmark}
+	    \else
+	      \fancyhead[L]{\nouppercase \leftmark}
+	      \fancyhead[R]{\bfseries\thepage}
+	    \fi
+	  \fi
 \fi
 }
 
@@ -831,14 +836,6 @@ wish to left align your text}
 \else
 \setFancyHdr % Apply fancy header settings otherwise apply it in preamble
 \fi
-
-% **************** Clear Header Style on the Last Empty Odd pages **************
-\renewcommand{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else%
-	\hbox{}%
-	\thispagestyle{empty}  % Empty header styles
-	\newpage%
-	\if@twocolumn\hbox{}\newpage\fi\fi\fi}
-
 
 % ******************************************************************************
 % **************************** Macro Definitions *******************************
@@ -1012,7 +1009,7 @@ wish to left align your text}
 
 \newenvironment{dedication}
 {
-\cleardoublepage
+\clearpage
 \setsinglecolumn
 \phantomsection
 \addcontentsline{toc}{chapter}{Dedication}
@@ -1028,7 +1025,7 @@ wish to left align your text}
 % "Declaration" label at the top of the page.
 
 \newenvironment{declaration}{
-\cleardoublepage
+\clearpage
 \setsinglecolumn
 \chapter*{\centering \Large Declaration}
 \phantomsection
@@ -1048,7 +1045,7 @@ wish to left align your text}
 % "Acknowledgements" label at the top of the page.
 
 \newenvironment{acknowledgements}{
-\cleardoublepage
+\clearpage
 \setsinglecolumn
 \chapter*{\centering \Large Acknowledgements}
 \phantomsection
@@ -1093,7 +1090,7 @@ wish to left align your text}
     \RequirePackage{makeidx}
     \makeindex
     \newcommand{\printthesisindex}{
-        \cleardoublepage
+        \clearpage
         \phantomsection
         \printindex}
 \else
@@ -1151,7 +1148,7 @@ wish to left align your text}
   \end{center}
 \else
 % Normal abstract in the thesis
-  \cleardoublepage
+  \clearpage
   \setsinglecolumn
   \chapter*{\centering \Large Abstract}
   \phantomsection
