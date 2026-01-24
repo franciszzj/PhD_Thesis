@@ -220,3 +220,21 @@
 \definecolor{tablegray}{gray}{.9}
 
 \newcommand{\leffa}{\textit{Leffa}}
+
+% ******************************************************************************
+% ****************************** CVPR-like Styling *****************************
+% ******************************************************************************
+
+% CVPR-style captions: small font with bold label and period separator.
+\captionsetup{font=small,labelfont=bf,labelsep=period}
+
+% CVPR-style \mathcal: use the classic Computer Modern calligraphic alphabet
+% (less ornate and closer to CVPR templates than many Times-math alternatives).
+\makeatletter
+\@ifpackageloaded{unicode-math}{%
+  % Best-effort for unicode-math users; otherwise keep unicode-math defaults.
+  \IfFontExistsTF{Latin Modern Math}{\setmathfont[range=\mathcal]{Latin Modern Math}}{}%
+}{%
+  \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}%
+}
+\makeatother
