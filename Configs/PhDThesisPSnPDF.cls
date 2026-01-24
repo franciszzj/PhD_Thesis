@@ -1014,6 +1014,8 @@ wish to left align your text}
 {
 \cleardoublepage
 \setsinglecolumn
+\phantomsection
+\addcontentsline{toc}{chapter}{Dedication}
 \vspace*{0.2\textheight}
 \thispagestyle{empty}
 \centering
@@ -1029,6 +1031,8 @@ wish to left align your text}
 \cleardoublepage
 \setsinglecolumn
 \chapter*{\centering \Large Declaration}
+\phantomsection
+\addcontentsline{toc}{chapter}{Declaration}
 \thispagestyle{empty}
 }{
 \flushright
@@ -1047,6 +1051,8 @@ wish to left align your text}
 \cleardoublepage
 \setsinglecolumn
 \chapter*{\centering \Large Acknowledgements}
+\phantomsection
+\addcontentsline{toc}{chapter}{Acknowledgements}
 \thispagestyle{empty}
 }
 
@@ -1148,6 +1154,8 @@ wish to left align your text}
   \cleardoublepage
   \setsinglecolumn
   \chapter*{\centering \Large Abstract}
+  \phantomsection
+  \addcontentsline{toc}{chapter}{Abstract}
   \thispagestyle{empty}
 \fi
 }
