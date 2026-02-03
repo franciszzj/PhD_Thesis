@@ -5,7 +5,7 @@
 \begin{table*}[!t]
 \centering
 \caption{
-\textbf{Quantitative results on the OpenS2V-Eval~\citep{yuan2025opens2v} benchmark.}
+Quantitative results on the OpenS2V-Eval~\citep{yuan2025opens2v} benchmark.
 Saber outperforms both closed-source and explicitly trained R2V methods, achieving the highest overall score in a zero-shot setting.
 It also attains the best NexusScore for subject consistency and competitive performance on GmeScore and NaturalScore.
 }
@@ -90,7 +90,7 @@ Our method also achieves competitive results on GmeScore (text-video alignment) 
     % \fbox{\rule{0pt}{8.5in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=1.0\linewidth]{Chapter7/Figures/visualization_opens2v_eval.pdf}
     \caption{
-    \textbf{Qualitative comparison with existing R2V methods.}
+    Qualitative comparison with existing R2V methods.
     We compare Saber with Kling1.6~\citep{kling}, Phantom~\citep{liu2025phantom}, and VACE~\citep{jiang2025vace} across four scenarios: single/multiple human and object references.
     Saber accurately preserves subject identity and appearance, integrates multiple references coherently, and generates smoother, more visually consistent videos.
     }
@@ -119,12 +119,12 @@ We conduct a series of ablation studies to analyze the key components of Saber, 
 \begin{table}[!t]
 \centering
 \caption{
-\textbf{Ablation study.}
+Ablation study.
 i) Masked training outperforms training on the OpenS2V-5M~\citep{yuan2025opens2v} (w/o masked training), demonstrating the advantage of the masked training strategy.
 ii) Using only a single mask type reduces total score, while combining all types performs best, showing the importance of mask diversity.
 iii) Fixing the foreground area ratio ($r=0.3$) leads to a further drop, indicating limited mask variation harms generalization.
 }
-\resizebox{0.56\linewidth}{!}{
+\resizebox{0.7\linewidth}{!}{
 \begin{tabular}{lcccccccc}
 \toprule[1.5pt]
 \textbf{Method} & \textbf{Total Score} $\uparrow$ & \textbf{GmeScore} $\uparrow$ & \textbf{NexusScore} $\uparrow$ & \textbf{NaturalScore} $\uparrow$ \\
@@ -159,17 +159,17 @@ Using only ellipse, Fourier, or polygon masks reduces total score by 3.35\%, 1.5
 We also fix the foreground area ratio $r$ to 0.3, which leads to a 6.18\% drop, indicating that restricting mask variation limits generalization.
 
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{figure}
     \centering
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=1.0\linewidth]{Chapter7/Figures/ablation_mask_aug.pdf}
+    \includegraphics[width=0.5\linewidth]{Chapter7/Figures/ablation_mask_aug.pdf}
     \caption{
-    \textbf{Effect of mask augmentation.}
+    Effect of mask augmentation.
     Without mask augmentation, the model shows copy-paste artifacts by directly copying reference content.
     Applying augmentation enables more natural and coherent video generation.
     }
     \label{saber:fig:ablation_mask_aug}
-\end{wrapfigure}
+\end{figure}
 
 
 \paragraph{The Effect of Mask Augmentation.}
@@ -192,7 +192,7 @@ Incorporating the attention mask effectively resolves these issues, leading to c
     % \fbox{\rule{0pt}{8.5in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=1.0\linewidth]{Chapter7/Figures/ablation_attn_mask.pdf}
     \caption{
-    \textbf{Effect of the attention mask.}
+    Effect of the attention mask.
     Removing the attention mask introduces gray artifacts around subjects, while applying it ensures clean separation from the gray background and smoother, more natural video results.
     }
     \label{saber:fig:ablation_attn_mask}
@@ -208,16 +208,16 @@ In this section, we explore several interesting capabilities of Saber that emerg
 
 
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{figure}
     \centering
     % \fbox{\rule{0pt}{8.5in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=1.0\linewidth]{Chapter7/Figures/one_subject_multi_view.pdf}
+    \includegraphics[width=0.5\linewidth]{Chapter7/Figures/one_subject_multi_view.pdf}
     \caption{
-    \textbf{Qualitative results on multiple reference images of the same subject.}
+    Qualitative results on multiple reference images of the same subject.
     Given the front, side, and back views of a robot as reference, Saber correctly recognizes them as the same subject and integrates multi-view appearance features into a coherent video, accurately preserving fine structural and surface details.
     }
     \label{saber:fig:one_subject_multi_view}
-\end{wrapfigure}
+\end{figure}
 
 
 
@@ -235,7 +235,7 @@ Despite the robot's complex surface details and wiring structure, Saber accurate
     % \fbox{\rule{0pt}{8.5in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=1.0\linewidth]{Chapter7/Figures/cross_modal_alignment.pdf}
     \caption{
-    \textbf{Qualitative results of cross-modal alignment between reference images and text prompts.}
+    Qualitative results of cross-modal alignment between reference images and text prompts.
     By swapping subject descriptions in the prompts (\eg, clothing color or subject positions), Saber accurately reflects the corresponding visual changes, demonstrating robust alignment between reference images and textual descriptions through its attention mechanisms.
     }
     \label{saber:fig:cross_modal_alignment}

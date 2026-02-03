@@ -7,9 +7,8 @@ For the $i$-th object $o_i$ in $\mathcal O = \{o_i\}_{i=1}^{N}$, we use $m_i$ to
 
 
 \begin{figure*}[h!]
-\begin{center}
+\centering
 \includegraphics[width=\linewidth]{Chapter3/Figures/hilo_overview}
-\end{center}
 \caption{An overview of our HiLo framework with HiLo baseline.
 a) HiLo relation swapping module swaps the multiple relations in the subject-object pair to obtain H-L Data and L-H Data respectively.
 b) Input data into our HiLo framework with HiLo baseline model, there are two branches, namely H-L decoder and L-H decoder, which learn H-L Data and L-H Data respectively.
@@ -104,8 +103,7 @@ This label index allows us to construct the correspondence between the triplet q
 We calculate the consistency loss for the triplet query prediction with the same relation label index in the two decoders.
 
 \noindent \textbf{Subject-object consistency loss}.
-Having the corresponding predictions from the two decoders, both their subjects and objects have the same ground truth and should be equal. We propose a subject-object consistency loss $\mathcal L_{obj}$ to minimize the mean squared error (MSE) of the corresponding predictions from the two decoders. 
-
+Having the corresponding predictions from the two decoders, both their subjects and objects have the same ground truth and should be equal. We propose a subject-object consistency loss $\mathcal L_{obj}$ to minimize the mean squared error (MSE) of the corresponding predictions from the two decoders.
 \begin{align}
 \mathcal L_{obj} &= \mathcal L_{cls} + \mathcal L_{mask} \\
 \mathcal L_{cls} &= \lVert softmax(p_{c}^\text{H-L}) - softmax(p_{c}^\text{L-H}) \rVert^2 \\

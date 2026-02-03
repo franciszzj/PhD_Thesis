@@ -58,7 +58,9 @@ While our model shows a minor SSIM gap over CFLD~\citep{lu2024coarse}, visual re
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.2cm}
+\caption{Quantitative results comparison with other methods on the VITON-HD dataset for virtual try-on. Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.}
+\resizebox{0.8\linewidth}{!}{
 \begin{tabular}{lcccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{2-7} 
@@ -77,7 +79,6 @@ CatVTON~\citep{chong2024catvton}        & \underline{5.42}  & \underline{0.41} &
 \bottomrule[1.5pt]
 \end{tabular}
 }
-\caption{Quantitative results comparison with other methods on the VITON-HD dataset for virtual try-on. Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.}
 \label{leffa:tab:viton_hd}
 \end{table}
 
@@ -85,7 +86,11 @@ CatVTON~\citep{chong2024catvton}        & \underline{5.42}  & \underline{0.41} &
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.2cm}
+\caption{Quantitative results comparison with other methods on the DressCode dataset (all garment categories) for virtual try-on. 
+% Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.
+}
+\resizebox{0.8\linewidth}{!}{
 \begin{tabular}{lcccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{2-7} 
@@ -99,9 +104,6 @@ CatVTON~\citep{chong2024catvton}        & \underline{3.99}  & \underline{0.82} &
 \textbf{\leffa{} (Ours)}                 & \textbf{2.06}  & \textbf{0.07} & \textbf{0.924} & \textbf{0.031} & \textbf{4.48} & \textbf{0.62} \\
 \bottomrule[1.5pt]
 \end{tabular}
-}
-\caption{Quantitative results comparison with other methods on the DressCode dataset (all garment categories) for virtual try-on. 
-% Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.
 }
 \label{leffa:tab:dresscode}
 \end{table}
@@ -119,9 +121,12 @@ Please refer to the supplementary material for more comparisons.
 
 
 \begin{table}[!t]
-\setlength{\tabcolsep}{0.4cm}
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.6cm}
+\caption{Quantitative results comparison with other methods on the DeepFashion dataset for pose transfer. 
+% Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.
+}
+\resizebox{0.8\linewidth}{!}{
 \begin{tabular}{clccc}
 \toprule[1.5pt]
 \textbf{Resolution} & \textbf{Method} & \textbf{FID} $\downarrow$ & \textbf{SSIM} $\uparrow$ & \textbf{LPIPS} $\downarrow$ \\
@@ -153,15 +158,13 @@ Please refer to the supplementary material for more comparisons.
 \bottomrule[1.5pt]
 \end{tabular}
 }
-\caption{Quantitative results comparison with other methods on the DeepFashion dataset for pose transfer. 
-% Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.
-}
 \label{leffa:tab:deepfashion}
 \end{table}
 
 
 \begin{figure*}[!ht]
     \centering
+    \caption{Ablation study for (a) \leffa{} loss weight $\lambda_{\text{leffa}}$, (b) resolution threshold $\theta_{\text{resolution}}$, (c) timestep threshold $\theta_{\text{timestep}}$, (d) temperature $\tau$ on VITON-HD dataset of virtual try-on.}
     \begin{subfigure}{0.251\textwidth}
         \centering
         \resizebox{\linewidth}{!}{{\input{Chapter6/Figures/lambda_flow_fid.tex}}}
@@ -186,7 +189,6 @@ Please refer to the supplementary material for more comparisons.
         % \caption{temperature threshold}
         \label{subfig:ablation_4}
     \end{subfigure}
-    \caption{Ablation study for (a) \leffa{} loss weight $\lambda_{\text{leffa}}$, (b) resolution threshold $\theta_{\text{resolution}}$, (c) timestep threshold $\theta_{\text{timestep}}$, (d) temperature $\tau$ on VITON-HD dataset of virtual try-on.}
     \label{leffa:fig:ablation}
 \end{figure*}
 
@@ -214,7 +216,9 @@ As shown in Tab.~\ref{leffa:tab:general}, our method achieves FID reductions of 
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.3cm}
+\caption{Applying our \leffa{} loss $\mathcal{L}_\text{leffa}$ consistently enhances performance across different diffusion-based methods.}
+\resizebox{0.8\linewidth}{!}{
 \begin{tabular}{lccccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}  & \multirow{2}{*}{\textbf{$\mathcal{L}_{\text{leffa}}$}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{3-8} 
@@ -229,7 +233,6 @@ As shown in Tab.~\ref{leffa:tab:general}, our method achieves FID reductions of 
 \bottomrule[1.5pt]
 \end{tabular}
 }
-\caption{Applying our \leffa{} loss $\mathcal{L}_\text{leffa}$ consistently enhances performance across different diffusion-based methods.}
 \label{leffa:tab:general}
 \end{table}
 

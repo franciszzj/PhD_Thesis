@@ -104,7 +104,7 @@ These results demonstrate the effectiveness of our method in both closed-set and
 \begin{table}[t]\small
     \centering
     \caption{Comparison between our OpenPSG and other methods on the VG dataset in both closed-set and open-set scenarios with predicate classification subtask.}
-    \resizebox{0.9\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{lcccc}
     \toprule[1.5pt]
         ~ & \multicolumn{2}{c}{Train on all relations (closed-set)} & \multicolumn{2}{c}{Train on base relations (open-set)} \\
@@ -163,8 +163,9 @@ This indicates that our method using RelQ-Former can better focus the extracted 
 
 \begin{table}[t]\small
     \centering
+    \setlength{\tabcolsep}{2.8mm}
     \caption{Ablation study of comparison of different designs in RelQ-Former.}
-    \resizebox{0.8\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{lcccccc}
     \toprule[1.5pt]
         ~ & \multicolumn{6}{c}{Predicate Classification} \\
@@ -194,7 +195,7 @@ For more details, please refer to supplementary material.
 \begin{table}[t]\small
     \centering
     \caption{Ablation study of different instruction types in multimodal relation decoder under various base-to-novel relation ratios. OpenPSG-G: using generation instruction. OpenPSG-J: using judgement instruction.}
-    \resizebox{0.9\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{ccccccc}
         \toprule[1.5pt]
         ~ & \multicolumn{3}{c}{OpenPSG-G} & \multicolumn{3}{c}{OpenPSG-J} \\

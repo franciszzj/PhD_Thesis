@@ -32,27 +32,27 @@ Our model is trained for 12 epochs with a step scheduler at epoch 10, taking app
 
 \begin{table}[t]
 \centering
-\small
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{7pt}
+\caption{Comparison between our HiLo and other methods on the PSG dataset.
+Our method shows superior performance compared to all previous methods.
+}
+\resizebox{\linewidth}{!}{
 \begin{tabular}{lc|cc|cc|cc}
-\hline
+\toprule[1.5pt]
 Method & Backbone & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
-\hline
+\midrule
 IMP \cite{xu2017scene} & R50 & 16.5 & 6.5 & 18.2 & 7.1 & 18.6 & 7.2 \\
 MOTIF \cite{zellers2018neural} & R50 & 20.0 & 9.1 & 21.7 & 9.6 & 22.0 & 9.7 \\
 VCTree \cite{tang2019learning} & R50 & 20.6 & 9.7 & 22.1 & 10.2 & 22.5 & 10.2 \\
 GPSNet \cite{lin2020gps} & R50 & 17.8 & 7.0 & 19.6 & 7.5 & 20.1 & 7.7 \\
-\hline
+\midrule
 PSGTR \cite{yang2022panoptic} & R50 & 28.4 & 16.6 & 34.4 & 20.8 & 36.3 & 22.1 \\
 PSGFormer \cite{yang2022panoptic} & R50 & 18.0 & 14.8 & 19.6 & 17.0 & 20.1 & 17.6 \\
 \textbf{HiLo (ours)} & R50 & 34.1 & 23.7 & 40.7 & 30.3 & 43.0 & 33.1 \\
 \textbf{HiLo (ours)} & Swin-B & 38.5 & 28.3 & 46.2 & 35.3 & 49.6 & 39.1 \\
 \textbf{HiLo (ours)} & Swin-L & \textbf{40.6} & \textbf{29.7} & \textbf{48.7} & \textbf{37.6} & \textbf{51.4} & \textbf{40.9} \\
-\hline
+\bottomrule[1.5pt]
 \end{tabular}
-\caption{Comparison between our HiLo and other methods on the PSG dataset.
-Our method shows superior performance compared to all previous methods.
 }
 \label{hilo:tab:psg_main_results}
 \end{table}
@@ -91,49 +91,72 @@ This indicates that our method can improve the performance of low-frequency rela
 %
 It also shows that the HiLo framework is a general technique that yields systematic improvements in both the PSG and SGG tasks.
 
-\begin{table}\small
-    \centering
-    \begin{tabular}{l|cc}
-    \hline
-        Method & R/mR@50 & R/mR@100 \\
-        \hline
-        MOTIF \cite{zellers2018neural} & \textbf{31.0} / 6.7 & \textbf{35.1} / 7.7 \\
-        \quad +IETrans \cite{zhang2022fine} & 26.4 / 12.4 & 30.6 / 14.9 \\
-        \quad \textbf{+HiLo (ours)} & 26.2 / \textbf{14.7} & 30.3 / \textbf{17.7}  \\
-        \hline
-        VCTree \cite{tang2019learning} & \textbf{30.2} / 6.7 & \textbf{34.6} / 8.0 \\
-        \quad +IETrans \cite{zhang2022fine} & 25.4 / 11.5 & 29.3 / 14.0 \\
-        \quad \textbf{+HiLo (ours)} & 27.1 / \textbf{12.9} & 29.8 / \textbf{15.2} \\
-        \hline
-        Transformer \cite{tang2020unbiased} & \textbf{30.0} / 7.4 & \textbf{34.3} / 8.8 \\
-        \quad +IETrans \cite{zhang2022fine} & 25.5 / 12.5 & 29.6 / 15.0 \\
-        \quad \textbf{+HiLo (ours)} & 25.4 / \textbf{14.6} & 29.2 / \textbf{17.6} \\
-        \hline
-        GPSNet \cite{lin2020gps} & \textbf{30.3} / 5.9 & \textbf{35.0} / 7.1 \\
-        \quad +IETrans \cite{zhang2022fine} & 25.9 / 14.6 & 28.1 / 16.5 \\
-        \quad \textbf{+HiLo (ours)} & 25.6 / \textbf{15.8} & 27.9 / \textbf{18.0} \\
-        \hline
-    \end{tabular}
-    \caption{Comparison between our HiLo framework and other methods on the VG-150 dataset. Similar to \cite{zhang2022fine}, we apply IETrans and our own method on top of four leading baselines.
-    }
-    \label{hilo:tab:vg_main_results}
+\begin{table}
+\centering
+\setlength{\tabcolsep}{7pt}
+\caption{Comparison between our HiLo framework and other methods on the VG-150 dataset. Similar to \cite{zhang2022fine}, we apply IETrans and our own method on top of four leading baselines.
+}
+\resizebox{0.5\linewidth}{!}{
+\begin{tabular}{l|cc}
+\toprule[1.5pt]
+Method & R/mR@50 & R/mR@100 \\
+\midrule
+MOTIF \cite{zellers2018neural} & \textbf{31.0} / 6.7 & \textbf{35.1} / 7.7 \\
+\quad +IETrans \cite{zhang2022fine} & 26.4 / 12.4 & 30.6 / 14.9 \\
+\quad \textbf{+HiLo (ours)} & 26.2 / \textbf{14.7} & 30.3 / \textbf{17.7}  \\
+\midrule
+VCTree \cite{tang2019learning} & \textbf{30.2} / 6.7 & \textbf{34.6} / 8.0 \\
+\quad +IETrans \cite{zhang2022fine} & 25.4 / 11.5 & 29.3 / 14.0 \\
+\quad \textbf{+HiLo (ours)} & 27.1 / \textbf{12.9} & 29.8 / \textbf{15.2} \\
+\midrule
+Transformer \cite{tang2020unbiased} & \textbf{30.0} / 7.4 & \textbf{34.3} / 8.8 \\
+\quad +IETrans \cite{zhang2022fine} & 25.5 / 12.5 & 29.6 / 15.0 \\
+\quad \textbf{+HiLo (ours)} & 25.4 / \textbf{14.6} & 29.2 / \textbf{17.6} \\
+\midrule
+GPSNet \cite{lin2020gps} & \textbf{30.3} / 5.9 & \textbf{35.0} / 7.1 \\
+\quad +IETrans \cite{zhang2022fine} & 25.9 / 14.6 & 28.1 / 16.5 \\
+\quad \textbf{+HiLo (ours)} & 25.6 / \textbf{15.8} & 27.9 / \textbf{18.0} \\
+\bottomrule[1.5pt]
+\end{tabular}
+}
+\label{hilo:tab:vg_main_results}
 \end{table}
 
 
 \begin{figure*}
-\begin{center}
+\centering
 \includegraphics[width=\linewidth]{Chapter3/Figures/visual_results.pdf}
-\end{center}
-   \caption{Visualization of panoptic segmentations and the top 20 predicted triplets compared with ground truth.
-   The upper left is the original image, the lower left is the ground truth and on the right are the predictions.
-   The highlighted triplets represent the subject-object pairs with multiple relations, where the blue highlights represent the high frequency relations and the red highlights represents the low frequency relations.
-   The visualization results show that our method can predict both high frequency and low frequency relations.
-   }
-\label{fig:short}
+\caption{Visualization of panoptic segmentations and the top 20 predicted triplets compared with ground truth.
+The upper left is the original image, the lower left is the ground truth and on the right are the predictions.
+The highlighted triplets represent the subject-object pairs with multiple relations, where the blue highlights represent the high frequency relations and the red highlights represents the low frequency relations.
+The visualization results show that our method can predict both high frequency and low frequency relations.
+}
+\label{hilo:fig:short}
 \end{figure*}
 
 \subsection{Ablation Studies}
 Consistent with this chapter, we use HiLo with a Resnet-50 backbone to perform ablation experiments on the PSG dataset.
+
+\begin{table}
+\centering
+\setlength{\tabcolsep}{8pt}
+\caption{Comparison of different baselines, with and without HiLo framework. Using the HiLo framework, we see significant improvements on both metrics.
+}
+\resizebox{0.7\linewidth}{!}{
+\begin{tabular}{lc|ccc}
+\toprule[1.5pt]
+Baseline  & HiLo & R/mR@20 & R/mR@50 & R/mR@100 \\
+\midrule
+HiLo baseline & \checkmark & \textbf{34.1} / \textbf{23.7} & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
+HiLo baseline & - & 32.6 / 20.9 & 38.0 / 27.4 & 38.9 / 28.4 \\
+\midrule
+PSGTR~\cite{yang2022panoptic} & \checkmark & \textbf{30.1} / \textbf{20.2} & \textbf{36.6} / \textbf{23.9} & \textbf{38.3} / \textbf{24.5} \\
+PSGTR~\cite{yang2022panoptic} & - & 28.4 / 16.6 & 34.4 / 20.8 & 36.3 / 22.1 \\
+\bottomrule[1.5pt]
+\end{tabular}
+}
+\label{hilo:tab:different_baselines}
+\end{table}
 
 \noindent \textbf{HiLo framework for different baselines}.
 In this section we investigate whether our HiLo framework~(Sec.~\ref{hilo:sec:framework}) yields improvements for other baselines, rather than just the one presented in Sec.~\ref{hilo:sec:baseline}.
@@ -142,46 +165,28 @@ We observe that our biased baseline outperforms the previous PSGTR~\cite{yang202
 Furthermore, by applying the HiLo framework, we can substantially improve the performance over both baselines.
 It is worth mentioning that the HiLo framework improves recall and mean recall simultaneously, whereas other methods typically improve one metric at the cost of the other \cite{tang2020unbiased, yu2020cogtree}.
 
-\begin{table}\small
-    \centering
-    \resizebox{\linewidth}{!}{
-    \begin{tabular}{lc|ccc}
-    \hline
-        Baseline  & HiLo & R/mR@20 & R/mR@50 & R/mR@100 \\
-        \hline
-        HiLo baseline & \checkmark & \textbf{34.1} / \textbf{23.7} & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
-        HiLo baseline & - & 32.6 / 20.9 & 38.0 / 27.4 & 38.9 / 28.4 \\
-        \hline
-        PSGTR~\cite{yang2022panoptic} & \checkmark & \textbf{30.1} / \textbf{20.2} & \textbf{36.6} / \textbf{23.9} & \textbf{38.3} / \textbf{24.5} \\
-        PSGTR~\cite{yang2022panoptic} & - & 28.4 / 16.6 & 34.4 / 20.8 & 36.3 / 22.1 \\
-        \hline
-    \end{tabular}
-    }
-    \caption{Comparison of different baselines, with and without HiLo framework. Using the HiLo framework, we see significant improvements on both metrics.
-    }
-    \label{hilo:tab:different_baselines}
-\end{table}
 
 \noindent \textbf{HiLo relation augmentation.}
 We observe that out of 260,296 labeled triplets in the PSG dataset, only about 10\% of subject-object pairs have multiple relations, for which we can apply relation swapping~(Sec.~\ref{hilo:sec:framework:relation_generation}).
 After applying our proposed relation augmentation technique~(Sec.~\ref{hilo:sec:framework:relation_generation}), this ratio significantly increases to 40\%.
 Our experimental results in Tab.~\ref{hilo:tab:proportion_of_swappable_triplets} demonstrate that only applying the HiLo framework on 10\% already gives an improvement over the baseline from Tab.~\ref{hilo:tab:different_baselines}. As the number of swappable triplets increases due to augmentation, the model's performance is further enhanced, highlighting the potential of our method.
 
-\begin{table}\small
-    \centering
-    \resizebox{\linewidth}{!}{
-    \begin{tabular}{c|c|ccc}
-    \hline
-        Relation Aug. & Multiple relations & R/mR@50 & R/mR@100 \\
-        \hline
-        \checkmark & 40\%  & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
-        - & 10\%  & 40.1 / 28.1 & 42.8 / 32.5 \\
-        \hline
-    \end{tabular}
-    }
-    \caption{Ablation study for HiLo relation augmentation. Relation augmentation affects the ratio of subject-object pairs with multiple relations. The larger this ratio, the more relations can be swapped, which leads to better results.
-    }
-    \label{hilo:tab:proportion_of_swappable_triplets}
+\begin{table}
+\centering
+\setlength{\tabcolsep}{8pt}
+\caption{Ablation study for HiLo relation augmentation. Relation augmentation affects the ratio of subject-object pairs with multiple relations. The larger this ratio, the more relations can be swapped, which leads to better results.
+}
+\resizebox{0.7\linewidth}{!}{
+\begin{tabular}{c|c|ccc}
+\toprule[1.5pt]
+Relation Aug. & Multiple relations & R/mR@50 & R/mR@100 \\
+\midrule
+\checkmark & 40\%  & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
+- & 10\%  & 40.1 / 28.1 & 42.8 / 32.5 \\
+\bottomrule[1.5pt]
+\end{tabular}
+}
+\label{hilo:tab:proportion_of_swappable_triplets}
 \end{table}
 
 \noindent \textbf{HiLo prediction alignment}.
@@ -190,43 +195,47 @@ The results, as presented in Tab.~\ref{hilo:tab:prediction_alignment}, demonstra
 It is worth mentioning that we have explored the margin in the relation consistency loss and found that setting the margin to zero leads to a small performance degradation.
 This finding confirms that there is a partial semantic overlap between swapped relations, indicating that they are not entirely consistent.
 
-\begin{table}\small
-    \centering
-    \resizebox{\linewidth}{!}{
-    \begin{tabular}{ccc|ccc}
-    \hline
-        Object & Relation & Margin & R/mR@50 & R/mR@100 \\
-        \hline
-        \checkmark & \checkmark & 0.5 & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
-        - & \checkmark & 0.5 & 40.6 / 29.7 & 42.8 / 32.8 \\
-        - & \checkmark & 0.0 &  40.5 / 29.5 & 42.7 / 32.8 \\
-        \checkmark & - & - &  40.4 / 29.0 & 42.8 / 32.2 \\
-        - & - & - & 39.7 / 28.6 & 42.4 / 32.0 \\
-        \hline
-    \end{tabular}
-    }
-    \caption{Ablation study for different losses in HiLo prediction alignment. \emph{Object} refers to the subject-object consistency loss and \emph{relation} refers to the relation consistency loss. The margin parameter is defined in Eq.~\ref{eq:relation_consistency_loss}.
-    }
-    \label{hilo:tab:prediction_alignment}
+\begin{table}
+\centering
+\setlength{\tabcolsep}{10pt}
+\caption{Ablation study for different losses in HiLo prediction alignment. \emph{Object} refers to the subject-object consistency loss and \emph{relation} refers to the relation consistency loss. The margin parameter is defined in Eq.~\ref{eq:relation_consistency_loss}.
+}
+\resizebox{0.7\linewidth}{!}{
+\begin{tabular}{ccc|ccc}
+\toprule[1.5pt]
+Object & Relation & Margin & R/mR@50 & R/mR@100 \\
+\midrule
+\checkmark & \checkmark & 0.5 & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
+- & \checkmark & 0.5 & 40.6 / 29.7 & 42.8 / 32.8 \\
+- & \checkmark & 0.0 &  40.5 / 29.5 & 42.7 / 32.8 \\
+\checkmark & - & - &  40.4 / 29.0 & 42.8 / 32.2 \\
+- & - & - & 39.7 / 28.6 & 42.4 / 32.0 \\
+\bottomrule[1.5pt]
+\end{tabular}
+}
+\label{hilo:tab:prediction_alignment}
 \end{table}
 
 \noindent \textbf{HiLo inference fusion}.
 We ablate the inference fusion~(Sec.~\ref{hilo:sec:framework:inference_fusion}) and evaluate the performance of each branch's output separately.
 In Tab.~\ref{hilo:tab:inference_fusion}, experimental results suggest that fusion can effectively leverage the uniqueness of the high and low frequency branch predictions to achieve comprehensive improvements on all metrics.
 
-\begin{table}\small
-    \centering
-    \begin{tabular}{cc|ccc}
-    \hline
-        H-L Result & L-H Result & R/mR@50 & R/mR@100 \\
-        \hline
-        \checkmark & \checkmark & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
-        \checkmark & - & 38.8 / 29.9 & 39.8 / 30.9 \\
-        - & \checkmark & 38.5 / 26.5 & 39.5 / 27.8 \\
-        \hline
-    \end{tabular}
-    \caption{Ablation study for HiLo inference fusion.}
-    \label{hilo:tab:inference_fusion}
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{14pt}
+\caption{Ablation study for HiLo inference fusion.}
+\resizebox{0.7\linewidth}{!}{
+\begin{tabular}{cc|ccc}
+\toprule[1.5pt]
+H-L Result & L-H Result & R/mR@50 & R/mR@100 \\
+\midrule
+\checkmark & \checkmark & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
+\checkmark & - & 38.8 / 29.9 & 39.8 / 30.9 \\
+- & \checkmark & 38.5 / 26.5 & 39.5 / 27.8 \\
+\bottomrule[1.5pt]
+\end{tabular}
+}
+\label{hilo:tab:inference_fusion}
 \end{table}
 
 \noindent \textbf{Convergence speed analysis}.
@@ -235,10 +244,9 @@ Our analysis reveals that our proposed method outperforms prior methods \cite{ya
 Specifically, PSGTR \cite{yang2022panoptic} achieves negligible performance in the initial 12 epochs, requiring 60 epochs to converge, as per the authors.
 In contrast, our HiLo method achieves better results in just 12 epochs, indicating its superior convergence speed.
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{Chapter3/Figures/convergence_speed.pdf}
-\end{center}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\columnwidth]{Chapter3/Figures/convergence_speed.pdf}
 \caption{Training convergence speed analysis of different methods. 
 Our method converges significantly faster than previous methods.}
 \label{hilo:fig:convergence_speed}
@@ -253,17 +261,19 @@ Focusing on the full image presents a more challenging optimization task for the
 Consequently, we observe a drop of 1.8\% in R@100 and 1.6\% in mR@100.
 This shows that it is crucial to apply masked relation attention to the subject and object.
 
-\begin{table}\small
-    \centering
-    \begin{tabular}{l|ccc}
-    \hline
-        Attention focus & R/mR@20 & R/mR@50 & R/mR@100 \\
-        \hline
-        subject-object & \textbf{32.6} / \textbf{20.9} & \textbf{38.0} / \textbf{27.4} & \textbf{38.9} / \textbf{28.4} \\
-        full image & 30.4 / 19.3 & 36.5 / 25.9 & 37.1 / 26.8 \\
-    \hline
-    \end{tabular}
-    \caption{Ablation study for masked relation attention.
-    }
-    \label{hilo:tab:masked_relation_attention}
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{10pt}
+\caption{Ablation study for masked relation attention.}
+\resizebox{0.7\linewidth}{!}{
+\begin{tabular}{l|ccc}
+\toprule[1.5pt]
+Attention focus & R/mR@20 & R/mR@50 & R/mR@100 \\
+\midrule
+subject-object & \textbf{32.6} / \textbf{20.9} & \textbf{38.0} / \textbf{27.4} & \textbf{38.9} / \textbf{28.4} \\
+full image & 30.4 / 19.3 & 36.5 / 25.9 & 37.1 / 26.8 \\
+\bottomrule[1.5pt]
+\end{tabular}
+}
+\label{hilo:tab:masked_relation_attention}
 \end{table}

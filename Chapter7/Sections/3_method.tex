@@ -74,7 +74,7 @@ This process is repeated to create the full set of $K$ masked frames $\{ \hat{\m
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=0.6\linewidth]{Chapter7/Figures/mask_frames.pdf}
     \caption{
-    \textbf{Masked reference generation.}
+    Masked reference generation.
     Given a video, the mask generator produces diverse random masks, which are then applied to each randomly sampled video frame with mask augmentation.
     }
     \label{saber:fig:mask_frames}
@@ -131,7 +131,7 @@ Note that $\mathbf{z}_\text{ref}$ remains noise-free to preserve accurate condit
     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
     \includegraphics[width=0.6\linewidth]{Chapter7/Figures/model_design.pdf}
     \caption{
-    \textbf{Model design overview.}
+    Model design overview.
     Masked frames serve as reference images and are concatenated to the video tokens in latent space.
     Self-attention enables interaction between video and reference tokens under the attention mask, while cross-attention incorporates text guidance for semantic alignment.
     The VAE, text encoder, and timestep components are omitted for clarity.

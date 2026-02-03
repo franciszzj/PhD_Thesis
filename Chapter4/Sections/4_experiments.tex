@@ -66,7 +66,7 @@ Additionally, our method achieves a +2.0 improvement on R@20 and comparable perf
     Our method shows superior performance compared to all previous methods.
     Note \textbf{bold} indicates the best result, and \underline{underline} indicates the second-best result.}
     \begin{tabular}{l|c|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     \multirow{2}*{Method} & \multirow{2}*{Model Input} & \multicolumn{6}{c}{Scene Graph Detection} \\
     % \cmidrule{3-8}
      &  & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
@@ -82,7 +82,7 @@ Additionally, our method achieves a +2.0 improvement on R@20 and comparable perf
     DSGG~\citep{hayder2024dsgg} & Vision & 32.7 & \underline{30.8} & \underline{42.8} & \underline{38.8} & \underline{50.0} & 43.4 \\
     DSFormer~\citep{lorenz2024fair} & Vision & ~--~ & 27.2 & ~--~ & 30.7 & ~--~ & \underline{50.1} \\ 
     \textbf{VLPrompt (ours)} & Vision + Language & \textbf{39.4} & \textbf{34.7} & \textbf{47.6} & \textbf{45.1} & \textbf{52.4} & \textbf{53.7} \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
     \label{vlprompt:tab:psg_results}
 \end{table}
@@ -95,7 +95,7 @@ Additionally, our method achieves a +2.0 improvement on R@20 and comparable perf
     }
     % \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{l|c|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     \multirow{2}*{Method} & \multirow{2}*{Model Input} & \multicolumn{6}{c}{Scene Graph Detection} \\
     % \cmidrule{3-8}
      &  & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
@@ -111,7 +111,7 @@ Additionally, our method achieves a +2.0 improvement on R@20 and comparable perf
     EGTR~\citep{im2024egtr} & Vision & \underline{22.4} & \underline{8.8} & 28.2 & 14.0 & 31.7 & \underline{18.3} \\
     SBG~\citep{li2025fine} & Vision & ~--~ & ~--~ & 27.0 & 13.8 & 31.3 & 16.1 \\
     \textbf{VLPrompt (ours)} & Vision + Language & \textbf{24.4} & \textbf{10.7} & \underline{32.2} & \textbf{17.0} & \underline{36.4} & \textbf{19.8} \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
     % }
     \label{vlprompt:tab:vg_results}
@@ -164,16 +164,16 @@ In this setting, we remove the cross-attention module and rely solely on vision 
     \setlength{\tabcolsep}{2.0mm}
     \caption{Alleviating the long-tail problem on PSG dataset.
     Incorporating LLM-based language information boosts performance on common and rare relations, with greater gains for rare ones, validating its effectiveness in addressing the long-tail problem.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{0.6\linewidth}{!}{
     \begin{tabular}{l|cccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     ~ & \multicolumn{2}{c}{Common relations} & \multicolumn{2}{c}{Rare relations}\\
     ~ & w/o LLM & w/ LLM & w/o LLM & w/ LLM\\
     \midrule
     mR@100 & 54.7 & \textbf{57.0 (\textcolor{darkgreen}{+2.3})} & 37.9 & \textbf{51.7 (\textcolor{darkgreen}{+13.8})} \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:long_tail_psg}
 \end{table}
 
@@ -182,16 +182,16 @@ In this setting, we remove the cross-attention module and rely solely on vision 
     \centering
     \setlength{\tabcolsep}{2.0mm}
     \caption{Alleviating the long-tail problem on VG dataset.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{0.6\linewidth}{!}{
     \begin{tabular}{l|cccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     ~ & \multicolumn{2}{c}{Common relations} & \multicolumn{2}{c}{Rare relations}\\
     ~ & w/o LLM & w/ LLM & w/o LLM & w/ LLM\\
     \midrule
     mR@100 & 21.6 & \textbf{23.2 (\textcolor{darkgreen}{+1.6})} & 9.7 & \textbf{16.4 (\textcolor{darkgreen}{+6.7})} \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:long_tail_vg}
 \end{table}
 
@@ -258,21 +258,21 @@ In turn, we believe that future advances in LMMs may further promote progress in
 
 \begin{table}[!t]
     \centering
-    \setlength{\tabcolsep}{1.2mm}
+    \setlength{\tabcolsep}{2.8mm}
     \caption{Comparison with LMMs in PSG task.
     Large multimodal models like GPT-4V, not tailored for PSG task, underperform compared to task-specific PSG models.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{l|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     Method & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
     \midrule
     VLPrompt & \textbf{39.4} & \textbf{34.7} & \textbf{47.6} & \textbf{45.1} & \textbf{52.4} & \textbf{53.7} \\
     GPT-4o~\citep{chatgpt} & 30.9 & 28.6 & 40.2 & 38.9 & 45.9 & 44.1 \\
     GPT-4V~\citep{chatgpt} & 16.9 & 10.1 & 20.4 & 12.8 & 22.5 & 13.1 \\
     Llama 3.2-11B~\citep{dubey2024llama} & 14.8 & 6.9 & 16.9 & 8.2 & 18.1 & 9.5 \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:gpt_4v}
 \end{table}
 
@@ -283,11 +283,11 @@ In turn, we believe that future advances in LMMs may further promote progress in
 
 \begin{table}[!t]
     \centering
-    \setlength{\tabcolsep}{1.2mm}
+    \setlength{\tabcolsep}{2.8mm}
     \caption{Ablation study for the Vision Feature Extractor.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{l|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     Method & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
     \midrule
     VLPrompt & \textbf{39.4} & \textbf{34.7} & \textbf{47.6} & \textbf{45.1} & \textbf{52.4} & \textbf{53.7} \\
@@ -295,9 +295,9 @@ In turn, we believe that future advances in LMMs may further promote progress in
     ~~~~MaskPool $\rightarrow$ BboxPool & 38.6 & 33.7 & 46.4 & 44.8 & 51.0 & 52.6 \\
     ~~~~Concat. $\rightarrow$ Sub. & 35.4 & 29.8 & 44.1 & 42.3 & 48.6 & 48.9 \\
     ~~~~w/o Spatial Feat. & 39.0 & 33.0 & 46.6 & 44.3 & 51.7 & 52.1 \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:ablation_vision_feature_extractor}
 \end{table}
 
@@ -326,11 +326,11 @@ This is because spatial features provide the model with additional spatial inter
 
 \begin{table}[!t]
     \centering
-    \setlength{\tabcolsep}{1.2mm}
+    \setlength{\tabcolsep}{2.8mm}
     \caption{Ablation study for the Language Feature Extractor.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{l|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     Method & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
     \midrule
     VLPrompt & \textbf{39.4} & \textbf{34.7} & \textbf{47.6} & \textbf{45.1} & \textbf{52.4} & \textbf{53.7} \\
@@ -341,9 +341,9 @@ This is because spatial features provide the model with additional spatial inter
     ~~~~Swap(Ext$^\text{RP}$, Ext$^\text{RJ}$)~~~~ & 36.2 & 29.4 & 44.3 & 38.6 & 48.7 & 46.4 \\
     ~~~~Llama3-8B + Bert & 39.0 & 33.5 & 47.3 & 44.8 & 52.0 & 53.2 \\
     ~~~~Compression & 38.3 & 33.1 & 46.5 & 44.6 & 51.2 & 51.1 \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:ablation_language_feature_extractor}
 \end{table}
 
@@ -387,11 +387,11 @@ Results (Compression) shown in Tab.~\ref{vlprompt:tab:ablation_language_feature_
 
 \begin{table}[!t]
     \centering
-    \setlength{\tabcolsep}{1.2mm}
+    \setlength{\tabcolsep}{2.8mm}
     \caption{Ablation study for the Vision-Language Prompter.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{l|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     Method & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
     \midrule
     VLPrompt & \textbf{39.4} & \textbf{34.7} & \textbf{47.6} & \textbf{45.1} & \textbf{52.4} & \textbf{53.7} \\
@@ -399,9 +399,9 @@ Results (Compression) shown in Tab.~\ref{vlprompt:tab:ablation_language_feature_
     ~~~~RP-decoder & 38.4 & 30.6 & 46.6 & 41.2 & 50.9 & 49.6 \\
     ~~~~RJ-decoder & 37.9 & 34.2 & 45.3 & 44.6 & 50.4 & 52.8 \\
     ~~~~Uncompressed $F_L^{RJ}$ for $W^{RJ}$ & 39.3 & 34.7 & 47.5 & 44.9 & 52.1 & 53.7 \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:ablation_vision_language_prompter}
 \end{table}
 
@@ -433,20 +433,20 @@ This confirms that the compressed version of $F_L^{RJ}$ offers a more computatio
 
 \begin{table}[!t]
     \centering
-    \setlength{\tabcolsep}{1.2mm}
+    \setlength{\tabcolsep}{2.8mm}
     \caption{Ablation study for the number of decoder blocks.}
-    % \resizebox{1.0\linewidth}{!}{
+    \resizebox{1.0\linewidth}{!}{
     \begin{tabular}{c|cccccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     ~~~~~Block Number~~~~~ & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
     \midrule
     1 & 35.1 & 29.8 & 44.8 & 39.5 & 47.2 & 46.9 \\
     2 & \textbf{39.4} & 34.7 & \textbf{47.6} & 45.1 & \textbf{52.4} & 53.7 \\
     4 & 38.9 & \textbf{34.8} & 47.4 & \textbf{45.2} & 52.1 & \textbf{53.9} \\
     12 & 18.4 & 14.5 & 27.5 & 23.0 & 33.2 & 29.4 \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:ablation_decoder_block_number}
 \end{table}
 
@@ -462,20 +462,21 @@ Considering both performance and speed, we choose 2 blocks.
 
 \begin{table}[!t]
     \centering
+    \setlength{\tabcolsep}{1.6mm}
     \caption{Analysis for efficiency.
     Our method achieves significant performance improvements without introducing notable efficiency issues, maintaining a comparable level to previous approaches.
     }
-    % \resizebox{0.8\linewidth}{!}{
+    \resizebox{0.8\linewidth}{!}{
     \begin{tabular}{l|ccc}
-    \toprule[1.3pt]
+    \toprule[1.5pt]
     Method & FLOPS (G) & Parameters (G) & Inference Speed (ms) \\
     \midrule
     PSGTR \citep{yang2022panoptic} & 461.3 & 44.2 & 140 \\
     HiLo \citep{zhou2023hilo} & 229.4 & 58.7 & 156 \\
     VLPrompt (ours) & 386.7 & 49.1 & 152 \\
-    \bottomrule[1.3pt]
+    \bottomrule[1.5pt]
     \end{tabular}
-    % }
+    }
     \label{vlprompt:tab:analysis_efficiency}
 \end{table}
 
