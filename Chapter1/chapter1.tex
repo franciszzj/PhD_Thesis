@@ -6,9 +6,13 @@
 \chapter{Introduction}
 
 \section{Motivation}
-Visual intelligence is increasingly defined by two complementary capabilities: \emph{visual understanding} and \emph{visual generation}. Visual understanding converts pixels into structured, queryable knowledge about entities and their interactions, while visual generation creates visual content that is not only realistic, but also faithful to explicit intent, enabling interactive creation and editing.
+Visual intelligence is increasingly defined by two complementary capabilities: \emph{visual understanding} and \emph{visual generation}.
+Visual understanding converts pixels into structured, queryable knowledge about entities and their interactions, while visual generation creates visual content that is not only realistic, but also faithful to explicit intent, enabling interactive creation and editing.
 
-This duality closely mirrors human vision. Human vision is not a passive classifier; it is a compositional reasoning engine. When observing a scene, humans effortlessly decompose it into objects, localize them in space, infer attributes, and reason about relations---who holds what, what occludes what, and which parts belong to which instances. Equally importantly, humans can imagine with intent: they can mentally render an object from a description, edit a scene while preserving identity, or generate plausible variations that satisfy constraints. These abilities highlight that visual intelligence fundamentally involves structured understanding and controllable synthesis, rather than isolated recognition or unconstrained generation.
+This duality closely mirrors human vision.
+Human vision is not a passive classifier; it is a compositional reasoning engine.
+When observing a scene, humans effortlessly decompose it into objects, localize them in space, infer attributes, and reason about relations---who holds what, what occludes what, and which parts belong to which instances.
+Equally importantly, humans can imagine with intent: they can mentally render an object from a description, edit a scene while preserving identity, or generate plausible variations that satisfy constraints. These abilities highlight that visual intelligence fundamentally involves structured understanding and controllable synthesis, rather than isolated recognition or unconstrained generation.
 
 Recent years have witnessed rapid progress toward these goals. Transformer-based architectures~\citep{vaswani2017attention} have reshaped recognition and dense prediction, enabling end-to-end object discovery and set prediction~\citep{carion2020end} as well as strong mask-centric segmentation and panoptic parsing~\citep{cheng2022masked}. In parallel, vision--language pretraining has connected visual representations with natural language supervision~\citep{radford2021learning}, improving task transfer and enabling open-vocabulary recognition. On the generation side, diffusion models~\citep{ho2020denoising, rombach2022high} have pushed image and video synthesis toward photorealism and strong promptability. Yet, despite these advances, practical systems still struggle in scenarios that demand compositional structure, relational reasoning, or precise control---capabilities that come naturally to human visual perception and imagination.
 
@@ -93,13 +97,13 @@ For readers primarily interested in \emph{structured understanding}, Chapters~3-
 When possible, each chapter states its assumptions, problem setting, and evaluation protocols explicitly, so that readers can interpret the contributions even without deep familiarity with the surrounding literature. We also aim to connect the two themes by highlighting shared primitives (attention, matching, alignment) that recur across understanding and generation.
 
 \section{Publications}
-\subsection{Papers Included in This Thesis (Chapters~3--7)}
+\subsection{First-Author Papers Included in This Thesis (Chapters~3--7)}
 \begin{itemize}
     \item \textbf{Chapter~3}: HiLo: Exploiting High Low Frequency Relations for Unbiased Panoptic Scene Graph Generation (ICCV, 2023).~\citep{zhou2023hilo}
     \item \textbf{Chapter~4}: VLPrompt-PSG: Vision-Language Prompting for Panoptic Scene Graph Generation (IJCV, 2025).~\citep{zhou2025vlprompt}
     \item \textbf{Chapter~5}: OpenPSG: Open-set Panoptic Scene Graph Generation via Large Multimodal Models (ECCV, 2025).~\citep{zhou2025openpsg}
     \item \textbf{Chapter~6}: Learning Flow Fields in Attention for Controllable Person Image Generation (CVPR, 2025).~\citep{zhou2025learning}
-    \item \textbf{Chapter~7}: Scaling Zero-Shot Reference-to-Video Generation (arXiv:2512.06905, 2025).~\citep{zhou2025scaling}
+    \item \textbf{Chapter~7}: Scaling Zero-Shot Reference-to-Video Generation (CVPR, 2026).~\citep{zhou2025scaling}
 \end{itemize}
 
 \subsection{First-Author Papers Not Included as Chapters}
@@ -117,7 +121,7 @@ When possible, each chapter states its assumptions, problem setting, and evaluat
     \item Mardini: Masked Autoregressive Diffusion for Video Generation at Scale (TMLR, 2025).~\citep{liu2024mardini}
     \item Scaling Sequence-to-Sequence Generative Neural Rendering (ICLR, 2026).~\citep{liu2025scaling}
     \item HiStream: Efficient High-Resolution Video Generation via Redundancy-Eliminated Streaming (arXiv:2512.21338, 2025).~\citep{qiu2025histream}
-    \item Mixture of States: Routing Token-Level Dynamics for Multimodal Generation (arXiv:2511.12207, 2025).~\citep{liu2025mixture}
-    \item OneStory: Coherent Multi-Shot Video Generation with Adaptive Memory (arXiv:2512.07802, 2025).~\citep{an2025onestory}
-    \item TUNA: Taming Unified Visual Representations for Native Unified Multimodal Models (arXiv:2512.02014, 2025).~\citep{liu2025tuna}
+    \item Mixture of States: Routing Token-Level Dynamics for Multimodal Generation (CVPR, 2026).~\citep{liu2025mixture}
+    \item OneStory: Coherent Multi-Shot Video Generation with Adaptive Memory (CVPR, 2026).~\citep{an2025onestory}
+    \item TUNA: Taming Unified Visual Representations for Native Unified Multimodal Models (CVPR, 2026).~\citep{liu2025tuna}
 \end{itemize}
