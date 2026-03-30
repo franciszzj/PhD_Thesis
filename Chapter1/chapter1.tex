@@ -68,7 +68,7 @@ For video, correspondence becomes spatiotemporal: identity must be consistent ac
 Just as in PSG, \textbf{evaluation} is subtle. Traditional realism metrics (e.g., FID for images) do not measure whether the output satisfies constraints. In controllable generation, the most important failures are often local and semantic: a logo is distorted, a reference face changes slightly, or an edit bleeds into the background. For video, small per-frame deviations can accumulate into noticeable drift. Chapters~6--7 therefore emphasize controllability-focused evaluation, including identity preservation and temporal consistency, and use stress tests that amplify common failure modes (large pose changes, multi-reference inputs, longer temporal horizons). This evaluation perspective also motivates the thesis focus on lightweight, training-time mechanisms: to be practical, controllability improvements should generalize across backbones and should not impose heavy inference overhead.
 
 \section{Overview of Contributions}
-The thesis comprises five papers, organized into two largely independent themes.
+The thesis comprises five papers, organized into two themes.
 
 Across these papers, two methodological motifs recur. On the understanding side, we repeatedly confront dataset bias and semantic ambiguity by making structure explicit (multi-granular relation modeling, efficiency-aware pair reasoning) and by leveraging language as a source of priors. On the generation side, we treat control as an explicit objective and focus on correspondence mechanisms that bind conditioning signals (references, masks) to the correct spatial/temporal regions during denoising.
 
