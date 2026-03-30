@@ -3,13 +3,13 @@
 
 \subsection{Panoptic Scene Graph Generation}
 Panoptic scene graph generation stems from scene graph generation (SGG) by replacing bounding boxes with panoptic segmentation masks to represent the objects, so as to achieve a more comprehensive understanding of scenes.
-Following the introduction of PSG~\cite{yang2022panoptic}, a series of related works~\cite{yang2022panoptic, wang2023pair, zhou2023hilo, li2023panoptic, zhao2023textpsg, zhou2023vlprompt} emerge, significantly advancing its performance.
+Following the introduction of PSG~\cite{yang2022panoptic}, a series of related works~\cite{yang2022panoptic, wang2023pair, zhou2023hilo, li2023panoptic, zhao2023textpsg, zhou2025vlprompt} emerge, significantly advancing its performance.
 For example, Yang~\etal~\cite{yang2022panoptic}, based on DETR~\cite{carion2020end}, introduce an end-to-end framework with learnable queries to generate panoptic scene graphs.
 Wang~\etal~\cite{wang2023pair} design a pair proposal network to filter irrelative subject-object pairs, achieving performance improvement of the PSG.
 Subsequently, Zhou~\etal~\cite{zhou2023hilo} build a HiLo architecture based on Mask2Former~\cite{cheng2022masked} and devise separate branches for high- and low-frequency relations respectively, hence achieving an unbiased relation prediction method.
 Li~\etal~\cite{li2023panoptic} re-balance the relation prediction  by adaptively transferring information from high-frequency to low-frequency relations.
 Additionally, Zhao~\etal~\cite{zhao2023textpsg} implement a weakly-supervised PSG method given only image-text pairs as annotations, allowing for the learning of panoptic scene graphs from image-level ground truth.
-Recently, Zhou~\etal~\cite{zhou2023vlprompt} leverage the rich language information inherent in large language models~\cite{achiam2023gpt} and design effective image-text interaction modules to assist unbiased PSG.
+Recently, Zhou~\etal~\cite{zhou2025vlprompt} leverage the rich language information inherent in large language models~\cite{achiam2023gpt} and design effective image-text interaction modules to assist unbiased PSG.
 All these works are learned in the closed-set setting, in this chapter, we study the open-set PSG, which has been unexplored.
 
 \subsection{Open-set Scene Graph Generation}
