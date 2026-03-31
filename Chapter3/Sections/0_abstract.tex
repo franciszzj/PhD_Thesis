@@ -1,14 +1,7 @@
-Panoptic Scene Graph generation (PSG) is a recently proposed task in image scene understanding that aims to segment the image and extract triplets of subjects, objects and their relations to build a scene graph.
-%
-This task is particularly challenging for two reasons. 
-%
-First, it suffers from a long-tail problem in its relation categories, making naive biased methods more inclined to high-frequency relations.
-Existing unbiased methods tackle the long-tail problem by data/loss rebalancing to favor low-frequency relations.
-%
-Second, a subject-object pair can have two or more semantically overlapping relations.
-%
-While existing methods favor one over the other, our proposed HiLo framework lets different network branches specialize on low and high frequency relations, enforce their consistency and fuse the results.
-%
-To the best of our knowledge we are the first to propose an explicitly unbiased PSG method.
-%
-In extensive experiments we show that our HiLo framework achieves state-of-the-art results on the PSG task. We also apply our method to the Scene Graph Generation task that predicts boxes instead of masks and see improvements over all baseline methods.
+Chapters~3--5 develop the structured-understanding line of this thesis through panoptic scene graph generation (PSG).
+This chapter addresses the first bottleneck in that progression: relation prediction under severe long-tail bias and relational semantic overlap.
+In PSG, frequent predicates dominate training, while a subject-object pair may simultaneously admit multiple valid relations at different semantic granularities.
+Existing methods typically favor either head relations or tail relations, leading to incomplete scene graphs.
+To establish a stronger closed-set PSG foundation, this chapter introduces the HiLo framework, which learns high- and low-frequency relations in different branches, enforces consistency between them, and fuses their complementary predictions.
+Extensive experiments show that HiLo achieves state-of-the-art results on PSG and also improves box-based scene graph generation.
+This closed-set foundation is then extended in Chapter~4 with language-assisted relation reasoning and in Chapter~5 with open-set relation prediction.

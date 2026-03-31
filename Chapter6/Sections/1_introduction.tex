@@ -1,6 +1,10 @@
 \section{Introduction}
 \label{leffa:sec:introduction}
 
+Chapter~6 opens the controllable-generation part of the thesis.
+After Chapters~3--5 focused on structured understanding, the thesis now turns to faithful reference-preserving generation.
+The specific question in this chapter is how a diffusion model can preserve fine-grained reference details in a single generated image before Chapter~7 extends the same problem to videos.
+
 Controllable person image generation aims to generate an image of a person guided by reference images, allowing for control over attributes such as appearance and pose.
 Underpinning a wide variety of applications in virtual and augmented reality, gaming, and e-commerce, this task has made significant progress~\citep{kim2024stableviton, choi2024improving, chong2024catvton, wan2024improving, bhunia2023person, han2023controllable, lu2024coarse, pham2024cross} based on the advancements in diffusion-based image generation~\citep{ho2020denoising, rombach2022high}.
 
@@ -27,6 +31,9 @@ The contributions of this chapter are as follows:
     \item We propose \leffa{}, a regularization loss that explicitly guides the target queries in attention layers to focus on correct reference keys, mitigating detail distortion without additional parameters and inference cost. 
     \item We evaluate \leffa{} on both virtual try-on and pose transfer across various diffusion-based methods, achieving state-of-the-art quantitative performance and significantly reducing fine-grained detail distortion qualitatively.
 \end{itemize}
+
+Within the thesis, this chapter establishes the image-level correspondence mechanism for Part~II.
+Chapter~7 builds on the same reference-preservation perspective and studies how to scale it to reference-to-video generation.
 
 
 \begin{figure}[t!]
@@ -65,5 +72,4 @@ The contributions of this chapter are as follows:
     \end{subfigure}
     \label{leffa:fig:introduction}
 \end{figure}
-
 

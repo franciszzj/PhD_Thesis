@@ -1,6 +1,10 @@
 \section{Introduction}
 \label{openpsg:sec:introduction}
 
+This chapter is the third step of the PSG line in the thesis.
+Whereas Chapter~3 addressed long-tail bias and Chapter~4 added language priors within a closed-set label space, the remaining limitation is that relations are still predicted from a predefined vocabulary.
+The goal here is therefore to extend PSG to open-set relation prediction while retaining pixel-level grounding.
+
 
 \begin{figure}[h]
     \centering
@@ -14,13 +18,13 @@
 Panoptic scene graph generation (PSG)~\cite{yang2022panoptic} aims to segment objects within an image and recognize the relations among them, thereby constructing a panoptic scene graph for a structured understanding of the image.
 Given its significant potential in applications such as visual question answering~\cite{hildebrandt2020scene}, image captioning~\cite{gao2018image, chen2020say}, and embodied navigation~\cite{singh2023scene}, PSG has attracted considerable attentions from researchers ever since its emerging~\cite{zhou2023hilo, wang2023pair, li2023panoptic, yang2023focusing, zhao2023textpsg, zhou2025vlprompt}.
 
-Previous PSG methods \cite{zhou2023hilo, wang2023pair, zhou2025vlprompt} are only capable of predicting closed-set object and relation categories while failing to recognize objects/relations beyond predefined categories.
+Previous PSG methods, including those developed in Chapters~3 and~4, are only capable of predicting closed-set object and relation categories while failing to recognize objects/relations beyond predefined categories.
 Recently, with the advent of large multimodal models (LMMs) such as CLIP~\cite{radford2021learning}, BLIP-2~\cite{li2023blip} \etc, a significant number of open-set prediction methods for object detection~\cite{du2022learning, zang2022open, lin2022learning, zhang2023simple, yao2023detclipv2} and segmentation~\cite{ghiasi2022scaling, liang2023open, zhang2023simple, yu2023towards} are introduced, attributing to LMMs' rich understanding of language and strong connections between vision and language.
 Nevertheless, open-set prediction of relations has been largely unexplored so far.
 
 Compared to open-set object detection and segmentation, open-set relation prediction is more complex: 
 the model is required to both understand different objects and  recognize relations of object pairs based on their interactions; especially,  the computation of the latter can be exponentially increased.  
-To bridge the gap, in this chapter, we focus on the open-set relation prediction. 
+This chapter therefore focuses on open-set relation prediction as the missing component required for open-world PSG. 
 
 LLMs~\cite{li2023blip, liu2024visual, zhu2023minigpt} have demonstrated exceptional semantic analysis and understanding abilities across various multimodal tasks.
 In particular with the text processing, LMMs are not only good at interpreting on nouns (\ie  representing objects) but also pay considerable attention on predicates (\ie representing relations between objects), ensuring their generated contents to be sufficiently coherent~\cite{achiam2023gpt}.
@@ -34,5 +38,7 @@ They are realized by two sets of queries, pair feature extraction query and rela
 Only those object pairs that are judged to likely have relations are fed into the third part, the \textit{multimodal relation decoder}.
 This decoder directly inherits from the LMM to predict the open-set relations given an object pair in an auto-regressive manner, on condition of specifically-designed text instructions and pre-extracted pair visual features.
 
-To the best of our knowledge, we are the first to propose the task of open-set panoptic scene graph generation, enabling the open-set prediction of both object masks and relations. 
-Extensive experiments demonstrate that our OpenPSG achieves state-of-the-art results in the closed-set setting and  exhibits outstanding performance in the open-set setting.
+This chapter formulates open-set panoptic scene graph generation, enabling open-set prediction of both object masks and relations.
+Extensive experiments demonstrate that our OpenPSG achieves state-of-the-art results in the closed-set setting and exhibits outstanding performance in the open-set setting.
+Within the thesis, OpenPSG completes the structured-understanding progression from long-tail closed-set PSG (Chapter~3), to language-assisted closed-set PSG (Chapter~4), to open-world grounded relation prediction.
+The next chapter starts Part~II and turns to controllable generation.

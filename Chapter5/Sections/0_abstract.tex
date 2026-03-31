@@ -1,10 +1,7 @@
-Panoptic Scene Graph Generation (PSG) aims to segment objects and recognize their relations, enabling the structured understanding of an image.
-Previous methods focus on predicting predefined object and relation categories, hence limiting their applications in the open world scenarios.
-With the rapid development of large multimodal models (LMMs), significant progress has been made in open-set object detection and segmentation, yet open-set relation prediction in PSG remains unexplored.
-In this chapter, we focus on the task of open-set relation prediction integrated with a pretrained open-set panoptic segmentation model to achieve true open-set panoptic scene graph generation (\textbf{OpenPSG}).
-Our OpenPSG leverages LMMs to achieve open-set relation prediction in an autoregressive manner.
-We introduce a relation query transformer to efficiently extract visual features of object pairs and estimate the existence of relations between them. The latter can enhance the prediction efficiency by filtering irrelevant pairs.
-Finally, we design the generation and judgement instructions to perform open-set relation prediction in PSG autoregressively.
-To our knowledge, we are the first to propose the open-set PSG task.
-Extensive experiments demonstrate that our method achieves state-of-the-art performance in open-set relation prediction and panoptic scene graph generation.
-Code is available at \url{https://github.com/franciszzj/OpenPSG}.
+After Chapters~3 and~4 improved closed-set PSG through long-tail modeling and language-assisted relation reasoning, this chapter extends PSG to open-world settings.
+Existing PSG methods remain constrained by predefined object and relation vocabularies, which limits their applicability in realistic scenes containing unseen concepts.
+To address this, this chapter formulates open-set panoptic scene graph generation and introduces \textbf{OpenPSG}, which combines a pretrained open-set panoptic segmentation model with open-set relation prediction based on large multimodal models.
+OpenPSG uses a relation query transformer to extract visual features for subject-object pairs and to estimate whether a relation exists, so that irrelevant pairs can be filtered efficiently before autoregressive decoding.
+Generation and judgement instructions are then used to predict open-set relations in a grounded way.
+Extensive experiments demonstrate strong performance in both open-set relation prediction and panoptic scene graph generation.
+Within the thesis, this chapter completes the structured-understanding progression from closed-set robustness to open-world grounded prediction.

@@ -1,7 +1,6 @@
 \section{Conclusion}
 
-In this chapter we proposed the HiLo framework to tackle the long-tail problem with relational semantic overlap in Panoptic Scene Graph generation.
-The HiLo framework simultaneously learns the high and low frequency relations in different network branches and unifies their strengths by aligning their predictions.
-We also constructed a HiLo baseline to allow high-quality panoptic segmentation to improve PSG performance.
-Experimental results demonstrate that our method achieves state-of-the-art performance on the PSG dataset, confirming its effectiveness.
-In future work, we will investigate how knowledge distillation \cite{hinton2015distilling, gou2021knowledge} can be used to fuse the high and low branches in our method, as well as its application to downstream tasks such as visual question answering and image captioning.
+This chapter established the first PSG contribution of the thesis: a closed-set framework that handles long-tail relations under relational semantic overlap by separating and then reconciling high- and low-frequency predictions.
+The HiLo framework simultaneously learns the two complementary relation regimes in different branches, aligns their predictions, and combines them with a strong one-stage PSG baseline.
+Experimental results show that this design achieves state-of-the-art performance on the PSG dataset, providing a solid foundation for the rest of Part~I.
+The next chapter builds on this closed-set foundation by incorporating language priors from large language models to improve relation prediction beyond purely visual cues.

@@ -5,14 +5,16 @@
 \section{Conclusion}
 \label{saber:sec:conclusion}
 
-In this chapter, we present Saber, a scalable zero-shot framework for reference-to-video generation that eliminates the need for explicitly R2V datasets.
+This chapter completes the controllable-generation part of the thesis by extending reference-preserving generation from images to videos.
+It presents Saber, a scalable zero-shot framework for reference-to-video generation that eliminates the need for explicit R2V datasets.
 Trained solely on large-scale video-text pairs, Saber leverages a masked training strategy, a tailored attention mechanism, and mask augmentation to achieve identity-consistent, natural, and coherent video generation.
 It further scales to multiple references, supporting both multi-identity and multi-view inputs without additional data preparation or changes to the training pipeline.
 Extensive experiments on the OpenS2V-Eval benchmark demonstrate that Saber consistently outperforms methods trained on explicit R2V data.
-These results show that effective R2V models can be trained without dedicated datasets, paving the way for future research in scalable and generalizable reference-to-video generation.
+These results show that effective R2V models can be trained from scalable video-text supervision without dedicated triplet datasets.
+Chapter~8 then returns to the thesis level to summarize both parts and discuss broader limitations and future research directions.
 
 \paragraph{Limitations.}
 While Saber achieves strong zero-shot performance and scalability, several limitations remain.
 First, R2V generation may collapse when the number of reference images increases significantly (\eg, $12$), resulting in fragmented compositions where references are combined without coherent understanding.
 Second, Saber primarily focuses on identity preservation and visual coherence, while fine-grained motion control and temporal consistency under complex prompts remain challenging.
-Future work can explore more effective integration of numerous reference images into unified video generation, as well as adaptive guidance to further improve controllability and realism in reference-to-video generation.
+These failure cases indicate the need for stronger multi-reference fusion and adaptive temporal guidance; these broader research directions are discussed in Chapter~8.
