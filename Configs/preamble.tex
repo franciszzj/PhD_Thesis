@@ -205,17 +205,18 @@
 \usepackage{cuted}  % for teaser
 \usepackage{pifont}
 \usepackage{pgfplots}
+\usepackage{xspace}
 
 \newcommand{\cmark}{\ding{51}}
 \newcommand{\xmark}{\ding{55}}
 
 
-\def \ie {\emph{i.e.}}
-\def \eg {\emph{e.g.}}
-\def \etc {\emph{etc.}}
-\def \etal {\emph{et al.}}
-\def \vs {\emph{v.s.}}
-\def \wrt {\emph{w.r.t.}}
+\DeclareRobustCommand{\ie}{\emph{i.e.}\xspace}
+\DeclareRobustCommand{\eg}{\emph{e.g.}\xspace}
+\DeclareRobustCommand{\etc}{\emph{etc.}\xspace}
+\DeclareRobustCommand{\etal}{\emph{et al.}\xspace}
+\DeclareRobustCommand{\vs}{\emph{v.s.}\xspace}
+\DeclareRobustCommand{\wrt}{\emph{w.r.t.}\xspace}
 
 \definecolor{darkgreen}{rgb}{0.04,0.63,0.07}
 \definecolor{skyblue}{rgb}{0.04,0.40,0.80}

@@ -111,7 +111,7 @@ To determine the number of layers for RelQ-Former, we conduct experiments with d
 When we increase the number of layers from 1 to 2, the model performance clearly improves, with R@100 increasing by 10.7\% and mR@100 by 12.9\%.
 However, when the number of layers increases from 2 to 4, the model performance only sees a minimal improvement, with R@100 increasing by 0.5\% and mR@100 by 0.3\%.
 Further increasing the number of layers from 4 to 6 leads to a slight decrease in model performance.
-Considering that RelQ-Former requires a balanced layer number to extract features and learn relations without overwhelming computation for all possible subject-object pairs, i.e., $N \times (N-1)$ pairs.
+Considering that RelQ-Former requires a balanced layer number to extract features and learn relations without overwhelming computation for all possible subject-object pairs, \ie, $N \times (N-1)$ pairs.
 Therefore, a layer number of 2 is the optimal choice for balancing performance and efficiency.
 
 
@@ -213,4 +213,3 @@ instructions_for_judgement = [
     "Please analyze if there exists a relation between the {subject} and {object}, characterized as {relation}.",
 ]
 \end{lstlisting}
-
