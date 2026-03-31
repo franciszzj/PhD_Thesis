@@ -745,8 +745,8 @@ wish to left align your text}
 	\bgroup\let
 	\addcontentsline=\nocontentsline#1{#2}
 	\egroup}
-% Removes pagenumber appearing from TOC
-\addtocontents{toc}{\protect\thispagestyle{empty}}
+% Keep page numbers visible on contents pages for KCL continuous numbering.
+\addtocontents{toc}{\protect\thispagestyle{plain}}
 
 
 % ***************************** Header Formatting ******************************
@@ -942,7 +942,7 @@ wish to left align your text}
 % To compute the free vertical space in Title page
 \computeTitlePageSpacing
 
-\thispagestyle{empty}
+\thispagestyle{plain}
 
 \begin{singlespace}
 \begin{center}
@@ -1014,7 +1014,7 @@ wish to left align your text}
 \phantomsection
 \addcontentsline{toc}{chapter}{Dedication}
 \vspace*{0.2\textheight}
-\thispagestyle{empty}
+\thispagestyle{plain}
 \centering
 }
 
@@ -1030,7 +1030,7 @@ wish to left align your text}
 \chapter*{\centering \Large Declaration}
 \phantomsection
 \addcontentsline{toc}{chapter}{Declaration}
-\thispagestyle{empty}
+\thispagestyle{plain}
 }{
 \flushright
 \@author{}\\
@@ -1050,7 +1050,7 @@ wish to left align your text}
 \chapter*{\centering \Large Acknowledgements}
 \phantomsection
 \addcontentsline{toc}{chapter}{Acknowledgements}
-\thispagestyle{empty}
+\thispagestyle{plain}
 }
 
 
@@ -1131,7 +1131,7 @@ wish to left align your text}
     \renewcommand{\printnomencl}[1][2]{}
     \renewcommand{\printthesisindex}{}
     \renewcommand{\bibname}{}
-    \renewcommand{\bibliography}[1]{\thispagestyle{empty}}
+    \renewcommand{\bibliography}[1]{\thispagestyle{plain}}
 \else
     \defineAbstractfalse
 \fi
@@ -1140,7 +1140,7 @@ wish to left align your text}
 \newenvironment{abstract} {
 \ifPHD@abstract
 % Separate abstract as per Student Registry guidelines
-  \thispagestyle{empty}
+  \thispagestyle{plain}
   \setsinglecolumn
   \begin{center}
     { \Large {\bfseries {\@title}} \par}
@@ -1153,7 +1153,7 @@ wish to left align your text}
   \chapter*{\centering \Large Abstract}
   \phantomsection
   \addcontentsline{toc}{chapter}{Abstract}
-  \thispagestyle{empty}
+  \thispagestyle{plain}
 \fi
 }
 

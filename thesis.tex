@@ -32,8 +32,26 @@
 %  \includeonly{Chapter3/chapter3}
 % \fi
 
+\makeatletter
+\renewcommand{\frontmatter}{%
+  \clearpage
+  \@mainmatterfalse
+}
+\renewcommand{\mainmatter}{%
+  \clearpage
+  \@mainmattertrue
+}
+\renewcommand{\backmatter}{%
+  \clearpage
+  \@mainmatterfalse
+}
+\makeatother
+
 % ******************************** Front Matter ********************************
 \begin{document}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 \frontmatter
 
@@ -77,8 +95,6 @@
 %\backmatter
 
 % ********************************** Bibliography ******************************
-\begin{spacing}{0.9}
-
 % To use the conventional natbib style referencing
 % Bibliography style previews: http://nodonn.tipido.net/bibstyle.php
 % Reference styles: http://sites.stat.psu.edu/~surajit/present/bib.htm
@@ -96,9 +112,6 @@
 % Comment out the lines related to natbib above and uncomment the following line.
 
 %\printbibliography[heading=bibintoc, title={References}]
-
-
-\end{spacing}
 
 % ********************************** Appendices ********************************
 
