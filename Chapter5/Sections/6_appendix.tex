@@ -1,5 +1,27 @@
 \noindent In this supplementary material, we provide the division method for base and novel relations in PSG dataset (Sec.~\ref{sec:division}), more experiments on other datasets (Sec.~\ref{sec:more_dataset_gqa}), additional experimental results (Sec.~\ref{sec:more_exp}), and instructions used in relation query transformer (Sec.~\ref{sec:instruction_rel_q_former}) and multimodal relation decoder (Sec.~\ref{sec:instruction_rel_decoder}) respectively.
 
+\lstdefinestyle{openpsgappendix}{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    commentstyle=\itshape\color{black!65},
+    keywordstyle=\bfseries,
+    stringstyle=\color{black},
+    showstringspaces=false,
+    keepspaces=true,
+    columns=fullflexible,
+    breaklines=true,
+    breakatwhitespace=false,
+    frame=single,
+    framerule=0.3pt,
+    rulecolor=\color{black!25},
+    backgroundcolor=\color{gray!5},
+    framesep=4pt,
+    xleftmargin=0.5em,
+    xrightmargin=0.5em,
+    aboveskip=0.8em,
+    belowskip=0.8em
+}
+
 
 \section{Division for Base and Novel Relations in PSG Dataset.}
 \label{sec:division}
@@ -7,9 +29,24 @@ In the PSG dataset, there are a total of 56 predefined relations.
 To test the open-set performance of our model, we divide the dataset into base and novel relations at a ratio of 7:3.
 The novel relations, which make up 30\% of the total, while the rest are classified as base relations.
 The detailed relations are as follows.
-\begin{lstlisting}[language=Python]
-base_relations = ["over", "in front of", "beside", "on", "in", "hanging from", "on back of", "going down", "painted on", "walking on", "running on", "crossing", "lying on", "sitting on", "jumping over", "jumping from", "holding", "carrying", "guiding", "kissing", "drinking", "feeding", "catching", "picking", "chasing", "climbing", "playing", "touching", "pulling", "opening", "talking to", "throwing", "driving", "riding", "driving on", "about to hit", "swinging", "entering", "exiting", "enclosing", "leaning on"]
-novel_relations = ["attached to", "falling off", "walking on ", "standing on", "flying over", "wearing", "looking at", "eating", "biting", "playing with", "cleaning", "pushing", "cooking", "slicing", "parked on", "kicking", "existing"]
+\begin{lstlisting}[style=openpsgappendix]
+base_relations = [
+    "over", "in front of", "beside", "on", "in", "hanging from",
+    "on back of", "going down", "painted on", "walking on",
+    "running on", "crossing", "lying on", "sitting on",
+    "jumping over", "jumping from", "holding", "carrying",
+    "guiding", "kissing", "drinking", "feeding", "catching",
+    "picking", "chasing", "climbing", "playing", "touching",
+    "pulling", "opening", "talking to", "throwing", "driving",
+    "riding", "driving on", "about to hit", "swinging",
+    "entering", "exiting", "enclosing", "leaning on",
+]
+novel_relations = [
+    "attached to", "falling off", "walking on ", "standing on",
+    "flying over", "wearing", "looking at", "eating", "biting",
+    "playing with", "cleaning", "pushing", "cooking", "slicing",
+    "parked on", "kicking", "existing",
+]
 all_relations = base_relations + novel_relations
 \end{lstlisting}
 
@@ -35,10 +72,11 @@ Our method surpasses the previous best-performing method~\cite{dong2022stacked} 
 \end{figure}
 
 
-\begin{table}[t]\small
+\begin{table}[t]
     \centering
+    \setlength{\tabcolsep}{0.35cm}
     \caption{Ablation study of RelQ-Former with different numbers of layers.}
-    \resizebox{0.63\linewidth}{!}{
+    \resizebox{0.76\linewidth}{!}{
     \begin{tabular}{ccccccc}
         \toprule[1.5pt]
         ~ & \multicolumn{6}{c}{Predicate Classification} \\
@@ -58,8 +96,9 @@ Our method surpasses the previous best-performing method~\cite{dong2022stacked} 
 
 \begin{table}[t]
     \centering
+    \setlength{\tabcolsep}{0.3cm}
     \caption{Results on GQA: PredCls subtask in  closed- and open-set scenarios.}
-    \resizebox{0.7\linewidth}{!}{
+    \resizebox{0.78\linewidth}{!}{
     \begin{tabular}{lcccc}
     % \hline
     \toprule[1.5pt]
@@ -79,14 +118,15 @@ Our method surpasses the previous best-performing method~\cite{dong2022stacked} 
 
 \begin{table}[!ht]
     \centering
+    \setlength{\tabcolsep}{0.35cm}
     \caption{Results on PSG: SGDet subtask in the open-set scenario.}
-    \resizebox{0.8\linewidth}{!}{
+    \resizebox{0.78\linewidth}{!}{
     \begin{tabular}{lccc}
     \toprule[1.5pt]
         Method & R/mR@20 & R/mR@50 & R/mR@100\\
         \midrule[1pt]
         OpenPSG & 25.9/20.9 & 31.6/24.0 & 36.7/25.4 \\
-        multi-division & \normalsize{26.4}\footnotesize{$\pm$0.7}\normalsize{/21.5}\footnotesize{$\pm$0.6} & \normalsize{31.4}\footnotesize{$\pm$0.4}\normalsize{/24.1}\footnotesize{$\pm$0.4} & \normalsize{36.5}\footnotesize{$\pm$0.4}\normalsize{/25.7}\footnotesize{$\pm$0.3} \\
+        multi-division & 26.4$\pm$0.7 / 21.5$\pm$0.6 & 31.4$\pm$0.4 / 24.1$\pm$0.4 & 36.5$\pm$0.4 / 25.7$\pm$0.3 \\
         fuse G and J & 26.3/21.2 & 32.0/24.6 & 37.2/26.3 \\
     \bottomrule[1.5pt]
     \end{tabular}
@@ -126,43 +166,78 @@ We introduce the instructions used in the relation query former (Sec.~4.2).
 To prevent the model from overfitting to a particular type of instruction during training, following ~\cite{liu2024visual, dai2024instructblip, yu2023towards}, we design 10 different variations for each category of instruction.
 During training, one is randomly selected from these 10 options for use, whereas for inference, only the first one is chosen for evaluation.
 
+\newcommand{\instsubject}{\texttt{\{subject\}}}
+\newcommand{\instobject}{\texttt{\{object\}}}
+\newcommand{\instrelation}{\texttt{\{relation\}}}
+
+\newtcolorbox{instructionbox}[1]{
+    breakable,
+    colback=black!1,
+    colframe=black!30,
+    boxrule=0.4pt,
+    left=8pt,
+    right=8pt,
+    top=6pt,
+    bottom=6pt,
+    title={Prompt Set: \texttt{#1}},
+    fonttitle=\bfseries\small,
+    coltitle=black
+}
+
+\newcounter{instructionitem}
+\newenvironment{instructionitems}{
+    \begin{list}{\textbf{\arabic{instructionitem}.}}{
+        \usecounter{instructionitem}
+        \setlength{\leftmargin}{2.3em}
+        \setlength{\labelsep}{0.6em}
+        \setlength{\itemsep}{0.45em}
+        \setlength{\topsep}{0.4em}
+        \setlength{\parsep}{0pt}
+        \setlength{\partopsep}{0pt}
+    }
+}{
+    \end{list}
+}
+
 \subsection{Instructions for Pair Feature Extraction Query.}
 
-\begin{lstlisting}[language=Python]
-# {subject} is the category name of subject.
-# {object} is the category name of object.
-instructions_for_feat_query = [
-    "Please extract features for the {subject}-{object} pair based on the whole visual features of the image and the masks of the {subject} and {object}.",
-    "Based on the image's holistic visual features and the masks of both {subject} and {object}, please derive the features of the {subject}-{object} pair.",
-    "Utilizing the total visual features of the image, along with the {subject} and {object} masks, please identify the features of the {subject}-{object} pair.",
-    "By considering the comprehensive visual features of the image and the respective masks of the {subject} and {object}, please isolate the features specific to the {subject}-{object} pair.",
-    "Taking into account the global visual features of the image and the masks designated for the {subject} and {object}, please extract the particular features of the {subject}-{object} pair.",
-    "Leveraging the entire visual features of the image as well as the masks for the {subject} and {object}, please delineate the features corresponding to the {subject}-{object} pair.",
-    "Drawing on the overall visual features of the image and the masks of the {subject} and {object}, please ascertain the features for the {subject}-{object} pair.",
-    "By harnessing the full visual features of the image along with the masks of the {subject} and {object}, please identify the distinctive features of the {subject}-{object} pair.",
-    "With reference to the comprehensive visual features of the image and the masks for the {subject} and {object}, please extract the respective features of the {subject}-{object} pair.",
-    "Considering the total visual features of the image and the defined masks for the {subject} and {object}, please determine the specific features of the {subject}-{object} pair.",
-]
-\end{lstlisting}
+\begin{instructionbox}{instructions\_for\_feat\_query}
+\small
+\raggedright
+\noindent \textit{Placeholders}: \instsubject, \instobject.
+\begin{instructionitems}
+\item Please extract features for the \instsubject-\instobject pair based on the whole visual features of the image and the masks of \instsubject\ and \instobject.
+\item Based on the image's holistic visual features and the masks of both \instsubject\ and \instobject, please derive the features of the \instsubject-\instobject pair.
+\item Utilizing the total visual features of the image, along with the \instsubject\ and \instobject\ masks, please identify the features of the \instsubject-\instobject pair.
+\item By considering the comprehensive visual features of the image and the respective masks of \instsubject\ and \instobject, please isolate the features specific to the \instsubject-\instobject pair.
+\item Taking into account the global visual features of the image and the masks designated for \instsubject\ and \instobject, please extract the particular features of the \instsubject-\instobject pair.
+\item Leveraging the entire visual features of the image as well as the masks for \instsubject\ and \instobject, please delineate the features corresponding to the \instsubject-\instobject pair.
+\item Drawing on the overall visual features of the image and the masks of \instsubject\ and \instobject, please ascertain the features for the \instsubject-\instobject pair.
+\item By harnessing the full visual features of the image along with the masks of \instsubject\ and \instobject, please identify the distinctive features of the \instsubject-\instobject pair.
+\item With reference to the comprehensive visual features of the image and the masks for \instsubject\ and \instobject, please extract the respective features of the \instsubject-\instobject pair.
+\item Considering the total visual features of the image and the defined masks for \instsubject\ and \instobject, please determine the specific features of the \instsubject-\instobject pair.
+\end{instructionitems}
+\end{instructionbox}
 
 \subsection{Instructions for Relation Existence Estimation Query.}
 
-\begin{lstlisting}[language=Python]
-# {subject} is the category name of subject.
-# {object} is the category name of object.
-instructions_for_exist_query = [
-    "Based on the visual features of the entire image and the masks for the {subject} and {object}, estimate whether there is a relation between the {subject} and {object}.",
-    "Considering the holistic visual features of the image and the masks of the {subject} and {object}, determine whether a relation exists between the two entities.",
-    "Utilizing the complete visual features of the image along with the {subject} and {object} masks, assess whether there is a relation between the {subject} and {object}.",
-    "Given the overall visual features of the image and the masks for the {subject} and {object}, evaluate whether a relation exists between the {subject} and {object}.",
-    "By analyzing the entire visual features of the image and the masks of the {subject} and {object}, ascertain whether there is a relation between the {subject} and {object}.",
-    "With the comprehensive visual features of the image and the masks for both {subject} and {object}, deduce whether there is a relation between the {subject} and {object}.",
-    "Reflecting on the total visual features of the image and the masks applied to the {subject} and {object}, gauge whether there is a relation between the {subject} and {object}.",
-    "Considering the full visual features of the image and the masks of the {subject} and {object}, infer whether a relation exists between the {subject} and {object}.",
-    "Leveraging the overall visual features of the image and the masks designated for the {subject} and {object}, identify whether there is a relation between the {subject} and {object}.",
-    "By examining the entire visual features of the image and the masks for the {subject} and {object}, predict whether there is a relation between the {subject} and {object}.",
-]
-\end{lstlisting}
+\begin{instructionbox}{instructions\_for\_exist\_query}
+\small
+\raggedright
+\noindent \textit{Placeholders}: \instsubject, \instobject.
+\begin{instructionitems}
+\item Based on the visual features of the entire image and the masks for \instsubject\ and \instobject, estimate whether there is a relation between \instsubject\ and \instobject.
+\item Considering the holistic visual features of the image and the masks of \instsubject\ and \instobject, determine whether a relation exists between the two entities.
+\item Utilizing the complete visual features of the image along with the \instsubject\ and \instobject\ masks, assess whether there is a relation between \instsubject\ and \instobject.
+\item Given the overall visual features of the image and the masks for \instsubject\ and \instobject, evaluate whether a relation exists between \instsubject\ and \instobject.
+\item By analyzing the entire visual features of the image and the masks of \instsubject\ and \instobject, ascertain whether there is a relation between \instsubject\ and \instobject.
+\item With the comprehensive visual features of the image and the masks for both \instsubject\ and \instobject, deduce whether there is a relation between \instsubject\ and \instobject.
+\item Reflecting on the total visual features of the image and the masks applied to \instsubject\ and \instobject, gauge whether there is a relation between \instsubject\ and \instobject.
+\item Considering the full visual features of the image and the masks of \instsubject\ and \instobject, infer whether a relation exists between \instsubject\ and \instobject.
+\item Leveraging the overall visual features of the image and the masks designated for \instsubject\ and \instobject, identify whether there is a relation between \instsubject\ and \instobject.
+\item By examining the entire visual features of the image and the masks for \instsubject\ and \instobject, predict whether there is a relation between \instsubject\ and \instobject.
+\end{instructionitems}
+\end{instructionbox}
 
 
 \section{Instructions Used in Multimodal Relation Decoder}
@@ -173,39 +248,40 @@ During training, one is randomly selected from these 10 options for use, whereas
 
 \subsection{Generation Instructions.}
 
-\begin{lstlisting}[language=Python]
-# {subject} is the category name of subject.
-# {object} is the category name of object.
-instruction_for_generation = [
-    "Please determine what the relation is between {subject} and {object}.",
-    "Please ascertain the relation between the {subject} and {object}.",
-    "Please identify what relations exists between the {subject} and {object}.",
-    "Please decide what kind of relation is present between the {subject} and the {object}.",
-    "Please deduce the relation between the {subject} and the {object}.",
-    "Please establish what the relation is between the {subject} and {object}.",
-    "Please clarify the relation between the {subject} and {object}.",
-    "Please determine the type of relation existing between the {subject} and the {object}.",
-    "Please pinpoint the kind of relation between the {subject} and {object}.",
-    "Please evaluate what the relation is between the {subject} and the {object}.",
-]
-\end{lstlisting}
+\begin{instructionbox}{instruction\_for\_generation}
+\small
+\raggedright
+\noindent \textit{Placeholders}: \instsubject, \instobject.
+\begin{instructionitems}
+\item Please determine what the relation is between \instsubject\ and \instobject.
+\item Please ascertain the relation between \instsubject\ and \instobject.
+\item Please identify what relation exists between \instsubject\ and \instobject.
+\item Please decide what kind of relation is present between \instsubject\ and \instobject.
+\item Please deduce the relation between \instsubject\ and \instobject.
+\item Please establish what the relation is between \instsubject\ and \instobject.
+\item Please clarify the relation between \instsubject\ and \instobject.
+\item Please determine the type of relation existing between \instsubject\ and \instobject.
+\item Please pinpoint the kind of relation between \instsubject\ and \instobject.
+\item Please evaluate what the relation is between \instsubject\ and \instobject.
+\end{instructionitems}
+\end{instructionbox}
 
 \subsection{Judgement Instructions.}
 
-\begin{lstlisting}[language=Python]
-# {subject} is the category name of subject.
-# {object} is the category name of object.
-# {relation} is the category name of relation.
-instructions_for_judgement = [
-    "Please judge between {subject} and {object} whether there is a relation {relation}.",
-    "Please determine if there exists a relation between the {subject} and {object}, termed {relation}.",
-    "Please ascertain whether there is a relation between the {subject} and {object}, identified as {relation}.",
-    "Please evaluate if a relation between the {subject} and {object} can be classified as {relation}.",
-    "Please judge whether there is a relation between the {subject} and {object} referred to as {relation}.",
-    "Please decide if there is a relation between the {subject} and {object} denoted as {relation}.",
-    "Please establish whether there is a relation between the {subject} and {object}, described as {relation}.",
-    "Please conclude whether a relation exists between the {subject} and {object}, designated as {relation}.",
-    "Please investigate whether there is a relation between the {subject} and {object}, recognized as {relation}.",
-    "Please analyze if there exists a relation between the {subject} and {object}, characterized as {relation}.",
-]
-\end{lstlisting}
+\begin{instructionbox}{instructions\_for\_judgement}
+\small
+\raggedright
+\noindent \textit{Placeholders}: \instsubject, \instobject, \instrelation.
+\begin{instructionitems}
+\item Please judge whether there is a \instrelation\ relation between \instsubject\ and \instobject.
+\item Please determine if there exists a relation between \instsubject\ and \instobject, termed \instrelation.
+\item Please ascertain whether there is a relation between \instsubject\ and \instobject, identified as \instrelation.
+\item Please evaluate if a relation between \instsubject\ and \instobject\ can be classified as \instrelation.
+\item Please judge whether there is a relation between \instsubject\ and \instobject\ referred to as \instrelation.
+\item Please decide if there is a relation between \instsubject\ and \instobject\ denoted as \instrelation.
+\item Please establish whether there is a relation between \instsubject\ and \instobject, described as \instrelation.
+\item Please conclude whether a relation exists between \instsubject\ and \instobject, designated as \instrelation.
+\item Please investigate whether there is a relation between \instsubject\ and \instobject, recognized as \instrelation.
+\item Please analyze if there exists a relation between \instsubject\ and \instobject, characterized as \instrelation.
+\end{instructionitems}
+\end{instructionbox}

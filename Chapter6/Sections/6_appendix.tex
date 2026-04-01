@@ -28,7 +28,11 @@ Specifically, for the upper body category, it achieves an FID reductions of -2.3
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.2cm}
+\caption{Quantitative results comparison with other methods on the DressCode dataset for virtual try-on.
+Our \leffa{} achieves state-of-the-art results across all categories of garment.
+}
+\resizebox{0.88\linewidth}{!}{
 \begin{tabular}{lcccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{2-7} 
@@ -62,9 +66,6 @@ DCI-VTON~\citep{gou2023taming}          & 8.48  & \underline{1.08} & 0.887 & \un
 \bottomrule[1.5pt]
 \end{tabular}
 }
-\caption{Quantitative results comparison with other methods on the DressCode dataset for virtual try-on.
-Our \leffa{} achieves state-of-the-art results across all categories of garment.
-}
 \label{leffa:tab:dresscode_v2}
 \end{table}
 
@@ -72,7 +73,11 @@ Our \leffa{} achieves state-of-the-art results across all categories of garment.
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.2cm}
+\caption{Ablation study on DressCode dataset for virtual try-on.
+Our \leffa{} loss significantly improves model performance.
+}
+\resizebox{0.88\linewidth}{!}{
 \begin{tabular}{lccccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}  & \multirow{2}{*}{\textbf{$\mathcal{L}_{\text{leffa}}$}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{3-8} 
@@ -83,17 +88,17 @@ Our \leffa{} achieves state-of-the-art results across all categories of garment.
 \bottomrule[1.5pt]
 \end{tabular}
 }
-\caption{Ablation study on DressCode dataset for virtual try-on.
-Our \leffa{} loss significantly improves model performance.
-}
 \label{leffa:tab:ablation_dress_code}
 \end{table}
 
 
 \begin{table}[!t]
-\setlength{\tabcolsep}{5mm}
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.5cm}
+\caption{Ablation study on the DeepFashion dataset for pose transfer.
+Our \leffa{} loss significantly improves model performance.
+}
+\resizebox{0.8\linewidth}{!}{
 \begin{tabular}{lcccc}
 \toprule[1.5pt]
 \textbf{Method} & \textbf{$\mathcal{L}_\text{leffa}$} & \textbf{FID} $\downarrow$ & \textbf{SSIM} $\uparrow$ & \textbf{LPIPS} $\downarrow$ \\
@@ -102,9 +107,6 @@ Our \leffa{} loss significantly improves model performance.
                                     & \cmark & \textbf{4.23}  & \textbf{0.755} & \textbf{0.119} \\
 \bottomrule[1.5pt]
 \end{tabular}
-}
-\caption{Ablation study on the DeepFashion dataset for pose transfer.
-Our \leffa{} loss significantly improves model performance.
 }
 \label{leffa:tab:ablation_deep_fashion}
 \end{table}
@@ -153,7 +155,9 @@ As shown in Tab.~\ref{leffa:tab:more_ablation} (\leffa{} w/o upsample $\mathcal{
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.2cm}
+\caption{Ablation study for the proposed \leffa{} loss.}
+\resizebox{0.84\linewidth}{!}{
 \begin{tabular}{lcccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{2-7} 
@@ -164,7 +168,6 @@ As shown in Tab.~\ref{leffa:tab:more_ablation} (\leffa{} w/o upsample $\mathcal{
 \bottomrule[1.5pt]
 \end{tabular}
 }
-\caption{Ablation study for the proposed \leffa{} loss.}
 \label{leffa:tab:more_ablation}
 \end{table}
 
@@ -183,7 +186,11 @@ This highlights that the key to improving the baseline lies in making both UNets
 
 \begin{table}[!t]
 \centering
-\resizebox{\linewidth}{!}{
+\setlength{\tabcolsep}{0.2cm}
+\caption{Ablation study for our diffusion-based baseline.
+Making both the generative and reference UNets trainable is key to performance improvement for our diffusion-based baseline.
+}
+\resizebox{0.84\linewidth}{!}{
 \begin{tabular}{lcccccc}
 \toprule[1.5pt]
 \multirow{2}{*}{\textbf{Method}}        & \multicolumn{4}{c}{\textbf{paired}} & \multicolumn{2}{c}{\textbf{unpaired}} \\ \cmidrule{2-7} 
@@ -194,9 +201,6 @@ freeze Reference UNet       & 6.42 & 0.77 & 0.863 & 0.066 & 10.63 & 1.32 \\
 + CLIP textual feature      & 5.37 & 0.40 & 0.876 & 0.060 & 9.45 & 0.98 \\
 \bottomrule[1.5pt]
 \end{tabular}
-}
-\caption{Ablation study for our diffusion-based baseline.
-Making both the generative and reference UNets trainable is key to performance improvement for our diffusion-based baseline.
 }
 \label{leffa:tab:ablation_baseline}
 \end{table}
