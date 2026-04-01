@@ -7,7 +7,7 @@
 \noindent In this supplementary material, we provide more details about the RP- and RJ-prompts along with the corresponding descriptions output by the LLMs.
 
 
-\section{RP- and RJ-prompt}
+\section{RP- and RJ-Prompt}
 \label{sec:prompt}
 
 According to the official API interfaces provided by GPT-4 and Llama3, we can interact with large language models (LLMs) in three different roles: ``system'', ``assistant'', and ``user''.
@@ -19,7 +19,7 @@ Specifically, the prompts designed for GPT-4 and Llama3-8B are presented below.
 \subsection{Prompt for GPT-4}
 \label{sec:prompt_gpt}
 
-\noindent \textbf{RP-prompt}.
+\noindent \textbf{RP-Prompt}.
 Relation proposer prompt, which we used to stimulate LLMs to propose all possible relations between two given objects.
 
 \underline{system}: \textit{You are asked to play the role of a} \textbf{relation proposer}\textit{. Given the category names of two objects in an image, you are to infer what kind of relation might exist between them based on your knowledge, and provide the reasons for each possible relation. In the relation between the two objects in the image, we refer to one object as the subject and the other as the object. There may or may not be a relation between the subject and the object. Please note that this relation has an order, that is, the subject comes first and the object comes after. If there is a relation between the two, these relations must belong to one of the pre-defined 56 different types.}
@@ -37,7 +37,7 @@ Relation proposer prompt, which we used to stimulate LLMs to propose all possibl
 \underline{user}: \textit{The subject is a SUBJECT\_NAME, and the object is a OBJECT\_NAME.}
 
 
-\noindent \textbf{RJ-prompt}.
+\noindent \textbf{RJ-Prompt}.
 Relation judger prompt, which we used to stimulate LLMs to judge whether there is a specific relation between two objects.
 
 \underline{system}: \textit{You are asked to play the role of a} \textbf{relation judger}\textit{. Given the category names of two objects in an image, and providing you with a relation category name, you need to predict whether this relation is likely to exist in the image based on your knowledge, and give the reason for its existence. For two objects, we call the first object subject and the second object object.}
@@ -57,7 +57,7 @@ In GPT-4, the ``system'' role can be followed by either the ``assistant'' or the
 However, in Llama3's API, the ``system'' role can only be followed by ``user'' role, not ``assistant'' role.
 Therefore, we have made simple modifications to the prompt used for GPT-4. The specific prompt is as follows.
 
-\noindent \textbf{RP-prompt}.
+\noindent \textbf{RP-Prompt}.
 Relation proposer prompt, which we used to stimulate LLMs to propose all possible relations between two given objects.
 
 \underline{system}: \textit{You are asked to play the role of a} \textbf{relation proposer}\textit{. Given the category names of two objects in an image, you are to infer what kind of relation might exist between them based on your knowledge, and provide the reasons for each possible relation. In the relation between the two objects in the image, we refer to one object as the subject and the other as the object. There may or may not be a relation between the subject and the object. Please note that this relation has an order, that is, the subject comes first and the object comes after. If there is a relation between the two, these relations must belong to one of the pre-defined 56 different types. What are the 56 relations?}
@@ -73,7 +73,7 @@ Relation proposer prompt, which we used to stimulate LLMs to propose all possibl
 \underline{user}: \textit{The subject is a SUBJECT\_NAME, and the object is a OBJECT\_NAME.}
 
 
-\noindent \textbf{RJ-prompt}.
+\noindent \textbf{RJ-Prompt}.
 Relation judger prompt, which we used to stimulate LLMs to judge whether there is a specific relation between two objects.
 
 \underline{system}: \textit{You are asked to play the role of a} \textbf{relation judger}\textit{. Given the category names of two objects in an image, and providing you with a relation category name, you need to predict whether this relation is likely to exist in the image based on your knowledge, and give the reason for its existence. For two objects, we call the first object subject and the second object object. Please give me an example.}
@@ -85,7 +85,7 @@ Relation judger prompt, which we used to stimulate LLMs to judge whether there i
 \underline{user}: \textit{The subject is a SUBJECT\_NAME, the object is a OBJECT\_NAME, and the relation is RELATION\_NAME.}
 
 
-\section{RP- and RJ-description}
+\section{RP- and RJ-Description}
 \label{sec:description}
 
 To gain a more comprehensive understanding of the outputs from LLMs, we selected two sets of subject-object pairs for demonstration, namely ``person-motorcycle'', ``sky-building'', ``person-sea'',  ``rock-horse''.
@@ -97,7 +97,7 @@ Note that in the examples shown below for RP-descriptions, the template sentence
 
 \subsection{Description from GPT-4}
 
-\noindent \textbf{RP-description}.
+\noindent \textbf{RP-Description}.
 The description generated by LLMs based on the RP-prompt.
 
 \underline{person-motorcycle}: \textit{Based on the given subject (person) and object (motorcycle), here are some possible relations between them: 1.} \textbf{Riding}\textit{: The person could be riding the motorcycle, indicating that they are in control and using it as a means of transportation. 2.} \textbf{Driving}\textit{: Similar to riding, the person could be driving the motorcycle, suggesting that they are operating it. 3.} \textbf{About to hit}\textit{: This relation implies that the person is in a dangerous situation where they are about to collide with the motorcycle, indicating a potential accident or collision. 4.} \textbf{Leaning on}\textit{: The person might be leaning on the motorcycle, using it as a support or resting against it. 5.} \textbf{Parked on}\textit{: The motorcycle could be parked on or near the person, suggesting that they are in close proximity to it but not actively using or interacting with it. 6.} \textbf{Driving on}\textit{: This relation implies that the person is driving another vehicle and the motorcycle is on the road, indicating that they are sharing the same space or path. 7.} \textbf{Looking at}\textit{: The person might be looking at the motorcycle, either out of interest or curiosity, or perhaps considering using it. 8.} \textbf{Touching}\textit{: The person could be touching or interacting with the motorcycle, such as examining it or making adjustments. 9.} \textbf{Holding}\textit{: The person might be holding onto the motorcycle, either for support or to prevent it from falling over. 10.} \textbf{Exiting}\textit{: This relation suggests that the person was previously on or inside the motorcycle and is now in the process of getting off or exiting it. These are just a few possible relations between a person and a motorcycle, and the actual relation would depend on the context and specific details of the image.}
@@ -108,7 +108,7 @@ The description generated by LLMs based on the RP-prompt.
 
 \underline{rock-horse}: \textit{Based on the given subject (rock) and object (horse), here are some possible relations between a rock and a horse: 1.} \textbf{Beside}\textit{: The rock could be positioned beside the horse, indicating their proximity to each other. 2.} \textbf{On}\textit{: The horse could be standing on the rock, using it as a platform or a vantage point. 3.} \textbf{In front of}\textit{: The rock could be in front of the horse, blocking its path or serving as an obstacle. 4.} \textbf{Attached to}\textit{: The rock could be attached to the horse, possibly as a weight or burden. These are just a few possible relations between a rock and a horse. The actual relation would depend on the context and specific details of the image.}
 
-\noindent \textbf{RJ-description}.
+\noindent \textbf{RJ-Description}.
 The description generated by LLMs based on the RJ-prompt.
 
 \underline{person-riding-motorcycle}: \textit{Based on my knowledge, the relation riding is} \textbf{likely} \textit{to exist between person and motorcycle. This is because it is common for a person to ride a motorcycle.}
@@ -129,7 +129,7 @@ The description generated by LLMs based on the RJ-prompt.
 
 \subsection{Description from Llama3-8B}
 
-\noindent \textbf{RP-description}.
+\noindent \textbf{RP-Description}.
 The description generated by LLMs based on the RP-prompt.
 
 \underline{person-motorcycle}: \textit{Great! Based on the category names you provided, here are some possible relations between the subject (person) and the object (motorcycle): 1.} \textbf{Riding}\textit{: The person could be riding the motorcycle. 2.} \textbf{Standing next to}\textit{: The person might be standing next to the motorcycle, perhaps admiring it or preparing to ride it. 3.} \textbf{Holding onto}\textit{: The person could be holding onto the motorcycle to steady themselves while riding it. 4.} \textbf{Leaning on}\textit{: The person might be leaning on the motorcycle while taking a break or resting. 5.} \textbf{Fixing}\textit{: The person could be fixing the motorcycle, perhaps making repairs or adjustments. 6.} \textbf{Parked near}\textit{: The person could be parked near the motorcycle, perhaps intending to ride it later. 7.} \textbf{Getting on}\textit{: The person could be getting on the motorcycle, perhaps after having just parked it. 8.} \textbf{Falling off}\textit{: The person might be falling off the motorcycle, perhaps after losing control or experiencing an accident. 9.} \textbf{Facing}\textit{: The person could be facing the motorcycle, perhaps to check on it or to prepare to ride it. 10.} \textbf{Behind}\textit{: The person could be behind the motorcycle, perhaps to push it or to provide support while riding. Please let me know if any of these relations are correct or if you would like me to provide more options.}
@@ -140,7 +140,7 @@ The description generated by LLMs based on the RP-prompt.
 
 \underline{rock-horse}: \textit{Great! Based on the category names you provided, here are some possible relations between the subject (rock) and the object (horse): 1.} \textbf{Beside}\textit{: The rock could be beside the horse, perhaps as the horse is grazing or resting. 2.} \textbf{Looking at}\textit{: The horse might be looking at the rock, perhaps curious about it or interested in it for some reason. 3.} \textbf{Near}\textit{: The rock could be near the horse, perhaps in a field or meadow where the horse is roaming. 4.} \textbf{Riding}\textit{: The horse could be ridden over the rock, perhaps as a way to traverse a difficult terrain or to reach a destination. 5.} \textbf{Jumping}\textit{: The horse could be jumping over the rock, perhaps in a competition or as a way to clear an obstacle. 6.} \textbf{Kicking}\textit{: The horse could be kicking the rock, perhaps as a way to dislodge it or to mark its territory. 7.} \textbf{Standing on}\textit{: The horse could be standing on the rock, perhaps as a way to get a better view or to rest. 8.} \textbf{Falling off}\textit{: The horse could be falling off the rock, perhaps due to a misstep or a sudden movement. 9.} \textbf{Crossing}\textit{: The horse could be crossing the rock, perhaps as a way to get to the other side of a river or stream. 10.} \textbf{Pushing}\textit{: The horse could be pushing the rock, perhaps as a way to move it out of the way or to create a path. Please let me know if you have any other questions or if you would like me to generate more relations.}
 
-\noindent \textbf{RJ-description}.
+\noindent \textbf{RJ-Description}.
 The description generated by LLMs based on the RJ-prompt.
 
 \underline{person-riding-motorcycle}: \textit{Based on my knowledge, I would say that the relation riding is} \textbf{likely} \textit{to exist in the image. People often ride motorcycles as a mode of transportation or recreation, so it\'s a common and plausible relation in real life. Therefore, I would give a Yes answer to the question of whether the relation exists in the image.}
@@ -160,12 +160,12 @@ The description generated by LLMs based on the RJ-prompt.
 \underline{rock-falling off-horse}: \textit{Based on my knowledge, the relation falling off is} \textbf{unlikely} \textit{to exist in an image of a rock and a horse. The reason for this is that rocks and horses are not typically associated with each other in a falling off context. Rocks are inanimate objects that do not have the ability to fall off, while horses are living creatures that are not known to fall off of other objects. Therefore, the probability of seeing a relation of falling off between a rock and a horse in an image is low.}
 
 
-\section{Description analysis}
+\section{Description Analysis}
 \label{sec:analysis_llm}
 
 Through the series of examples above, we analyze the descriptions generated by the LLMs as follows.
 
-\noindent \textbf{Comparation between GPT-4 and Llama3-8B}.
+\noindent \textbf{Comparation Between GPT-4 and Llama3-8B}.
 Comparing the descriptions generated by GPT-4 and Llama3-8B, we find that GPT-4's descriptions are slightly better than those of Llama3-8B.
 However, thanks to our carefully designed prompts, even using the Llama3-8B model can still produce high-quality descriptions to aid in relation prediction.
 As shown in 
@@ -173,12 +173,12 @@ Tab.~\ref{tab:ablation_language_feature_extractor}
 % Tab.~4
 of this chapter, models trained using descriptions from Llama3-8B are only 0.5\% lower in mR@100 compared to those using GPT-4.
 
-\noindent \textbf{RP-descriptions}.
+\noindent \textbf{RP-Descriptions}.
 For RP-descriptions, on one hand, some relation predicted by LLMs may occasionally fall out of the predefined set of $K$ relation categories, the mechanism we designed can still handle it though. 
 On the other hand, LLMs tend to be more accurate in predicting relations for thing-thing and thing-stuff pairs compared to stuff-thing and stuff-stuff.
 For stuff-thing and stuff-stuff pairs, models are more inclined to predict spatial relations.
 
-\noindent \textbf{RJ-descriptions}.
+\noindent \textbf{RJ-Descriptions}.
 For RJ-descriptions, in most cases, different models provide consistent and reasonable judgments with corresponding explanations.
 However, there are occasional inconsistencies, such as with the relation of sky-crossing-building, where GPT-4 deems it impossible, but Llama3-8B considers it possible.
 Nevertheless, all LLMs provide reasons to explain the possibility of the relation, and these reasons in the descriptions provide context to the relation judgment, thereby assisting the model in relation prediction.

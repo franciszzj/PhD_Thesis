@@ -8,13 +8,13 @@
 This is the first dataset dedicated to the PSG task, comprising 48,749 annotated images, including 2,186 test images and 46,563 training images.
 The dataset includes 80 ``thing''~\citep{lin2014microsoft} and 53 ``stuff'' categories~\citep{caesar2018coco}, as well as 56 relation categories.
 
-\noindent \textbf{Visual Genome (VG) dataset}~\citep{krishna2017visual}.
+\noindent \textbf{Visual Genome (VG) Dataset}~\citep{krishna2017visual}.
 This dataset is widely used in the SGG task.
 To validate our method, we also conduct experiments on the VG dataset.
 Following previous works~\citep{zellers2018neural, chen2019counterfactual}, we use the VG-150 variant, which includes 150 object categories and 50 relation categories.
 
 
-\subsection{Tasks and metrics}
+\subsection{Tasks and Metrics}
 
 \noindent \textbf{Tasks}.
 There are three subtasks for PSG and SGG tasks: Predicate Classification, Scene Graph Classification and Scene Graph Detection~\citep{xu2017scene}.
@@ -25,7 +25,7 @@ Following previous works~\citep{yang2022panoptic, zhou2023hilo, wang2023pair}, w
 While Recall@K is biased towards frequent classes, mean Recall@K gives all classes the same weight.
 
 
-\subsection{Implementation details}
+\subsection{Implementation Details}
 
 In our experiments, we use Mask2Former~\citep{cheng2022masked} pretrained on COCO~\citep{lin2014microsoft} dataset to initialize the panoptic segmentation network in the vision feature extractor, while the vision-language prompter is trained from scratch.
 In language feature extractor, we utilize by default GPT-4~\citep{chatgpt} as the LLM, and employ OpenAI Embedding Service~\citep{chatgpt} as the text encoder.
@@ -40,7 +40,7 @@ The training takes approximately 18 hours on four A100 GPUs, with a batch size o
 The inference of our model follows the same forward process in training.
 
 
-\subsection{Comparison to the state-of-the-art}
+\subsection{Comparison to the State-of-the-Art}
 \noindent \textbf{PSG.}
 Tab.~\ref{vlprompt:tab:psg_results} reports the performance of our method compared to previous state-of-the-art methods on the PSG dataset~\citep{yang2022panoptic}.
 Previous methods rely solely on vision inputs, \ie, images, while ours utilizes both vision and language inputs.
@@ -120,7 +120,7 @@ Additionally, our method achieves a +2.0 improvement on R@20 and comparable perf
 
 \subsection{Analysis}
 
-\noindent \textbf{Qualitative analysis.}
+\noindent \textbf{Qualitative Analysis.}
 As shown in Fig.~\ref{vlprompt:fig:vis}, with the inclusion of language information, VLPrompt successfully predicts challenging relations, which are the highlighted in yellow.
 Fig.~\ref{vlprompt:fig:more_vis} showcases additional visualization results of our VLPrompt.
 For each example, the top shows the results of panoptic segmentation, the bottom left displays the ground truth, and the bottom right shows the top 10 relation prediction results.
@@ -138,7 +138,7 @@ Based on visualization results, our VLPrompt exhibits precise capabilities in re
 
 
 
-\noindent \textbf{Failure case analysis.}
+\noindent \textbf{Failure Case Analysis.}
 In addition to the high-quality visual results shown above, we also conduct a detailed failure case analysis, as illustrated in Fig.~\ref{vlprompt:fig:failure_vis}.
 We observe that when multiple objects of the same category appear in close proximity within a scene, the model tends to mispredict the relations between them.
 For example, in the first image from the left, 0\_person is only \textit{wearing} 3\_baseball\_glove, but the model incorrectly predicts that they are also \textit{wearing} 2\_baseball\_glove.
@@ -149,7 +149,7 @@ For example, in the fourth image, the model predicts that both 0\_person and 1\_
 Although incorporating language knowledge extracted from LLMs significantly alleviates the long-tail problem, reasoning about fine-grained relations between spatially adjacent objects remains a challenging issue that requires further investigation.
 
 
-\noindent \textbf{Alleviating the long-tail problem.}
+\noindent \textbf{Alleviating the Long-Tail Problem.}
 In SGG and PSG tasks, mR@K is often used as a reflection for a method's ability to solve long-tail problem~\citep{tang2020unbiased}.
 To further validate it, in PSG dataset, we split relations occurring over 1000 times as common relations, and those under 1000 as rare relations, resulting into 21 common and 35 rare relations.
 As shown in Tab.~\ref{vlprompt:tab:long_tail_psg}, our method's integration of language information (w/ LLM) leads to 2.3 increase in mR@100 for common relations and 13.8 increase for rare relations on the PSG dataset.
@@ -244,7 +244,7 @@ In this setting, we remove the cross-attention module and rely solely on vision 
 
 
 
-\noindent \textbf{Comparison with large multimodal models.}
+\noindent \textbf{Comparison with Large Multimodal Models.}
 Large multimodal models (LMMs) currently demonstrate great performance across various multimodal tasks and can also predict relations with specific instructions.
 To further validate the performance of LMMs on PSG task, we test three popular LMMs GPT-4o, GPT-4V and Llama 3.2-11B on the PSG test set.
 To ensure fairness in comparison, we allow LMMs to use the segmentation results output by our method, thus ensuring same segmentation performance.
@@ -277,7 +277,7 @@ In turn, we believe that future advances in LMMs may further promote progress in
 \end{table}
 
 
-\subsection{Ablation study}
+\subsection{Ablation Study}
 
 \subsubsection{Vision Feature Extractor}
 
@@ -301,22 +301,22 @@ In turn, we believe that future advances in LMMs may further promote progress in
     \label{vlprompt:tab:ablation_vision_feature_extractor}
 \end{table}
 
-\noindent \textbf{Object features from pixel decoder.}
+\noindent \textbf{Object Features from Pixel Decoder.}
 To validate the superiority of obtaining object features from the pixel decoder (PixelDec) of Mask2Former, we experiment with an alternative approach: acquiring corresponding object features from the transformer decoder (TsfmDec) of Mask2Former. This is a common practice in the literature~\citep{cong2023reltr}.
 Experiments (PixelDec$\rightarrow$TsfmDec) in Tab.~\ref{vlprompt:tab:ablation_vision_feature_extractor} show that the feature from the pixel decoder performs 3.4 better in mR@100 than that from the transformer decoder, as the pixel decoder contains more comprehensive vision information.
 
-\noindent \textbf{Mask pooling for object feature extraction.}
+\noindent \textbf{Mask Pooling for Object Feature Extraction.}
 Common methods to obtain object features from the pixel decoder include mask pooling (MaskPool) and bounding box pooling (BboxPool)~\citep{girshick2015fast}.
 We validate our choice of mask pooling through ablation experiments (MaskPool$\rightarrow$BboxPool).
 As shown in Tab.~\ref{vlprompt:tab:ablation_vision_feature_extractor}, the performance using mask pooling is 1.1 higher in mR@100 than that using bbox pooling.
 Mask pooling is more suitable for the mask prediction in the PSG task. 
 
-\noindent \textbf{Concatenating object features into a pair feature.}
+\noindent \textbf{Concatenating Object Features into a Pair Feature.}
 Common methods for merging the features of two objects for their relation prediction include concatenation (Concat.) \citep{zhang2019graphical} and subtraction (Sub.) \citep{cheng2022visual}.
 Notably, addition of the features cannot be used due to the inherent order requested between the subject and object.
 Results (Concat.$\rightarrow$Sub.) in Tab.~\ref{vlprompt:tab:ablation_vision_feature_extractor} indicate that concatenation outperforms subtraction by 4.8 on the mR@100.
 
-\noindent \textbf{Spatial feature.}
+\noindent \textbf{Spatial Feature.}
 To validate the effect of adding spatial features, we conduct an ablation study by removing these features.
 The results (w/o Spatial Feat.) in Tab.~\ref{vlprompt:tab:ablation_vision_feature_extractor} show that this leads to a decrease of -0.7 in R@100 and -1.6 in mR@100.
 This is because spatial features provide the model with additional spatial interaction between the subject and object (Sec.~\ref{vlprompt:sec:vision_feature_extractor}), thereby enhancing the vision feature for relation prediction.
@@ -347,18 +347,18 @@ This is because spatial features provide the model with additional spatial inter
     \label{vlprompt:tab:ablation_language_feature_extractor}
 \end{table}
 
-\noindent \textbf{Chain-of-thought for prompt.}
+\noindent \textbf{Chain-of-Thought for Prompt.}
 By carefully designing prompts with the chain-of-thought technique, LLMs can produce rich and accurate descriptions.
 However, if we do not use chain-of-thought and instead directly ask LLMs questions, such as replacing the relation proposer prompt with ``What are the possible relations between subject and object? And why?'' or the relation judger prompt with ``Could this relation be possible between subject and object? Why?", we find that the outputs from LLMs become much less predictable and often not as expected.
 We experiment without chain-of-thought (w/o CoT) and the results in Tab.~\ref{vlprompt:tab:ablation_language_feature_extractor} show that the performance of relation prediction significantly drops, \ie, a -8.0 decrease in mR@100.
 This further illustrates the rationale and importance of using chain-of-thought technology for designing prompts.
 
-\noindent \textbf{Template phrase in RP-prompt.}
+\noindent \textbf{Template Phrase in RP-Prompt.}
 The template phrase appended to the end of the RP-prompt helps the model clearly distinguish common relations from less plausible ones, thereby preventing performance degradation on high-frequency relations during prediction.
 To validate this design, we conduct an ablation study by removing the template phrase.
 As shown in Tab.~\ref{vlprompt:tab:ablation_language_feature_extractor} (w/o template), excluding the template leads to a slight performance drop ($-0.8$ R@100, $-1.5$ mR@100), indicating that explicitly guiding the model to differentiate between common and uncommon relations through prompt design is beneficial.
 
-\noindent \textbf{Different feature extraction methods.}
+\noindent \textbf{Different Feature Extraction Methods.}
 To validate our design of different feature extract methods for RP- and RJ-language prompting features, we study their effects.
 We offer three variants:
 1) For RP-language prompting features, we adopt the same way as the RJ-language prompting feature to extract feature for each relation triplet individually, we denote this variant as Ext$^\text{RP} \rightarrow$ Ext$^\text{RJ}$ in the Tab.~\ref{vlprompt:tab:ablation_language_feature_extractor}.
@@ -369,14 +369,14 @@ We observe a clear drop in mR@K, as this would condense the features of relation
 We observe a substantial decrease in both metrics.
 Our original feature extraction is specifically designed on one side to focus on the condensed and distinct attributes of commonly occurring relations; on the other side to focus on the detailed and subtle attributes of all possible especially rare relations for a subject-object pair.
 
-\noindent \textbf{Different LLMs and text encoders.}
+\noindent \textbf{Different LLMs and Text Encoders.}
 To further assess the effects of different LLMs and text encoders on model performance, we attempt to replace the GPT-4 with Llama3-8B~\citep{touvron2023llama} and the OpenAI Embedding Service with Bert~\citep{devlin2018bert}.
 When using Bert, we take the mean of the embeddings of all output tokens as the feature.
 The experimental results (Llama3-8B + Bert) in Tab.~\ref{vlprompt:tab:ablation_language_feature_extractor} reveal that using Llama3-8B as the LLM and Bert as the text encoder results in only a slight decrease in performance: -0.4 in R@100 and -0.5 in mR@100.
 We review the descriptions output by Llama3-8B and compare them with those from GPT-4, finding no significant differences in quality, more details can be found in supplementary materials.
 This suggests that, with carefully designed prompts, open-source LLMs with reduced parameters also work for our method, thus validating the flexibility of our method.
 
-\noindent \textbf{Compress the language prompting feature.}
+\noindent \textbf{Compress the Language Prompting Feature.}
 At runtime, the language prompting feature occupies 290.57MB of memory, which is manageable.
 To further enhance the model's applicability in real-world scenarios, such as when there are more object and relation categories, we compress the language prompting feature to 1/4 of its original size using an encoder-decoder models.
 Results (Compression) shown in Tab.~\ref{vlprompt:tab:ablation_language_feature_extractor} indicate that compressing the language prompting feature to 1/4 leads to only a minor performance decrease, while the memory required by the model during runtime is reduced to 1/4 of the original, which further demonstrates the practicality of our method in real-world settings.
@@ -405,24 +405,24 @@ Results (Compression) shown in Tab.~\ref{vlprompt:tab:ablation_language_feature_
     \label{vlprompt:tab:ablation_vision_language_prompter}
 \end{table}
 
-\noindent \textbf{Language information.}
+\noindent \textbf{Language Information.}
 To validate the efficacy of incorporating language information, we conduct a comparative experiment by replacing all language prompting features in the vision-language prompter with vision prompting features.
 This approach ensures that all other factors remain constant while assessing the impact of language information.
 As shown in Tab.~\ref{vlprompt:tab:ablation_vision_language_prompter}, the experimental results (w/o Language) reveal a significant decrease in the mR@100 by -9.5 when language information is removed, which demonstrates the substantial impact of language information in mitigating the long-tail problem.
 
-\noindent \textbf{Results of RP-decoder and RJ-decoder.}
+\noindent \textbf{Results of RP-Decoder and RJ-Decoder.}
 We test the relation prediction performance of both RP-decoder and RJ-decoder separately.
 The results (RP-decoder and RJ-decoder) in Tab.~\ref{vlprompt:tab:ablation_vision_language_prompter} show that the RP-decoder outperforms the RJ-decoder in the R@K (\eg, 50.9 \vs 50.4 for R@100), while the RP-decoder scores lower in mR@K compared to the RJ-decoder (\eg, 49.6 \vs 52.8 for mR@100).
 This indicates that the RP-decoder is good at predicting frequent relation classes, whereas the RJ-decoder excels in rare relation classes, which indicates that they are complementary.
 
-\noindent \textbf{Relation fusion.}
+\noindent \textbf{Relation Fusion.}
 As shown in Tab.~\ref{vlprompt:tab:ablation_vision_language_prompter}, when the outputs of the two branches are combined via our relation fusion strategy (\ie, VLPrompt), the final prediction outperforms either individual branch, demonstrating the effectiveness of our design.
 Specifically, the RP-decoder achieves higher R@K but lower mR@K scores compared to the RJ-decoder, as it receives RP-language prompting features that encode the most frequent relations for each subject-object pair.
 This makes the model more biased toward high-frequency relations, resulting in strong performance on common categories but poor generalization to rare ones, due to the long-tail distribution of relation labels.
 In contrast, the RJ-decoder, which uses RJ-language prompting features to independently judge each relation category, achieves better mR@K at the cost of slightly reduced R@K, as it improves rare-relation prediction by sacrificing some performance on frequent ones.
 These complementary behaviors highlight the importance of integrating both decoders, allowing the model to leverage their respective strengths and achieve overall optimal performance.
 
-\noindent \textbf{Fusion weights.}
+\noindent \textbf{Fusion Weights.}
 The input feature $F_L^{RJ}$ used to compute the fusion weights $W^{RJ}$ is compressed along the relation dimension, and this operation is applied solely within the gate network.
 Our empirical results show that this compression has minimal impact on performance, as the gate network is only responsible for generating fusion weights.
 To validate this design choice, we conduct an ablation study.
@@ -450,7 +450,7 @@ This confirms that the compressed version of $F_L^{RJ}$ offers a more computatio
     \label{vlprompt:tab:ablation_decoder_block_number}
 \end{table}
 
-\noindent \textbf{The number of decoder blocks.}
+\noindent \textbf{The Number of Decoder Blocks.}
 To elucidate the reason that both RP-decoder and RJ-decoder use a 2-block transformer decoder, we vary different numbers of blocks in Tab.~\ref{vlprompt:tab:ablation_decoder_block_number}.
 We observe that when increasing the transformer decoder blocks from 1 to 2, there is a significant improvement in model performance.
 However, increasing from 2 to 4 blocks does not change much for the performance.

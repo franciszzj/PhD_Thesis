@@ -35,12 +35,12 @@ They are formed into $N \times (N-1)$ subject-object pairs by pairing any two di
 The purpose of the vision feature extractor is to extract vision prompting feature for each subject-object pair, which includes visual features from the segmentation network itself as well as spatial features between the subject-object pairs.
 In this way, we can enhance the representations of the relations between subject-object pairs.  
 
-\noindent \textbf{Subject-object visual features.}
+\noindent \textbf{Subject-Object Visual Features.}
 We first obtain the features corresponding to each object.
 Considering that the output feature map by the pixel decoder in Mask2Former retains rich information of the image, we use mask pooling to obtain object features corresponding to the $N$ objects from the feature map based on each object's mask $m$.
 Then, we pair and concatenate any two distinct object features to form $N \times (N-1)$ subject-object visual features $F_{V}^{vi}$.
 
-\noindent \textbf{Subject-object spatial features.}
+\noindent \textbf{Subject-Object Spatial Features.}
 To further enhance the representations of subject-object pairs, especially their spatial relations,  we are inspired by~\citet{peyre2017weakly} to encode the spatial features into the subject-object visual features.
 Specifically, given $o_i$ and $o_j$ corresponding to subject and object, we first derive their encompassing bounding boxes $b_i=[x_i, y_i, w_i, h_i]$ and $b_j=[x_j, y_j, w_j, h_j]$, where $(x, y)$ is the center of the bounding box, and $(w, h)$ are the width and height.
 Next we construct spatial features: 
@@ -63,7 +63,7 @@ On the other hand, LLMs can also serve as a relation judger, given a subject-obj
 Specifically, we design two types of prompts: relation proposer prompt (RP-Prompt) for proposing and explaining potential relations given a subject-object pair; relation judger prompt (RJ-Prompt) for judging and reasoning  upon a specific subject-relation-object triplet. 
 Below, we detail how to obtain RP- and RJ-language prompting features based on the generated descriptions.
 
-\noindent \textbf{RP-language prompting feature.}
+\noindent \textbf{RP-Language Prompting Feature.}
 For RP-language prompting feature, we stimulate LLMs to guess all possible relations between two given objects $o_i$ and $o_j$, along with explanation for these relations.
 To achieve this, we utilize the chain-of-thought technique~\citep{wei2022chain}: we engage in a dialogue with an LLM (\eg, GPT-4~\citep{chatgpt}), initially informing it to act as a relation proposer and defining the task.
 Then an example is provided to the LLM to clarify its role.
@@ -74,7 +74,7 @@ For predefined relations that are not proposed by the LLM, we would append a tem
 To encode the description into a feature interpretable by our model, we use a text encoder (\eg, OpenAI Embeddings~\citep{chatgpt}) to convert the description into the feature $F_{L(i, j)}^{RP} \in \mathbb{R}^{1 \times D_{L}}$, namely RP-language prompting feature.
 This process consolidates all descriptions (each expressing multiple plausible relations for a given subject-object pair) into a single feature, allowing for a condensed reflection of the distinct attributes of common relations between subject and object.
 
-\noindent \textbf{RJ-language prompting feature.}
+\noindent \textbf{RJ-Language Prompting Feature.}
 For RJ-language prompting feature, we design the relation judger prompt: 
 we not only provide two objects $o_i$, $o_j$ but also specify a relation $r_{k}$ between them. 
 By using the common sense knowledge, the LLM judges whether the relation $r_{k}$ could plausibly exist between $o_i$ and $o_j$ and provides reason.

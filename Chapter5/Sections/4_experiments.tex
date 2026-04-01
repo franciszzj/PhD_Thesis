@@ -11,7 +11,7 @@ It encompasses 80 ``thing'' object categories~\cite{lin2014microsoft} and 53 ``s
 To further validate our method, we follow previous works~\cite{yu2023visually, chen2023expanding} and test our method on the VG-150 variant, which contains 150 object categories and 50 relation categories.
 
 
-\subsection{Tasks and metrics}
+\subsection{Tasks and Metrics}
 
 \noindent \textbf{Tasks.}
 In both PSG and SGG, there are three distinct subtasks: Predicate Classification (PredCls), Scene Graph Classification (SGCls), and Scene Graph Detection (SGDet)~\cite{xu2017scene}.
@@ -32,7 +32,7 @@ Following previous works~\cite{yang2022panoptic, zhou2023hilo}, we use Recall@K 
 Additionally, in open-set scenarios, we also report the R@K and mR@K metrics for base and novel relations.
 
 
-\subsection{Implementation details}
+\subsection{Implementation Details}
 In our experiments, we utilize the pretrained OpenSeeD~\cite{zhang2023simple} as the open-set object segmenter.
 The patch size $p$ of the patchify module is set to 8.
 Within the relation query transformer, the length $E$ of the pair feature extraction query is 32, and the threshold $\theta$ used to filter subject-object pairs is set to 0.35.
@@ -79,9 +79,9 @@ Note that during training we freeze the parameters of the object segmenter and m
     \label{openpsg:tab:psg_results}
 \end{table}
 
-\subsection{Comparison to the state of the art}
+\subsection{Comparison to the State of the Art}
 
-\noindent \textbf{PSG dataset.}
+\noindent \textbf{PSG Dataset.}
 Tab.~\ref{openpsg:tab:psg_results} consists of two parts, comparing the performance of our method against previous methods in closed-set and open-set scenarios under the subtasks of predicate classification and scene graph detection.
 For the first part, in the closed-set scenario, our method significantly surpasses previous methods.
 For the predicate classification subtask, only methods that predict segmentation and relation separately are applicable~\cite{yang2022panoptic}, and our method achieves a substantial improvement compared to previous best results, for instance, a 26.6\% increase in R@100 and a 25.0\% increase in mR@100.
@@ -92,7 +92,7 @@ Notably, for predicate classification, our method even outperforms previous meth
 For example, compared with previous best results, we achieve a 39\% improvement in R@100 and a 7.2\% improvement in mR@100.
 For the scene graph detection subtask, our method with judgement instruction remains very competitive compared to \cite{yang2022panoptic} trained on all relations.
 
-\noindent \textbf{VG dataset.}
+\noindent \textbf{VG Dataset.}
 To further validate our method on the VG dataset, we compare to two closed-set SGG methods~\cite{zellers2018neural, tang2019learning} and two recent open-set SGG works~\cite{yu2023visually, chen2023expanding}.
 Since our method relies on an object segmentation model while \cite{zellers2018neural, tang2019learning, yu2023visually, chen2023expanding} rely on an object detector, for a fair comparison, we only present the results for predicate classification subtask.
 Tab.~\ref{openpsg:tab:vg_results} shows the results in both closed-set and open-set scenarios.
@@ -122,11 +122,11 @@ These results demonstrate the effectiveness of our method in both closed-set and
     \label{openpsg:tab:vg_results}
 \end{table}
 
-\subsection{Ablation study}
+\subsection{Ablation Study}
 To validate the effectiveness of each module in our method, we conduct ablation studies, using the model trained on all relations with judgement instruction for relation prediction as the baseline unless otherwise specified.
 To eliminate interference, we validate the object segmenter and modules in RelQ-Former under closed-set settings, and test two types of instructions in the multimodal relation decoder under open-set settings.
 
-\noindent \textbf{Different segmenters.}
+\noindent \textbf{Different Segmenters.}
 Our method is based on a pretrained segmenter.
 To verify the impact of different segmenters on model performance, we experiment with two options:
 the closed-set Mask2Former~\cite{cheng2022masked} and the open-set OpenSeeD~\cite{zhang2023simple}. 
@@ -154,7 +154,7 @@ For the scene graph detection subtask, OpenSeeD is a better segmenter than Mask2
 \end{table}
 
 
-\noindent \textbf{Subject-object pair features extraction.}
+\noindent \textbf{Subject-Object Pair Features Extraction.}
 To validate the effectiveness of the RelQ-Former in extracting subject-object pair features via the attention mechanism, we design an experiment by extracting subject-object pair features using mask pooling.
 Specifically, for mask pooling, we derive object features by applying mask pooling to their respective positions in the visual features and then concatenate these to form the subject-object pair features.
 As shown in Tab.~\ref{openpsg:tab:ablation_rel_q_former}, it demonstrates that our attention mechanism outperforms mask pooling based pair feature extraction method by 5.2\% in R@100 and by 4.7\% in mR@100.
@@ -220,7 +220,7 @@ We discover that this loss not only aids in training a relation existence classi
 As shown in Tab.~\ref{openpsg:tab:ablation_rel_q_former}, setting $\lambda$ to 0 leads to a decrease in R@100 by 0.8\% and in mR@100 by 0.6\%.
 
 
-\noindent \textbf{Analysis of instruction types in multimodal relation decoder.}
+\noindent \textbf{Analysis of Instruction Types in Multimodal Relation Decoder.}
 To further analyze the two types of instructions, generation instruction and judgement instruction of open-set relation prediction in our multimodal relation decoder (Sec.~\ref{openpsg:sec:rel_decoder}), we conduct a series of experiments by adjusting the proportion of novel relation categories, conducting tests with base:novel ratios of 7:3, 6:4, 5:5, 4:6, and 3:7, to validate the performance, and results shown in Tab.~\ref{openpsg:tab:base_novel_ratio}.
 First, under the same base:novel ratio, the method using judgement instruction (OpenPSG-J) consistently outperforms the one using generation instruction (OpenPSG-G).
 For example, at a base:novel ratio of 7:3, OpenPSG-J is 4.4\% higher than OpenPSG-G in R@100, and is 9.2\% higher in mR@100.

@@ -45,19 +45,19 @@ BindWeave~\citep{li2025bindweave}              & 57.61\%  & 45.55\% & 95.90\% & 
 
 \subsection{Datasets, Metrics and Implementation Details}
 
-\paragraph{Datasets.}
+\noindent \textbf{Datasets.}
 Benefiting from the masked training strategy, Saber is trained exclusively on video-text pair datasets, enabling the use of data from T2V and I2V sources.
 Specifically, we employ the ShutterStock Video~\citep{sstk} dataset and generate captions for all video clips using Qwen2.5-VL-Instruct~\citep{bai2025qwen2}, thus constructing the corresponding video-text pairs for training.
 
 
-\paragraph{Metrics.}
+\noindent \textbf{Metrics.}
 To ensure fair comparison, we adopt the OpenS2V-Eval~\citep{yuan2025opens2v} benchmark and follow its official protocol for fine-grained evaluation of reference-to-video generation.
 The benchmark contains 180 prompts across seven categories, spanning single-reference (face, human, entity) and multi-reference (multi-face, multi-human, human-entity) scenarios.
 We report automated metrics where higher scores indicate better performance, including Aesthetics for visual quality, MotionSmoothness for temporal coherence, MotionAmplitude for motion magnitude, and FaceSim for identity preservation.
 In addition, we use three OpenS2V-Eval metrics, NexusScore, NaturalScore, and GmeScore, which measure subject consistency, naturalness, and text-video alignment, respectively.
 
 
-\paragraph{Implementation Details.}
+\noindent \textbf{Implementation Details.}
 Saber is finetuned from the Wan2.1-14B~\citep{wan2025wan} model using our proposed masked training strategy on video-text pair datasets.
 %
 For the mask generator, we adopt a probabilistic sampling strategy for the foreground area ratio $r$: with 10\% probability, we set $r \in [0, 0.1]$ to simulate minimal and no reference information, enabling the model to handle varying numbers of reference images; with 80\% probability, we set $r \in [0.1,0.5]$ to represent typical primary subjects; and with the remaining 10\% probability, we set $r \in [0.5,1.0]$ to help the model learn from large reference images or background scenes.
@@ -148,12 +148,12 @@ iii) Fixing the foreground area ratio ($r=0.3$) leads to a further drop, indicat
 \end{table}
 
 
-\paragraph{The Effect of Masked Training.}
+\noindent \textbf{The Effect of Masked Training.}
 To evaluate the effect of masked training, we finetune our model on the OpenS2V-5M~\citep{yuan2025opens2v} dataset using the same architecture.
 As shown in Tab.~\ref{saber:tab:ablation_study}, masked training improves the total score by +1.67\%, indicating that it strengthens subject representation learning and reduces overfitting to specific reference cues.
 
 
-\paragraph{The Effect of Mask Generator.}
+\noindent \textbf{The Effect of Mask Generator.}
 In Tab.~\ref{saber:tab:ablation_study}, we first analyze the mask type by training the model using only one type at a time.
 Using only ellipse, Fourier, or polygon masks reduces total score by 3.35\%, 1.58\%, and 1.42\%, respectively, whereas combining all types yields the best results, showing that mask diversity is crucial for masked training.
 We also fix the foreground area ratio $r$ to 0.3, which leads to a 6.18\% drop, indicating that restricting mask variation limits generalization.
@@ -172,7 +172,7 @@ We also fix the foreground area ratio $r$ to 0.3, which leads to a 6.18\% drop, 
 \end{figure}
 
 
-\paragraph{The Effect of Mask Augmentation.}
+\noindent \textbf{The Effect of Mask Augmentation.}
 We evaluate the effect of mask augmentation by training the model with and without it. As shown in Fig.~\ref{saber:fig:ablation_mask_aug}, without augmentation, the model exhibits severe copy-paste artifacts, directly placing the T-shirt upright on the rock.
 With augmentation (rotation, scaling, flipping, and shearing), the T-shirt naturally lies on the rock surface, resulting in more realistic and coherent compositions.
 This demonstrates that geometric diversity in masking is crucial for natural video generation.
@@ -181,7 +181,7 @@ This demonstrates that geometric diversity in masking is crucial for natural vid
 
 
 
-\paragraph{The Effect of the Attention Mask.}
+\noindent \textbf{The Effect of the Attention Mask.}
 Finally, we examine the role of the attention mask in our attention mechanism, which constrains reference-video token interaction.
 As shown in Fig.~\ref{saber:fig:ablation_attn_mask}, removing the attention mask introduces visible gray artifacts around the subject regions, as the model fails to correctly extract subjects from masked reference images (\eg, gray areas behind sunglasses or clocks). 
 Incorporating the attention mask effectively resolves these issues, leading to cleaner subject separation, smoother blending, and improved overall video quality.
@@ -221,7 +221,7 @@ In this section, we explore several interesting capabilities of Saber that emerg
 
 
 
-\paragraph{Single Subject Multiple Views.}
+\noindent \textbf{Single Subject Multiple Views.}
 % In the multiple reference images scenario shown in Fig.~\ref{saber:fig:vis_opens2v_eval}, each reference image represents a different subject.
 We test Saber's ability to handle multiple reference images corresponding to different views of the same subject.
 As shown in Fig.~\ref{saber:fig:one_subject_multi_view}, we use the front, side, and back views of a robot as reference inputs to Saber.
@@ -241,7 +241,7 @@ Despite the robot's complex surface details and wiring structure, Saber accurate
     \label{saber:fig:cross_modal_alignment}
 \end{figure}
 
-\paragraph{Cross-modal Alignment.}
+\noindent \textbf{Cross-Modal Alignment.}
 We also evaluate the model's alignment between reference images and text prompts by swapping subject descriptions and observing the corresponding video changes.
 As shown in Fig.~\ref{saber:fig:cross_modal_alignment}, when altering prompts such as ``a man wearing a blue shirt seated'' (Type~1) and ``a man wearing a black vest seated'' (Type~2), Saber correctly aligns subjects with their descriptions.
 Similarly, when swapping the positions of a man and woman in the second case, the model accurately reflects the change.

@@ -5,7 +5,7 @@
 \noindent In this supplementary material, we provide the division method for base and novel relations in PSG dataset (Sec.~\ref{sec:division}), more experiments on other datasets (Sec.~\ref{sec:more_dataset_gqa}), additional experimental results (Sec.~\ref{sec:more_exp}), and instructions used in relation query transformer (Sec.~\ref{sec:instruction_rel_q_former}) and multimodal relation decoder (Sec.~\ref{sec:instruction_rel_decoder}) respectively.
 
 
-\section{Division for base and novel relations in PSG dataset.}
+\section{Division for Base and Novel Relations in PSG Dataset.}
 \label{sec:division}
 In the PSG dataset, there are a total of 56 predefined relations.
 To test the open-set performance of our model, we divide the dataset into base and novel relations at a ratio of 7:3.
@@ -18,7 +18,7 @@ all_relations = base_relations + novel_relations
 \end{lstlisting}
 
 
-\section{More datasets}
+\section{More Datasets}
 \label{sec:more_dataset_gqa}
 \textbf{GQA} dataset~\cite{hudson2019gqa} employs the same images as the VG dataset~\cite{krishna2017visual}, but includes more comprehensive annotations of objects and relations.
 Following prior work~\cite{dong2022stacked}, we conduct our experiments using the GQA200 variant, which encompasses 200 object categories and 100 relation categories.
@@ -27,7 +27,7 @@ To further validate our method, we evaluate our method on the GQA200 in both clo
 Our method surpasses the previous best-performing method~\cite{dong2022stacked} by a sizeable margin (+5.6\% in R@100 and +1.3\% in mR@100).
 
 
-\section{More experimental results}
+\section{More Experimental Results}
 \label{sec:more_exp}
 
 
@@ -99,14 +99,14 @@ Our method surpasses the previous best-performing method~\cite{dong2022stacked} 
 \end{table}
 
 
-\noindent \textbf{Effect of $\theta$ in the selector of RelQ-Former.}
+\noindent \textbf{Effect of $\theta$ in the Selector of RelQ-Former.}
 To select the optimal $\theta$ to balance model performance and efficiency, we experiment with different $\theta$ parameters for the selector.
 As shown in Fig.~\ref{fig:theta_time}, as $\theta$ increases from 0.0 to 0.35, the time required per image decreases rapidly, whereas there is no significant change as $\theta$ increases from 0.35 to 1.0.
 At the same time, as $\theta$ rises from 0.0 to 0.35, there is only a minor decline in model performance; however, beyond 0.35, the performance of the model begins to decrease rapidly.
 Therefore, to balance performance and efficiency, we select $\theta = 0.35$, thus ensuring a short average processing time for an image while maintaining high performance.
 
 
-\noindent \textbf{Number of layers in RelQ-Former.}
+\noindent \textbf{Number of Layers in RelQ-Former.}
 To determine the number of layers for RelQ-Former, we conduct experiments with different numbers of layers, and the results are shown in Tab.~\ref{tab:ablation_rel_q_former_layer}.
 When we increase the number of layers from 1 to 2, the model performance clearly improves, with R@100 increasing by 10.7\% and mR@100 by 12.9\%.
 However, when the number of layers increases from 2 to 4, the model performance only sees a minimal improvement, with R@100 increasing by 0.5\% and mR@100 by 0.3\%.
@@ -116,15 +116,15 @@ Therefore, a layer number of 2 is the optimal choice for balancing performance a
 
 
 
-\noindent \textbf{Impact of different data divisions on the results.}
+\noindent \textbf{Impact of Different Data Divisions on the Results.}
 We conduct 5 random divisions of the base and novel classes in the PSG dataset and show that the results (mean and variance in Tab.~\ref{tab:rebuttal_psg}: multi-division) are rather stable, attesting to the robustness of our method.
 
-\noindent \textbf{Fusion of generation and judgement instructions.}
+\noindent \textbf{Fusion of Generation and Judgement Instructions.}
 Judgement instruction is used by default, while generation instruction is a variant inspired by~\cite{zhang2023simple} for comparison.
 They are not combined in this chapter, but we can simply fuse their outputs using the inference fusion method in \cite{zhou2023hilo, zhou2025vlprompt}, the results in Tab.~\ref{tab:rebuttal_psg} (fuse G and J) show slight improvement (+0.5\% in R@100) but also come with double computation cost.
 
 
-\section{Instructions used in Relation Query Transformer}
+\section{Instructions Used in Relation Query Transformer}
 \label{sec:instruction_rel_q_former}
 We introduce the instructions used in the relation query former (Sec.~4.2).
 To prevent the model from overfitting to a particular type of instruction during training, following ~\cite{liu2024visual, dai2024instructblip, yu2023towards}, we design 10 different variations for each category of instruction.
@@ -169,7 +169,7 @@ instructions_for_exist_query = [
 \end{lstlisting}
 
 
-\section{Instructions used in Multimodal Relation Decoder}
+\section{Instructions Used in Multimodal Relation Decoder}
 \label{sec:instruction_rel_decoder}
 We introduce the instructions used in the multimodal relation decoder (Sec.~4.3).
 Same as Sec.~\ref{sec:instruction_rel_q_former}, to avoid model overfitting to a particular type of instruction during training, we design 10 different variations for each type of instruction.

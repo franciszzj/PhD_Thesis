@@ -242,7 +242,7 @@ As shown in Tab.~\ref{leffa:tab:general}, our method achieves FID reductions of 
 
 To further validate the effectiveness of our method, we conduct ablation experiments on the VITON-HD dataset.
 
-\noindent \textbf{Effect of $\mathcal{L}_{\text{leffa}}$}.
+\noindent \textbf{Effect Of $\mathcal{L}_{\text{leffa}}$}.
 We first ablate \leffa{} loss to evaluate the benefits of learning flow fields in attention.
 As shown in Tab.~\ref{leffa:tab:general}, all metrics degrade without $\mathcal{L}_{\text{leffa}}$.
 Specifically, the FID worsens by +0.77/+0.86 in the paired/unpaired setting, clearly demonstrating the contribution of our \leffa{} loss to improving overall generation quality.
@@ -299,7 +299,7 @@ Otherwise, attention maps are either too large (resulting in too few attention l
 % \end{table}
 
 
-\noindent \textbf{Effect of Timestep threshold $\theta_{\text{timestep}}$.}
+\noindent \textbf{Effect of Timestep Threshold $\theta_{\text{timestep}}$.}
 When the sampled timestep $t$ is large, the target query would include too much noise, making it harder for the model to recognize the correct reference key regions.
 In Fig.~\ref{leffa:fig:ablation}, we observe that the optimal performance is achieved at $\theta_{\text{resolution}} = 500$.
 Increasing it to $750$ or $1000$ results in degraded performance even compared to one without using $\mathcal{L}_{\text{leffa}}$. 

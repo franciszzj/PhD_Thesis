@@ -21,21 +21,21 @@ Classical visual understanding tasks such as classification and detection were h
 
 These trends are accompanied by a shift from task-specific learning to foundation models. Large-scale pretraining transfers general-purpose representations to a range of tasks, often through parameter-efficient adaptation. In open-world settings, the ability to represent concepts beyond a fixed label set becomes critical, motivating methods that connect visual embeddings to natural language semantics~\citep{radford2021learning, zhang2024vision}.
 
-\paragraph{Transformer attention as a general interaction operator.}
+\paragraph{Transformer Attention as a General Interaction Operator.}
 Many modern vision systems can be described as repeatedly applying attention to exchange information between a set of tokens. Given token embeddings $X \in \mathbb{R}^{n\times d}$, where $n$ is the number of tokens and $d$ is the feature dimension, multi-head self-attention computes
 \begin{equation}
 \mathrm{Attn}(X) = \mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right)V,\quad Q=XW_Q,\;K=XW_K,\;V=XW_V,
 \end{equation}
 followed by a feed-forward network and residual connections~\citep{vaswani2017attention}. Here $W_Q$, $W_K$, and $W_V$ are learned projection matrices in $\mathbb{R}^{d\times d}$, and $Q$, $K$, and $V$ are the resulting query, key, and value matrices. The crucial property is that attention is content-adaptive: interactions are inferred on the fly rather than prescribed by locality (as in convolutions) or by fixed graph edges. In dense prediction, this makes it natural to represent objects (or masks) as a \emph{set of queries} that attend to image features and to each other.
 
-\paragraph{Query-based set prediction and bipartite matching.}
+\paragraph{Query-Based Set Prediction and Bipartite Matching.}
 The Detection Transformer (DETR)~\citep{carion2020end} reframed detection as predicting a fixed-size set of objects. A transformer decoder produces $N$ output queries $\{q_i\}_{i=1}^{N}$, each yielding a class distribution (including a special ``no-object'' label) and a box (or mask). Training uses \emph{bipartite matching}: each ground-truth instance is assigned to exactly one query, avoiding duplicate predictions without heuristics such as non-maximum suppression. Formally, given ground truth $\{y_j\}_{j=1}^{M}$ with $M$ annotated instances and predictions $\{\hat y_i\}_{i=1}^{N}$ with $N$ decoder queries, the Hungarian assignment $\hat\sigma$ minimizes a matching cost
 \begin{equation}
 \hat\sigma=\arg\min_{\sigma\in\mathfrak{S}_N}\sum_{j=1}^{M}\mathcal{C}\!\left(y_j,\hat y_{\sigma(j)}\right),
 \end{equation}
 where $\mathfrak{S}_N$ is the set of permutations of the $N$ prediction indices, $\mathcal{C}(\cdot,\cdot)$ is the pairwise matching cost, and $\hat\sigma(j)$ returns the prediction index matched to ground-truth instance $j$. The loss is then computed on matched pairs (plus ``no-object'' for unmatched queries)~\citep{carion2020end}. This idea is now pervasive: it provides a unified recipe for detection, segmentation, and panoptic parsing, and it naturally supports additional structured outputs such as relations, where the model should make a small number of globally consistent predictions.
 
-\paragraph{Efficiency via sparse attention and multi-scale features.}
+\paragraph{Efficiency via Sparse Attention and Multi-Scale Features.}
 One practical limitation of vanilla attention is quadratic complexity in the number of tokens. Deformable attention mitigates this by attending to a small set of learned sampling points per query over multi-scale feature maps, improving convergence and efficiency in dense prediction~\citep{zhu2020deformable}. Combined with feature pyramids and mask decoders, this yields scalable systems that can handle high-resolution images and large numbers of entities---a prerequisite for panoptic scene graph generation.
 
 \subsection{Query-Based Detection and Segmentation}
@@ -47,13 +47,13 @@ where $W_m\in\mathbb{R}^{d\times d}$ is a learned projection matrix, $\hat m_i$ 
 
 These formulations are useful beyond segmentation accuracy: they produce a compact set of entity representations (the queries) that can be reused for downstream reasoning. For example, relation prediction can operate on the query embeddings instead of enumerating dense pixel features, while still remaining grounded because each query corresponds to a particular mask.
 
-\paragraph{Matching costs and mask losses in practice.}
+\paragraph{Matching Costs and Mask Losses in Practice.}
 Although matching is conceptually simple, the exact form of the matching cost $\mathcal{C}$ matters. For box-based detection, $\mathcal{C}$ typically mixes a classification term (negative log-probability of the correct label) with geometric terms such as $\ell_1$ distance on normalized box coordinates and intersection-over-union (IoU)-based penalties. For mask-based segmentation, matching and training losses commonly combine per-pixel binary cross-entropy with set-level overlap metrics such as Dice loss~\citep{sudre2017generalised}, encouraging both correct foreground assignment and accurate boundaries~\citep{cheng2021per, cheng2022masked}. Because matching is solved per image, each prediction competes globally: a query is rewarded only if it is the \emph{best} match to some ground-truth instance, which discourages duplicates and makes the model learn a consistent set representation.
 
-\paragraph{From mask queries to a panoptic map.}
+\paragraph{From Mask Queries to a Panoptic Map.}
 Producing a final panoptic map requires resolving overlaps and merging regions into a single per-pixel labeling. Query-based systems typically (i) split predictions into ``thing'' and ``stuff'' based on the predicted class, (ii) rank thing masks by confidence and paste them in a non-overlapping manner (often suppressing small fragments), and (iii) merge stuff masks that share the same semantic label~\citep{kirillov2019panoptic, cheng2022masked}. This post-processing is lightweight compared with classical panoptic pipelines, but it affects downstream graphs: overlap resolution determines which entities exist as nodes, and small errors (\eg, missing limbs, broken boundaries) can change relation candidates. For PSG, these details matter because relations are defined over the final entity set rather than over an intermediate dense map.
 
-\paragraph{Panoptic unification.}
+\paragraph{Panoptic Unification.}
 Panoptic segmentation unifies instance and semantic segmentation by assigning every pixel to exactly one entity: either a ``thing'' instance (countable object) or a ``stuff'' region (amorphous background category)~\citep{kirillov2019panoptic}. Query-based models naturally support panoptic outputs by allowing queries to represent either type and resolving overlaps by ranking or by mask competition. A key benefit for structured reasoning is that panoptic masks provide pixel-level grounding for both objects and context regions, enabling relations that involve stuff (\eg, \emph{on road}, \emph{in sky}) and relations that depend on precise geometry (\eg, occlusion).
 
 \subsection{Detection, Segmentation, and Panoptic Segmentation}
@@ -61,10 +61,10 @@ Dense perception provides the geometric substrate for structured scene understan
 
 Modern segmentation and panoptic parsing increasingly adopt transformer-based designs. Deformable attention improves convergence and efficiency for dense prediction~\citep{zhu2020deformable}, while mask-centric architectures such as MaskFormer~\citep{cheng2021per} and Mask2Former~\citep{cheng2022masked} model masks as a set of queries and leverage multi-scale features. Beyond closed-set recognition, open-world segmentation is increasingly supported by promptable or open-vocabulary models that align pixels with language or leverage large-scale pretraining~\citep{ghiasi2022scaling, zhang2023simple, kirillov2023segment}.
 
-\paragraph{Evaluation of panoptic outputs.}
+\paragraph{Evaluation of Panoptic Outputs.}
 Panoptic segmentation is commonly evaluated with Panoptic Quality (PQ), which combines recognition and segmentation quality by matching predicted and ground-truth masks at an IoU threshold and aggregating IoU over matched pairs~\citep{kirillov2019panoptic}. PQ is informative for PSG because relation prediction is only meaningful when the entities themselves are correct and spatially grounded. In practice, methods may trade off PQ and relation recall: aggressive merging can improve PQ for stuff but reduce the number of entity nodes available for relations, whereas over-segmentation can increase the number of nodes but degrade mask quality and introduce noisy pairs.
 
-\paragraph{From masks to relational features.}
+\paragraph{From Masks to Relational Features.}
 For downstream relation prediction, dense perception provides not only entity identities but also geometric cues. Useful features include relative position (centers, sizes), overlap and containment statistics, and boundary interactions that reflect contact. Transformer-based mask decoders also produce query embeddings that summarize each mask; these embeddings serve as a compact representation that can be fed into relation decoders, enabling end-to-end training from pixels to a scene graph~\citep{cheng2021per, cheng2022masked}.
 
 \subsection{Visual Relationships and Scene Graphs}
@@ -72,13 +72,13 @@ While dense perception identifies entities, structured understanding requires mo
 
 Methodologically, early scene graph pipelines were object-centric: detect entities, enumerate subject--object pairs, and classify predicates using appearance and spatial features. Subsequent work introduced contextual reasoning through message passing and attention mechanisms, and transformer-based models later enabled end-to-end training with global interaction modeling~\citep{li2022sgtr, shit2022relationformer, cong2023reltr}. A recurring issue is dataset bias: relation labels are highly skewed, and models can overfit co-occurrence statistics rather than grounded evidence~\citep{zellers2018neural}.
 
-\paragraph{Formalization and task variants.}
+\paragraph{Formalization and Task Variants.}
 A scene graph can be written as $G=(V,E)$ with nodes $V=\{1,\dots,N\}$ and directed edges $E\subseteq V\times V$. Each node $i$ has a class label $c_i$ and a spatial support (box or mask), and each directed edge $(i,j)$ has a predicate label $r_{ij}$. Common benchmarks define several task settings: \emph{predicate classification} (PredCls) assumes ground-truth boxes and object labels and only predicts predicates; \emph{scene graph classification} (SGCls) assumes ground-truth boxes and predicts both object labels and predicates; and \emph{scene graph detection} (SGDet) predicts boxes (or masks), object labels, and predicates end-to-end~\citep{cheng2022visual, zhu2022scene}. PSG is closest in spirit to SGDet but with panoptic masks and stuff classes.
 
-\paragraph{Pairwise modeling and computational structure.}
+\paragraph{Pairwise Modeling and Computational Structure.}
 Given $N$ detected entities, naive relation prediction considers all ordered pairs, leading to $O(N^2)$ candidate edges. A typical architecture builds a feature vector for each pair $(i,j)$ by combining subject and object features (appearance embeddings, query embeddings) with spatial features (relative geometry) and optionally union-region features. A classifier then predicts a distribution over predicates. Transformer-based approaches can represent relations as additional queries that attend to entity queries and global image features, enabling joint reasoning and reducing reliance on handcrafted pair features~\citep{cong2023reltr, shit2022relationformer}. However, the quadratic pair space remains a practical bottleneck, especially for panoptic masks where $N$ can be larger and where stuff regions add additional nodes.
 
-\paragraph{Context, compositionality, and grounding.}
+\paragraph{Context, Compositionality, and Grounding.}
 Relations are often context-dependent: the same pair of objects can have different predicates depending on the scene (\emph{person holding cup} vs.\ \emph{person next to cup}). Models therefore benefit from global context and from explicit relational reasoning. Attention provides one mechanism, but another is to incorporate language priors: since predicates are linguistic, their semantics can be exploited by aligning predicate representations with text or by using large language models as a source of commonsense constraints. These ideas become especially relevant in open-vocabulary and open-set settings where the relation label space expands beyond a fixed ontology.
 
 \subsection{Long-Tailed and Debiased Relation Learning}
@@ -86,23 +86,23 @@ Relation distributions are often severely long-tailed: a small number of generic
 
 Two aspects differentiate long-tail learning for relations from long-tail learning for object categories. First, predicates are abstract and ambiguous: multiple predicates can be plausible for the same entity pair depending on granularity and context. Second, correlations between entities and predicates induce spurious shortcuts (\eg, frequent pairs and frequent relations). Recent methods therefore explore strategies such as frequency-aware grouping~\citep{dong2022stacked}, external bias prediction, and data augmentation to improve rare predicate recognition while maintaining overall recall~\citep{zhang2022fine}.
 
-\paragraph{Frequency bias and shortcut learning.}
+\paragraph{Frequency Bias and Shortcut Learning.}
 Relation datasets exhibit strong co-occurrence patterns (\eg, \emph{person--wearing--shirt}, \emph{plate--on--table}). When trained with maximum likelihood, models may exploit these shortcuts by predicting predicates from object labels alone, which can yield high recall on frequent patterns but poor generalization and poor tail performance~\citep{zellers2018neural}. This bias is exacerbated in SGDet/PSG settings because object errors cascade into relation prediction.
 
-\paragraph{Debiasing as a decomposition problem.}
+\paragraph{Debiasing as a Decomposition Problem.}
 Many unbiased SGG methods can be interpreted as decomposing prediction into a ``bias'' component and an ``evidence'' component. For example, a model may predict a prior over predicates conditioned on object classes (bias), then correct it using visual features (evidence). Training can encourage the evidence term to carry information by weakening the bias path (\eg, through balanced sampling, dropout-like interventions, or causal objectives)~\citep{tang2020unbiased, li2021bipartite}. Hierarchical and tree-based methods leverage predicate taxonomies to share statistical strength between head and tail predicates while respecting semantic structure~\citep{yu2020cogtree, deng2022hierarchical}.
 
-\paragraph{Optimization recipes for long-tail robustness.}
+\paragraph{Optimization Recipes for Long-Tail Robustness.}
 In practice, long-tail improvements often involve a combination of recipes rather than a single change: (i) representational learning that preserves fine-grained cues (better backbones, context modeling); (ii) loss rebalancing that prevents head classes from dominating gradients; and (iii) evaluation-aware tuning that targets mean recall and tail splits. Frequency grouping~\citep{dong2022stacked} and fine-grained predicate augmentation~\citep{zhang2022fine} are examples of techniques that explicitly design supervision to address ambiguous predicate semantics.
 
-\paragraph{Logit adjustment and calibration.}
+\paragraph{Logit Adjustment and Calibration.}
 Beyond data and architecture, long-tail behavior is strongly affected by the classifier's calibration. A simple and widely used idea is to shift decision boundaries using class-frequency priors~\citep{menon2021longtail}. If $z_r$ is the logit for predicate $r$ and $\pi_r$ is an empirical predicate prior, one can form an adjusted logit
 \begin{equation}
 \tilde z_r = z_r - \lambda \log(\pi_r + \epsilon),
 \end{equation}
 where $\lambda$ controls the strength and $\epsilon$ avoids numerical issues. Intuitively, this penalizes overly frequent predicates and makes it easier for rare predicates to be selected when visual evidence supports them. While such adjustments do not ``solve'' bias on their own, they illustrate an important point: for PSG/SGG, improvements can come from seemingly small choices in optimization and calibration, especially when evaluation emphasizes mean recall and tail predicates.
 
-\paragraph{Ambiguity and multi-label structure.}
+\paragraph{Ambiguity and Multi-Label Structure.}
 Predicate labels are not mutually exclusive in the real world. For example, \emph{holding} often implies \emph{touching}, and \emph{in front of} can co-occur with \emph{next to}. However, many datasets annotate a single predicate per pair, which introduces label noise and encourages models to learn brittle decision boundaries. Algorithmically, this motivates losses and label representations that reflect structure: hierarchical predicate groupings, soft labels over related predicates, or training objectives that allow multiple plausible predicates per pair. These considerations become increasingly important when moving toward open-set relation prediction, where predicates may be expressed as free-form phrases rather than as a closed categorical list.
 
 \subsection{Panoptic Scene Graph Generation}
@@ -112,7 +112,7 @@ Early PSG systems extended DETR-style architectures with additional relation hea
 
 Within this thesis, PSG serves as the main testbed for structured understanding. Chapters~3--5 address three connected challenges: long-tail relation recognition under semantic overlap, language-assisted relation reasoning, and open-world grounded prediction. Chapter~3 introduces HiLo, a frequency-specialized architecture with consistency constraints for long-tail predicates~\citep{zhou2023hilo}. Chapter~4 studies how large language models can provide context-rich priors for grounded relation prediction through vision--language prompting~\citep{zhou2025vlprompt}. Chapter~5 extends PSG toward open-world settings by combining open-set panoptic segmentation with multimodal relation generation~\citep{zhou2025openpsg}.
 
-\paragraph{A unified end-to-end template.}
+\paragraph{A Unified End-to-End Template.}
 Many PSG models follow a common end-to-end template:
 \begin{enumerate}
     \item \textbf{Panoptic entity decoding}: a query-based segmentation model predicts a set of masks and entity labels (things and stuff).
@@ -122,10 +122,10 @@ Many PSG models follow a common end-to-end template:
 \end{enumerate}
 Crucially, this template exposes the bottlenecks: entity quality (panoptic PQ), pair explosion ($O(N^2)$), and long-tail predicate imbalance. It also clarifies how improvements can be inserted modularly: better mask decoding improves entity grounding; better pair selection improves compute and reduces noise; better debiasing improves tail predicates; and better multimodal priors improve open-set generalization.
 
-\paragraph{Pair explosion and structured sparsity.}
+\paragraph{Pair Explosion and Structured Sparsity.}
 If an image contains $N$ entities, the number of ordered pairs is $N(N-1)$, which can be large even for moderate $N$. PSG further increases $N$ because stuff regions count as entities. Pair proposal mechanisms (\eg, PairNet~\citep{wang2023pair}) can be viewed as learning a sparse adjacency structure: instead of predicting predicates for all pairs, the model first predicts which pairs are likely to be related, then performs predicate classification on this pruned set. This two-stage structure is important for scaling PSG to high-resolution images and for enabling extensions to video and 4D scenes where the number of entities across frames is even larger.
 
-\paragraph{Grounding relations with masks.}
+\paragraph{Grounding Relations with Masks.}
 Compared with box-based graphs, mask grounding enables richer geometric features (overlap patterns, contact boundaries, containment), which can disambiguate predicates that are hard to distinguish from appearance alone. However, mask geometry also introduces noise: small boundary errors can flip contact relations, and stuff masks can be diffuse. Robust PSG therefore depends on both strong panoptic decoding and relation decoders that can tolerate imperfect masks.
 
 \subsection{Vision--Language Models, Prompting, and Multimodal Reasoning}
@@ -133,14 +133,14 @@ Vision--language models align images with natural language, enabling transfer to
 
 Prompting and instruction design have also become practical tools for structured prediction. Chain-of-thought prompting improves reasoning in language models~\citep{wei2022chain}, and similar ideas are increasingly used to elicit richer descriptions and commonsense knowledge for vision tasks. Surveys summarize how such models are adapted to detection, segmentation, and reasoning by adding multimodal modules or task-specific prompting schemes~\citep{min2023recent, zhang2024vision}. In PSG, language provides particularly relevant priors because predicates are closely tied to linguistic semantics and world knowledge~\citep{radford2021learning, min2023recent, zhang2024vision}. Chapter~4 leverages this observation by converting LLM-generated relation descriptions into complementary features for relation decoding~\citep{zhou2025vlprompt}.
 
-\paragraph{Contrastive image--text alignment.}
+\paragraph{Contrastive Image--Text Alignment.}
 Contrastive Language-Image Pretraining (CLIP)-style models learn paired image and text encoders by maximizing the similarity of matched image--text pairs while minimizing similarity to mismatched pairs~\citep{radford2021learning}. Given a batch of $B$ matched image--text pairs, image embeddings $\{v_i\}_{i=1}^{B}$ and text embeddings $\{t_i\}_{i=1}^{B}$ (all normalized), a typical objective is an InfoNCE loss~\citep{oord2018cpc}
 \begin{equation}
 \mathcal{L}_{\mathrm{IT}} = -\frac{1}{B}\sum_{i=1}^{B}\log\frac{\exp(\tau v_i^\top t_i)}{\sum_{j=1}^{B}\exp(\tau v_i^\top t_j)} \;+\; \text{sym.},
 \end{equation}
 where $v_i^\top t_j$ is the similarity between image $i$ and text $j$, $\tau$ is a temperature (or logit scale), and the denominator contrasts the positive pair $(i,i)$ against all $B$ text candidates in the batch; ``sym.'' denotes the analogous text-to-image term. This alignment makes it possible to classify an image (or region) by comparing its embedding with text embeddings of class prompts, enabling open-vocabulary recognition without training on the downstream label set.
 
-\paragraph{Prompting as task specification and knowledge injection.}
+\paragraph{Prompting as Task Specification and Knowledge Injection.}
 Prompting has two roles in vision systems. First, prompts specify the downstream task interface (\eg, ``segment \emph{cat}'' or ``describe relations between objects''). Second, prompts can inject knowledge by providing descriptions, attributes, and constraints. For relations, this is particularly valuable because many predicates are rare in training data but common in language and commonsense. Large multimodal models provide a flexible channel for such knowledge: they can generate candidate predicates, justify predictions, or produce structured outputs when prompted with appropriate instructions~\citep{liu2024visual}. However, naive prompting can be brittle; robust integration typically requires converting language outputs into features or constraints that are fused with visual evidence, as explored in Chapter~4~\citep{zhou2025vlprompt}.
 
 \subsection{Open-Vocabulary and Open-World Recognition}
@@ -148,39 +148,39 @@ Open-vocabulary learning generalizes beyond predefined label sets by aligning vi
 
 Open-set relation prediction is comparatively under-explored because relations are combinatorial (they depend on object pairs) and require grounded interaction understanding. Recent efforts extend open-world ideas to scene graphs via knowledge transfer, prompt-based finetuning, or visual--concept alignment~\citep{kan2021zero, yu2022zero, he2022towards, yu2023visually, chen2023expanding}. Chapter~5 adopts a complementary approach by using large multimodal models to generate relation phrases autoregressively, together with efficiency mechanisms that reduce pairwise computation~\citep{zhou2025openpsg}.
 
-\paragraph{What ``open'' means: open-vocabulary vs.\ open-set vs.\ open-world.}
+\paragraph{What ``Open'' Means: Open-Vocabulary vs.\ Open-Set vs.\ Open-World.}
 The terms are sometimes used interchangeably, but they emphasize different aspects. \emph{Open-vocabulary} recognition usually refers to predicting from a label space that is specified at inference time via text (\eg, a list of category names). \emph{Open-set} recognition emphasizes the ability to reject unknown categories and detect out-of-distribution inputs. \emph{Open-world} recognition combines both with the requirement to incrementally incorporate new categories and to cope with distribution shifts over time~\citep{wu2024towards}. For PSG, open-world behavior is challenging because the label space includes both entity categories and predicates, and because relations are compositional over pairs.
 
-\paragraph{Region--text scoring as a generic open-vocabulary mechanism.}
+\paragraph{Region--Text Scoring as a Generic Open-Vocabulary Mechanism.}
 Many open-vocabulary detectors and segmenters compute a similarity score between region features and text embeddings. If $f_i$ is a region (or mask) embedding and $g(c)$ is the text embedding of category name $c$, then a simple classifier is $s_{i,c}=\tau f_i^\top g(c)$, where $s_{i,c}$ is the score assigned to region $i$ for category $c$ and $\tau$ is a temperature or logit scale, followed by a softmax over candidate classes or a thresholded open-set decision. The main algorithmic challenge is to obtain region embeddings that are aligned with language at the right granularity and that remain robust under occlusion and context. Promptable segmentation models~\citep{kirillov2023segment} provide a complementary interface by allowing users (or other models) to specify objects via points, boxes, or text, which can be composed with open-vocabulary detectors for richer pipelines~\citep{ren2024grounded}.
 
-\paragraph{Open-set relations as structured language generation.}
+\paragraph{Open-Set Relations as Structured Language Generation.}
 For relations, open-set prediction can be framed as generating a predicate phrase conditioned on a pair of entities, which naturally matches the capabilities of large multimodal models. This moves the interface from classification over a fixed predicate list to generation in natural language. The resulting outputs are flexible but also require normalization (mapping phrases to canonical predicates) and efficiency mechanisms for selecting which pairs to query, as explored in recent work and in Chapter~5~\citep{chen2023expanding, zhou2025openpsg}.
 
 \subsection{Attention as Soft Matching and Alignment}
 Although the above topics span recognition, segmentation, relations, and generation, notions of \emph{matching} and \emph{alignment} arise in several different forms. In DETR-style training, matching assigns predictions to ground truth. In segmentation, matching assigns mask queries to instance masks. In scene graphs, relation prediction assigns predicate labels to entity pairs. In generation, attention assigns target regions to conditioning tokens (words, reference patches) during denoising. The following discussion summarizes how these concepts appear in the tasks most relevant to later chapters.
 
-\paragraph{Hard matching: permutation matrices and Hungarian assignment.}
+\paragraph{Hard Matching: Permutation Matrices and Hungarian Assignment.}
 The Hungarian matching in set prediction can be written as selecting a permutation (or more generally, a partial matching) that pairs ground-truth instances with predictions. If we write the matching as a binary matrix $P\in\{0,1\}^{M\times N}$ where $P_{j,i}=1$ indicates that ground-truth $j$ is matched to prediction $i$, then matching solves a discrete optimization
 \begin{equation}
 P^\star = \arg\min_{P \in \Pi}\;\langle C, P\rangle,
 \end{equation}
 where $C\in\mathbb{R}^{M\times N}$ is a cost matrix, $\langle C, P\rangle=\sum_{j=1}^{M}\sum_{i=1}^{N} C_{j,i}P_{j,i}$ is the Frobenius inner product, and $\Pi$ is the set of valid binary one-to-one matchings. The important point is not the solver itself, but the inductive bias: training explicitly enforces that the model should represent the output as a \emph{set} rather than as a dense map with post-hoc duplicate removal.
 
-\paragraph{Soft matching: attention as a differentiable assignment map.}
+\paragraph{Soft Matching: Attention as a Differentiable Assignment Map.}
 Attention produces a different kind of matching: a row-stochastic matrix of weights over candidates. For cross-attention, if $Q\in\mathbb{R}^{n_t\times d}$ and $K\in\mathbb{R}^{n_s\times d}$ are the query and key matrices for $n_t$ target tokens and $n_s$ source tokens, then a target token produces a distribution over conditioning tokens,
 \begin{equation}
 A=\mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right),
 \end{equation}
 where $A\in\mathbb{R}^{n_t\times n_s}$ is the resulting attention matrix and each row of $A$ sums to one. When the softmax temperature is low (or similarities are sharp), each row becomes nearly one-hot, approximating a hard assignment; when the distribution is diffuse, the model represents uncertainty or uses multiple conditioning sources. This makes attention a natural vehicle for correspondence: it is a learned, differentiable map from targets to sources, computed repeatedly across layers and denoising steps.
 
-\paragraph{Alignment in structured understanding.}
+\paragraph{Alignment in Structured Understanding.}
 Even in purely discriminative tasks, attention-based alignment is useful. Entity queries attend to the spatial feature maps to extract object-specific information; relation queries or pairwise attention can identify interacting entities by focusing on relevant context. For PSG, attention patterns can be interpreted as soft adjacency: if a relation decoder learns to consistently allocate attention from an entity to the entities it interacts with, the resulting weights provide a learned structural prior over candidate pairs. This view motivates pair selection mechanisms that are not purely score-thresholding but instead learn a sparse relational structure~\citep{wang2023pair}.
 
-\paragraph{Alignment in controllable generation.}
+\paragraph{Alignment in Controllable Generation.}
 In diffusion models, the same alignment mechanism becomes a controllability interface. Cross-attention aligns visual tokens to text tokens to ensure semantic faithfulness. Reference-based generation extends this idea by aligning target tokens to \emph{reference} tokens, which ideally implements a spatial correspondence between the generated output and the reference image. When this correspondence fails, fine-grained details (logos, textures, text) can drift or smear, because the denoiser is repeatedly conditioned on the wrong source features. Regularizing attention to behave like a meaningful correspondence field---a soft flow---is therefore a powerful way to improve faithfulness without changing inference-time computation, which is exactly the mechanism studied in Chapter~6~\citep{zhou2025learning}.
 
-\paragraph{Temporal alignment for video.}
+\paragraph{Temporal Alignment for Video.}
 For video, alignment must be consistent not only across space but also across time. Temporal attention can be interpreted as a correspondence between frames: each frame's tokens attend to tokens in other frames that represent the same object over time. If this temporal alignment is unstable, identity drift and flicker occur. Masked training strategies, as in Chapter~7~\citep{zhou2025scaling}, can be seen as forcing the model to use alignment in a more disciplined way: by hiding parts of the video and requiring reconstruction, the model must learn to propagate consistent identity features and to avoid trivial copy operations that bypass true correspondence reasoning.
 
 \section{Visual Generation}
@@ -189,7 +189,7 @@ The controllable-generation part of this thesis focuses on reference-conditioned
 \subsection{Diffusion Models}
 Diffusion models learn to generate data by iteratively denoising a noisy sample. Denoising diffusion probabilistic models (DDPMs) established the basic framework and showed competitive fidelity compared with earlier paradigms~\citep{ho2020denoising}. Latent diffusion~\citep{rombach2022high} improves scalability by operating in a compressed latent space while retaining high resolution and strong semantic controllability. Guidance mechanisms, such as classifier-free guidance (CFG), improve prompt adherence and enable controllable sampling without external classifiers~\citep{ho2022classifier}.
 
-\paragraph{Forward noising process.}
+\paragraph{Forward Noising Process.}
 DDPMs define a Markovian forward process that gradually corrupts data with Gaussian noise:
 \begin{equation}
 q(x_t \mid x_{t-1}) = \mathcal{N}\!\left(\sqrt{1-\beta_t}\,x_{t-1},\,\beta_t I\right),
@@ -200,35 +200,35 @@ q(x_t \mid x_0) = \mathcal{N}\!\left(\sqrt{\bar\alpha_t}\,x_0,\, (1-\bar\alpha_t
 \end{equation}
 where $\alpha_t=1-\beta_t$ and $\bar\alpha_t=\prod_{s=1}^{t}\alpha_s$ is the cumulative signal coefficient up to step $t$. In other words, $x_t$ can be sampled directly as $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\,\epsilon$ with $\epsilon\sim\mathcal{N}(0,I)$, where $\epsilon$ has the same dimensionality as $x_0$.
 
-\paragraph{Reverse denoising and training objective.}
+\paragraph{Reverse Denoising and Training Objective.}
 The generative model learns a reverse process $p_\theta(x_{t-1}\mid x_t)$ that removes noise step by step. A widely used parameterization trains a neural network $\epsilon_\theta$ to predict the noise $\epsilon$ added at step $t$:
 \begin{equation}
 \min_{\theta}\;\mathbb{E}_{x_0,\epsilon,t}\left[\left\lVert \epsilon - \epsilon_\theta(x_t,t,c)\right\rVert_2^2\right],
 \end{equation}
 where $\theta$ denotes the network parameters, the expectation averages over clean samples $x_0$, Gaussian noise $\epsilon$, and timesteps $t$, $\lVert\cdot\rVert_2$ is the Euclidean norm, and $c$ denotes conditioning information (\eg, text). This simple loss is one reason diffusion has become a versatile backbone: it reduces many generative tasks to supervised denoising, and it provides a natural handle for injecting control (conditioning $c$) at every denoising step.
 
-\paragraph{Prediction parameterizations and noise schedules.}
+\paragraph{Prediction Parameterizations and Noise Schedules.}
 Although the above objective is often described as ``noise prediction'', diffusion models can be parameterized in several equivalent ways under Gaussian assumptions: the network may predict the noise $\epsilon$, the clean sample $x_0$, or a linear combination such as the ``velocity'' parameterization used in some latent diffusion implementations. These choices correspond to different reweightings of the same underlying denoising objective and can affect numerical stability across noise levels. Similarly, the noise schedule $\{\beta_t\}$ and the sampling schedule (which timesteps are used at inference time) strongly influence the trade-off between speed and fidelity: larger noise steps or fewer iterations accelerate sampling but make the reverse problem harder, which can amplify conditioning errors and reduce fine detail. Many modern systems therefore tune schedules jointly with conditioning mechanisms to maintain controllability at practical sampling budgets.
 
-\paragraph{Sampling as iterative refinement.}
+\paragraph{Sampling as Iterative Refinement.}
 At inference time, sampling starts from $x_T\sim\mathcal{N}(0,I)$ and iteratively applies the learned reverse updates to obtain $x_0$. The iterative nature makes diffusion slower than one-shot generators, but it also makes it controllable: constraints can be applied repeatedly and corrected over multiple steps. Many practical systems trade off quality and speed by using fewer sampling steps, alternative schedulers, or distillation, while preserving the same conceptual structure.
 
-\paragraph{Classifier-free guidance.}
+\paragraph{Classifier-Free Guidance.}
 Classifier-free guidance improves conditional sampling by mixing conditional and unconditional predictions~\citep{ho2022classifier}. Let $\epsilon_\theta(x_t,t,c)$ be the conditional prediction and $\epsilon_\theta(x_t,t,\varnothing)$ be the unconditional prediction (obtained by dropping conditioning during training, with $\varnothing$ denoting the null condition). A guided prediction is
 \begin{equation}
 \hat\epsilon = (1+w)\,\epsilon_\theta(x_t,t,c) - w\,\epsilon_\theta(x_t,t,\varnothing),
 \end{equation}
 where $\hat\epsilon$ is the guided noise estimate and $w$ is the guidance scale. Larger $w$ improves prompt adherence but can reduce diversity and introduce artifacts, highlighting a recurring theme in controllable generation: stronger control is not always better if it harms realism.
 
-\paragraph{Condition dropout and unconditional capacity.}
+\paragraph{Condition Dropout and Unconditional Capacity.}
 CFG requires the model to be competent both conditionally and unconditionally. In practice, this is achieved by randomly dropping conditioning during training with a fixed probability, so that the same network learns to denoise with $c$ and with $\varnothing$~\citep{ho2022classifier}. If the unconditional branch is weak, guidance can cause instability; if the conditional branch overfits, guidance may produce oversaturated or distorted outputs. These observations foreshadow later chapters: controllable generation is not only about adding more control inputs, but about designing training that makes the model \emph{use} those inputs reliably.
 
-\paragraph{Latent diffusion and modular conditioning.}
+\paragraph{Latent Diffusion and Modular Conditioning.}
 Latent diffusion models~\citep{rombach2022high} operate in the latent space of an autoencoder. A variational autoencoder (VAE)~\citep{kingma2013auto} encoder maps an image $x$ to a latent $z$; diffusion runs on $z$ to produce a generated latent $\hat z$, which is decoded back to pixels. This improves efficiency and makes it easier to plug in additional conditioning modules (\eg, control branches) without operating at full image resolution. Many controllable generation methods in this thesis (Chapters~6--7) build on this latent diffusion paradigm.
 
 Scaling diffusion models increasingly involves transformer architectures and masked generative objectives. Diffusion Transformers (DiTs) replace U-Net backbones~\citep{ronneberger2015u} with transformer blocks and scale effectively with data~\citep{peebles2023scalable}, while masked diffusion transformers explore alternative tokenization and masking strategies~\citep{gao2023masked}. These modeling choices influence not only fidelity but also the affordances for conditioning and control.
 
-\paragraph{Diffusion transformers and tokenization choices.}
+\paragraph{Diffusion Transformers and Tokenization Choices.}
 Replacing U-Nets with transformers changes the inductive biases: instead of local convolutional filters, the model reasons over global token interactions. This can improve scaling behavior with data and model size~\citep{peebles2023scalable}, and it also changes how conditioning signals are fused (attention over tokens rather than feature maps). Masked diffusion objectives~\citep{gao2023masked} further blur the line between diffusion and masked modeling: by choosing which tokens to corrupt (mask) and how to denoise them, one can implement inpainting-like behaviors and flexible conditioning schemes, which are especially relevant for reference-based generation and for video where partial observations can serve as anchors.
 
 \subsection{Conditioning and Control Interfaces}
@@ -236,17 +236,17 @@ Controllable generation can be viewed as designing \emph{interfaces} that inject
 
 In practice, strong control must navigate a control--quality trade-off: enforcing constraints too aggressively can reduce realism, while weak control yields plausible but unfaithful outputs. This motivates methods that (i) fuse control at multiple resolutions, (ii) disentangle editable factors from invariant factors, and (iii) provide explicit mechanisms to localize edits and preserve identity.
 
-\paragraph{Cross-attention as the conditioning workhorse.}
+\paragraph{Cross-Attention as the Conditioning Workhorse.}
 In text-conditioned diffusion, the denoiser receives both a noisy latent and a sequence of text embeddings. Cross-attention fuses them by letting visual tokens query text tokens. If $H\in\mathbb{R}^{n\times d}$ are visual features for $n$ visual tokens and $T\in\mathbb{R}^{m\times d}$ are text features for $m$ text tokens, cross-attention computes
 \begin{equation}
 \mathrm{Attn}(H,T)=\mathrm{softmax}\!\left(\frac{(HW_Q)(TW_K)^\top}{\sqrt{d}}\right)(TW_V),
 \end{equation}
 where $W_Q$, $W_K$, and $W_V$ are learned projection matrices and the output again has $n$ visual tokens. This produces a text-informed update for each visual token. This mechanism is general: the ``text'' tokens can be replaced with embeddings of other conditions (\eg, pose keypoints, reference image patches), making cross-attention a natural place to implement controllable interfaces.
 
-\paragraph{Control injection: concatenation, modulation, and residual branches.}
+\paragraph{Control Injection: Concatenation, Modulation, and Residual Branches.}
 Beyond cross-attention, control signals can be injected by concatenating control maps to the input, by feature-wise modulation, or by adding residual feature branches. ControlNet~\citep{zhang2023adding} exemplifies the residual-branch approach: it creates a trainable copy of the U-Net blocks (the control branch) that processes the control input and injects residuals into the frozen base model. By initializing the residual projections near zero, the pretrained generator's behavior is preserved at the start of training, and the model gradually learns to use the control signal without destabilizing the base distribution.
 
-\paragraph{Training-free control via attention and guidance.}
+\paragraph{Training-Free Control via Attention and Guidance.}
 Some constraints can be applied without retraining by manipulating attention maps or by adding guidance terms. For example, attention-based methods encourage specific words to attend to specific spatial regions during denoising~\citep{chefer2023attend, cao2023masactrl}, while BoxDiff enforces bounding-box constraints through guidance during sampling~\citep{xie2023boxdiff}. These approaches highlight a useful perspective: because diffusion sampling is iterative, constraints can be enforced as repeated corrections, and attention maps provide a convenient handle to localize these corrections.
 
 \subsection{Instruction-Based Editing and Identity Preservation}
@@ -254,17 +254,17 @@ Instruction-based editing aims to modify an image or video according to a text i
 
 For subject-specific control, reference images provide a strong and intuitive interface. However, faithfully transferring fine-grained details requires reliable correspondence between target regions and reference regions. This observation underpins Chapter~6, which improves reference-aware controllability by explicitly guiding attention alignment during diffusion training~\citep{zhou2025learning}.
 
-\paragraph{Editing as conditional denoising with an initialization anchor.}
+\paragraph{Editing as Conditional Denoising with an Initialization Anchor.}
 Many editing pipelines can be interpreted as conditioning diffusion on both an input image $x^{\mathrm{in}}$ and an instruction $c$. Instead of sampling from pure noise, the process begins from a partially noised version of the input: choose a noise level $t_0$ and set
 \begin{equation}
 x_{t_0}=\sqrt{\bar\alpha_{t_0}}\,x^{\mathrm{in}}+\sqrt{1-\bar\alpha_{t_0}}\,\epsilon.
 \end{equation}
 Here $x^{\mathrm{in}}$ is the input image to be edited, $t_0$ is the chosen noising step, $\bar\alpha_{t_0}$ is the cumulative signal coefficient at that step, and $\epsilon\sim\mathcal{N}(0,I)$ is Gaussian noise with the same shape as $x^{\mathrm{in}}$. Running the reverse process from $t_0$ to $0$ produces an output that balances preservation and change: small $t_0$ preserves more of the input, while large $t_0$ allows larger edits but risks identity drift. This view helps explain common failure modes: over-editing corresponds to choosing too much noise (weak anchor), while under-editing corresponds to too little noise or overly weak conditioning.
 
-\paragraph{Localization and invariance constraints.}
+\paragraph{Localization and Invariance Constraints.}
 To preserve identity and avoid unnecessary changes, methods often introduce explicit locality: masks that restrict edits to a region, attention constraints that focus certain tokens on relevant regions, or feature preservation losses that encourage background consistency. These strategies reflect the same principle: the generator must distinguish editable factors (\eg, clothing, pose, expression) from invariant factors (\eg, face identity, logos on garments), which is hard to learn from text-only supervision.
 
-\paragraph{Reference images and correspondence.}
+\paragraph{Reference Images and Correspondence.}
 Reference-based editing replaces the ambiguous notion of ``preserve identity'' with a concrete example: preserve the appearance of a given reference image. This raises a new algorithmic challenge: \emph{correspondence}. If the reference and target differ in pose or layout, the model must transfer details to the correct spatial locations. Many pipelines therefore include explicit correspondence modules (warping, dense pose, flow) or implicit correspondence through attention. Chapter~6 builds on the latter by treating attention weights as a learnable correspondence field and regularizing them during training~\citep{zhou2025learning}.
 
 \subsection{Reference-Based Person Image Generation}
@@ -272,16 +272,16 @@ Controllable person image generation covers tasks such as virtual try-on (appear
 
 Across both tasks, a central challenge is fine-grained detail preservation under large spatial transformations. Recent work introduces warping, external feature extractors, and customized attention mechanisms to strengthen correspondence~\citep{kim2024stableviton, oquab2023dinov2, zhang2023adding}. Chapter~6 contributes an attention regularization loss, instantiated through learnable flow fields in attention, that trains diffusion models to attend to the correct reference regions and thereby improves detail fidelity without adding inference cost~\citep{zhou2025learning}.
 
-\paragraph{Inputs and controllable factors.}
+\paragraph{Inputs and Controllable Factors.}
 Reference-based person generation typically receives (i) a source/reference image that provides identity and texture, and (ii) a target condition that specifies what should change (pose, garment, or both). In virtual try-on, the garment itself may be provided as an additional reference, and the generator must synthesize a plausible composition under occlusion and deformation. In pose transfer, the body configuration changes while textures should remain consistent. These tasks therefore require the model to disentangle and recombine multiple factors: identity, clothing texture, body shape, pose, and background.
 
-\paragraph{Explicit correspondence: warping and dense pose.}
+\paragraph{Explicit Correspondence: Warping and Dense Pose.}
 A classical approach is to build an explicit mapping from source to target coordinates. Keypoints or dense pose representations~\citep{guler2018densepose} provide a canonical coordinate system on the human body, enabling warping of garment textures or features. Many pipelines predict a flow field or transformation that aligns source features with the target pose, then refine with a generator that fills in missing regions and resolves artifacts~\citep{siarohin2018deformable, han2023controllable}. Warping helps preserve fine details, but it can be brittle when occlusions are large, when garments are loose, or when the predicted correspondences are noisy.
 
-\paragraph{Diffusion-specific correspondence challenges.}
+\paragraph{Diffusion-Specific Correspondence Challenges.}
 Diffusion models complicate correspondence because the image is generated progressively. Fine details (logos, text, patterns) may only emerge late in denoising, and errors can accumulate: if early denoising attends to the wrong reference region, later steps may ``lock in'' incorrect textures. This motivates correspondence mechanisms that act throughout denoising. Attention is a natural candidate: cross-reference attention can align target queries to reference patches at each step. However, attention is not guaranteed to be spatially correct; it may collapse to dominant regions or follow spurious correlations. The key idea behind Chapter~6 is that attention matrices can be interpreted as soft assignment maps---a differentiable analogue of optical flow---and can therefore be regularized to match desired correspondences during training~\citep{zhou2025learning}.
 
-\paragraph{Attention as soft correspondence (flow) intuition.}
+\paragraph{Attention as Soft Correspondence (Flow) Intuition.}
 Consider cross-attention from target spatial tokens to reference spatial tokens. The attention weight matrix $A=\mathrm{softmax}(QK^\top/\sqrt{d})$ assigns, for each target token, a distribution over reference locations. If this distribution is sharply peaked, the peak location can be interpreted as a correspondence point, and the full distribution can be interpreted as uncertainty. Regularizing $A$ to concentrate on geometrically consistent matches provides a way to improve detail transfer without adding inference-time modules, which is appealing for scalable deployment across diffusion backbones.
 
 \subsection{Video Generation, Temporal Consistency, and Reference Control}
@@ -291,34 +291,34 @@ Reference-to-video generation (R2V) aims to synthesize videos that follow a text
 
 Chapter~7 takes a different route and studies scalable zero-shot R2V. It eliminates explicit triplet construction by training only on ordinary video--text pairs and simulating reference conditioning through masked training, attention design, and spatial mask augmentation, which improves generalization across subject categories and supports multiple reference images without additional data preparation~\citep{zhou2025scaling}.
 
-\paragraph{From image diffusion to video diffusion.}
+\paragraph{From Image Diffusion to Video Diffusion.}
 Video diffusion can be seen as applying the same denoising principle to a spatiotemporal tensor $x_0\in\mathbb{R}^{T\times H\times W\times C}$, where $T$ is the number of frames, $H$ and $W$ are the spatial dimensions, and $C$ is the number of channels. The forward process adds noise independently, and the denoiser must remove noise while respecting both spatial structure and temporal coherence. Architecturally, there are several common strategies: (i) 3D convolutions that jointly model space and time; (ii) factorized attention that alternates spatial attention within frames and temporal attention across frames; and (iii) modular temporal layers inserted into a pretrained image denoiser, which enables reuse of strong image priors and reduces training cost~\citep{guo2023animatediff, blattmann2023stable}. Each strategy makes different trade-offs between capacity, compute, and the ability to generalize to long videos.
 
-\paragraph{Temporal consistency as an accumulation problem.}
+\paragraph{Temporal Consistency as an Accumulation Problem.}
 Even when per-frame quality is high, small inconsistencies can accumulate into visible artifacts: flicker (texture changes), identity drift (subject changes), and motion jitter (unstable trajectories). Temporal modules help by sharing information across frames, but they are not sufficient when conditioning is strong or conflicting. Practical systems often incorporate explicit anchors: keyframes, reference frames, or memory mechanisms that repeatedly re-inject identity. Flow-guided attention and warping can also provide temporal alignment signals, improving consistency in editing and generation tasks~\citep{cong2023flatten}.
 
-\paragraph{Reference injection and multimodal fusion.}
+\paragraph{Reference Injection and Multimodal Fusion.}
 R2V requires the model to preserve subject identity specified by one or more reference images while generating novel motion consistent with a text prompt. One common approach is to encode reference images into tokens and fuse them with the denoiser via cross-attention, similar to text conditioning but with additional identity tokens. Another approach is to inject identity features into intermediate layers, controlling which parts of the representation should be invariant across time. Because identity information must persist across frames, fusion mechanisms often include temporal aggregation or attention masks that encourage consistent usage of reference features.
 
-\paragraph{Data bottlenecks and simulated references.}
+\paragraph{Data Bottlenecks and Simulated References.}
 High-quality R2V supervision is expensive: triplets of (reference images, target video, prompt) require careful data curation and can limit scale~\citep{yuan2025opens2v, liu2025phantom}. Chapter~7 addresses this by simulating reference conditioning using only video--text pairs. The key idea is to create pseudo-references by masking parts of frames and treating the visible parts as ``reference'' input, training the model to reconstruct the full video while using attention masks and spatial augmentations to avoid trivial copy--paste~\citep{zhou2025scaling}. This can be viewed as a masked generative objective tailored to identity preservation: the model must learn to propagate consistent subject features through time even when only partial observations are provided.
 
 \section{Evaluation Protocols}
 Evaluation must reflect both correctness and usefulness. For structured understanding, it is important to disentangle segmentation quality from relation quality and to account for long-tailed predicates; mean recall is often used to reduce the dominance of frequent relations~\citep{zellers2018neural, yang2022panoptic}. For controllable generation, evaluation must go beyond photorealism and consider constraint satisfaction, identity preservation, and temporal stability. Robust protocols stress-test compositional prompts and multi-condition inputs to expose failure modes that are hidden by average-case metrics.
 
-\paragraph{Structured understanding metrics.}
+\paragraph{Structured Understanding Metrics.}
 For segmentation and panoptic parsing, metrics such as mean Intersection over Union (mIoU), Average Precision (AP), and Panoptic Quality (PQ) capture different aspects of quality~\citep{kirillov2019panoptic, lin2014microsoft}. For scene graphs, Recall@$K$ measures the fraction of ground-truth relations recovered among the top-$K$ predictions, but it is heavily dominated by frequent predicates. Mean Recall@$K$ (mR@$K$) averages recall across predicate classes, providing a more informative view of tail performance~\citep{zellers2018neural}. PSG evaluation combines these challenges: entity errors can create missing nodes or spurious nodes, which in turn change the set of candidate pairs. Robust evaluation therefore benefits from reporting both entity metrics (PQ) and relation metrics (Recall/mR) and from analyzing performance across head/tail splits.
 
-\paragraph{Open-vocabulary and open-set evaluation.}
+\paragraph{Open-Vocabulary and Open-Set Evaluation.}
 Open-vocabulary settings require evaluation under changing label spaces: performance should be reported for seen and unseen categories and for unknown rejection when applicable. For relations, phrase-level outputs from multimodal models introduce additional complexity: metrics may require mapping generated phrases to canonical predicates or using semantic similarity measures. Protocols that include diverse prompts and long-tail relations are particularly important to avoid overly optimistic results driven by frequent patterns.
 
-\paragraph{Controllable generation metrics.}
+\paragraph{Controllable Generation Metrics.}
 For image generation, Fr\'echet Inception Distance (FID)~\citep{heusel2017gans} and related distributional metrics assess realism, but they do not measure controllability. Conditional metrics, such as conditional FID~\citep{soloveitchik2021conditional}, attempt to evaluate realism under a fixed condition. For controllable synthesis and editing, task-specific metrics are often more revealing: pose accuracy (keypoint errors), garment preservation (segmentation IoU), perceptual similarity (measured by the Learned Perceptual Image Patch Similarity metric, LPIPS~\citep{zhang2018unreasonable}), identity similarity (feature distance in recognition embeddings), and text fidelity (CLIP-based similarity~\citep{radford2021learning}). For video, temporal metrics such as Fr\'echet Video Distance (FVD)~\citep{unterthiner2018towards} and identity consistency over time are critical, and qualitative evaluation remains important because small temporal artifacts can dominate user perception.
 
-\paragraph{Human evaluation and failure taxonomies.}
+\paragraph{Human Evaluation and Failure Taxonomies.}
 Because controllability failures are often subtle (\eg, incorrect logo texture, slight identity drift, intermittent flicker), human evaluation remains a useful complement to automated metrics. Typical protocols use blinded side-by-side comparisons that ask annotators to judge realism, prompt faithfulness, identity preservation, and temporal consistency. Just as importantly, qualitative error taxonomies help interpret results: errors can stem from weak conditioning (under-control), overly aggressive conditioning (over-control), correspondence failures (misaligned reference transfer), or temporal accumulation (drift). Reporting such categories clarifies which algorithmic component is responsible and guides where to invest modeling or data improvements.
 
-\paragraph{Stress tests for faithfulness.}
+\paragraph{Stress Tests for Faithfulness.}
 Average-case benchmarks can hide failure modes that matter in practice: conflicting conditions, multi-object prompts, rare attributes, and long-horizon video generation. Stress tests therefore vary (i) the number and diversity of constraints (multi-condition control), (ii) the degree of spatial transformation (pose and viewpoint changes), and (iii) temporal horizon (longer videos). This thesis adopts evaluation protocols that emphasize these stress cases to reveal where controllability mechanisms succeed or fail.
 
 \section{Summary}

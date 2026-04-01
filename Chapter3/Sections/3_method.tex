@@ -33,18 +33,18 @@ The transformer decoder takes a set of queries $\mathcal {Q}$ of size $N$ and mu
 On top of the transformer decoder, there are two task heads including a linear classifier that predicts the class probability for each mask; and a multi-layer perceptron (MLP) that uses the mask features $\mathcal X$ to  generate the mask embedding $\mathcal{E}$.
 The mask prediction is obtained by taking the dot product of the mask embedding $\mathcal{E}$ with the scale feature of the highest resolution in the multi-scale features $\mathcal{\widetilde F}$.
 
-\noindent \textbf{Triplet queries}.
+\noindent \textbf{Triplet Queries}.
 The original query in Mask2Former is to predict the object. In order to predict both subject, object and their relation, we develop the triplet queries $\mathcal{Q}^{t}$ inspired by \cite{yang2022panoptic} into our baseline.
 Each query predicts a triplet that includes subject, object, and relation.
 Accordingly, our task heads comprise three linear classifiers. Each classifier is responsible for predicting the class probability for subject, object or relation, respectively. 
 Moreover, we devise two MLPs to generate mask embeddings for the subject and object, denoted by $\mathcal{E}^s$ and $\mathcal{E}^o$. We use them to compute the dot product with the scale feature of the highest resolution in multi-scale feature $\mathcal{\widetilde F}$ and obtain the mask prediction for the subject and object, respectively.
 
-\noindent \textbf{Masked relation attention}.
+\noindent \textbf{Masked Relation Attention}.
 \cite{cheng2022masked} proposes a transformer decoder variant with masked attention, which extracts spatial features by adding the predicted mask of the object from the previous decoder layer's mask prediction.
 It makes the model focus on the object-related area in the feature map.
 To adapt this scheme to the PSG task, for each relation, we extend the masked attention to take the union of the binary masks of the subject and object as input, which represents the pixels corresponding to the relation.
 
-\noindent \textbf{Network training}.
+\noindent \textbf{Network Training}.
 We adopt the same losses as PSGTR~\cite{yang2022panoptic}, including cross-entropy loss $\mathcal{L}_{so\_cls}$ for object classification of subject-object pairs and a combination $\mathcal{L}_{so\_mask}$ of focal loss and dice loss to jointly supervise mask learning.
 To supervise the relations, we use the cross-entropy loss $\mathcal{L}_{rel\_cls}$.
 The baseline loss with (${\lambda}_{1} = 1$, ${\lambda}_{2} = 1$, ${\lambda}_{3} = 4$) is thus:
@@ -57,13 +57,13 @@ The baseline loss with (${\lambda}_{1} = 1$, ${\lambda}_{2} = 1$, ${\lambda}_{3}
 
 The key insight of our HiLo is to build a model that can take into account both high frequency and low frequency relations, and effectively improve the performance on low frequency relations without degrading the performance on high frequency relations.
 
-\subsubsection{HiLo relation generation}
+\subsubsection{HiLo Relation Generation}
 \label{hilo:sec:framework:relation_generation}
 In the PSG task, multiple relations can be used to describe the connection between a subject and an object from different perspectives, such as \emph{spatial} relations, \emph{actions} and \emph{prepositions}. Since the subject, object and their relative position in the image are fixed, all these relations share the same visual information.
 %
 This is reflected in the PSG dataset~\cite{yang2022panoptic} where many subject-object pairs are annotated with multiple relation labels. These relation labels are of different frequencies in the dataset. In this section we introduce the HiLo relation generation module to prepare two sets of training data, biasing towards high and low-frequency relations respectively.
 
-\noindent \textbf{Relation augmentation}. 
+\noindent \textbf{Relation Augmentation}. 
 Similar to~\cite{goel2022not}, we observe that there are many missing relation annotations in the PSG dataset~\cite{yang2022panoptic}.
 To add the missing relation annotations, we design a relation augmentation scheme that is inspired by IETrans \cite{zhang2022fine}, which converts high-frequency relations to low-frequency relations and adds a relation to a subject-object pair that has no relation.
 %
@@ -74,7 +74,7 @@ We adapt it by first training our baseline as a biased model using the original 
 \end{itemize}
 This operation allows us to significantly augment the relation labels for the subject-object pairs in the training data, which is especially relevant for pairs with zero or no annotated relations. 
 
-\noindent \textbf{Relation swapping}.
+\noindent \textbf{Relation Swapping}.
 We swap the relation labels for each subject-object pair. 
 Specifically, given a subject-object pair $(s, o)$ with $K$ relation labels, we have triplets $\{(s, o, r_k)\}_{k=1}^{K}$, sorted by relation frequency in descending order, $f_1 > \dots > f_K$. We denote by H-L and L-H the swapping of high-frequency relations with low-frequency relations and vice versa. This creates two sets of data: 
 
@@ -89,12 +89,12 @@ Hence, we obtain two new sets of triplets, denoted by $\mathcal T^\text{H-L}$ an
 %
 The H-L and L-H decoders favour the predictions for low and high-frequency relations, respectively. Despite their difference, for the corresponding triplet query in the two decoders, their predictions are highly correlated: on one hand, the subject and object predictions should be the same; on the other hand, the distribution of relation predictions should be overlapping.  Below we first build the query correspondence in the two decoders and then introduce the HiLo subject-object and relation consistency loss to align the predictions from two the decoders. 
 
-\subsubsection{HiLo prediction alignment}
+\subsubsection{HiLo Prediction Alignment}
 \label{hilo:sec:framework:prediction_alignment}
 Training two different relation distributions simultaneously confuse the model.
 To make the model differentiate between the two branches, we built a HiLo prediction alignment module, including triplet query correspondence, subject-object consistency loss and relation consistency loss respectively.
 
-\noindent \textbf{Triplet query correspondence}.
+\noindent \textbf{Triplet Query Correspondence}.
 In order to construct the subject-object consistency loss and relation consistency loss, we first need to construct the correspondence between the triplet queries in the H-L and L-H decoders.
 %
 The same query index in the two decoders is not naturally matched.  In order to find the query correspondence, we need to rely on the ground truth assignment: we use Hungarian matching to assign the triplet label to the corresponding triplet query, and record the relation label index corresponding to the triplet query.
@@ -102,7 +102,7 @@ This label index allows us to construct the correspondence between the triplet q
 %
 We calculate the consistency loss for the triplet query prediction with the same relation label index in the two decoders.
 
-\noindent \textbf{Subject-object consistency loss}.
+\noindent \textbf{Subject-Object Consistency Loss}.
 Having the corresponding predictions from the two decoders, both their subjects and objects have the same ground truth and should be equal. We propose a subject-object consistency loss $\mathcal L_{obj}$ to minimize the mean squared error (MSE) of the corresponding predictions from the two decoders.
 \begin{align}
 \mathcal L_{obj} &= \mathcal L_{cls} + \mathcal L_{mask} \\
@@ -113,7 +113,7 @@ Here $\mathcal L_{cls}$ and $\mathcal L_{mask}$ represent the MSE losses for cla
 
 $p_{c}^\text{H-L}$ and $p_{c}^\text{L-H}$ are the class prediction logits from the H-L and L-H decoders. After a softmax, they are $C$-dimensional probability vectors. After a sigmoid, $p_{m}^{H-L}$ and $p_{m}^{L-H}$ are the mask prediction logits for the H-L and L-H decoders.  
 
-\noindent \textbf{Relation consistency loss}.
+\noindent \textbf{Relation Consistency Loss}.
 Given a pair of subject and object, 
 we have previously swapped the high-low frequency relation labels to create data for the H-L and L-H decoders. For H-L, the prediction of the low-frequency relation logit is of high value; while for L-H, the prediction of the high-frequency relation logit is of high value. For the predictions on the rest logits, they should be similar, since it is the same pair of subject and object for the two decoders. Based on this observation, we introduce the relation consistency loss.
 
@@ -134,14 +134,14 @@ The relation consistency loss is defined to minimize $\text{Dist}_\text{HiLo}$ w
 \end{align}
 where $m$ is a small constant.  Adding $m$ is due to the fact that the high- and low frequency relations might be only partially semantically overlapping.    
 
-\noindent \textbf{Network training}.
+\noindent \textbf{Network Training}.
 Our subject-object consistency loss and relation consistency loss can seamlessly integrate with the losses of any baseline method to jointly supervise the training of the entire model. Notably, we supervise the output of each transformer decoder layer to ensure effective learning. 
 The final loss $\mathcal{L}$ is thus: 
 \begin{align}
 \mathcal{L} = \mathcal{L}_{baseline} + \mathcal{L}_{obj} + \mathcal{L}_{rel} \;
 \end{align}
 
-\subsubsection{HiLo inference fusion}
+\subsubsection{HiLo Inference Fusion}
 \label{hilo:sec:framework:inference_fusion}
 The H-L and L-H decoders favour low-frequency relation prediction and high-frequency relation prediction, respectively. 
 To combine the strength of both during inference, we introduce the HiLo inference fusion module. 

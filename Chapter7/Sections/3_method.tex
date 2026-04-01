@@ -81,7 +81,7 @@ This process is repeated to create the full set of $K$ masked frames $\{ \hat{\m
 \end{figure*}
 
 
-\paragraph{Mask Generator.}
+\noindent \textbf{Mask Generator.}
 We randomly select one mask type from predefined shape categories (\eg, ellipse, Fourier blob, convex/\allowbreak concave polygon, \etc) to generate a binary mask $\mathbf{M} \in \{ 0, 1 \}^{H \times W}$ with a target foreground area ratio $r \in [r_\text{min}, r_\text{max}]$.
 Specifically, we first randomly select a foreground center.
 To ensure that the generated mask meets the desired foreground area ratio $r$, we define a continuous scale parameter for each shape category, where the mask's foreground area increases monotonically with the scale.
@@ -90,7 +90,7 @@ When pixel discretization prevents an exact match, small topology-preserving adj
 This design ensures controllable foreground area ratios while maintaining diversity in mask shapes.
 Several mask examples are illustrated in Fig.~\ref{saber:fig:mask_frames} Top.
 
-\paragraph{Mask Augmentation.}
+\noindent \textbf{Mask Augmentation.}
 We apply random affine transformations, including rotation, scaling, shear, translation, and optional horizontal flip, to both the image $\mathbf{I}_{k}$ and its mask $\mathbf{M}_{k}$, ensuring the masked region remains fully inside the frame.
 Transformation parameters are uniformly sampled within predefined ranges and validated to avoid boundary overflow.
 The same affine transformation is applied to the image and mask using bilinear and nearest-neighbor interpolation, respectively.
@@ -106,7 +106,7 @@ After obtaining the masked frames $\{ \hat{\mathbf{I}}_{k} \}_{k=1}^{K}$ as refe
 We adopt a simple yet effective \textbf{input format} by concatenating reference images along the temporal dimension at the end of the target video frames in latent space.
 This allows the model to manage the interaction between the target video latents and reference latents through the \textbf{attention mechanism} in each transformer block.
 
-\paragraph{Input Format.}
+\noindent \textbf{Input Format.}
 Given a video-text pair $\{ \mathbf{I}_{f} \}_{f=1}^{F}$ and $\mathbf{P}$, and the masked frames $\{ \hat{\mathbf{I}}_{k} \}_{k=1}^{K}$ as reference images, we use the VAE to encode the video from pixel space into latent space, obtaining $\mathbf{z}_{0} = \{ \mathbf{z}_{\hat{f}} \in \mathbb{R}^{h \times w \times d} \}_{\hat{f}=1}^{\hat{F}}$.
 Here, $\hat{F} = \lfloor(F - 1) / 4\rfloor + 1$, where $4$ is the temporal compression ratio of the Wan2.1 VAE~\citep{wan2025wan}, $h$, $w$, and $d$ denote the height, width, and feature dimension of the video latent, respectively.
 We obtain $\mathbf{z}_{t}$ with time step $t$ following Sec.~\ref{saber:sec:video_model}.
@@ -140,7 +140,7 @@ Note that $\mathbf{z}_\text{ref}$ remains noise-free to preserve accurate condit
 \end{figure*}
 
 
-\paragraph{Attention Mechanism.}
+\noindent \textbf{Attention Mechanism.}
 After obtaining the transformer input $\mathbf{z}_\text{in}$, we encode the text prompt $\mathbf{P}$ into text features $\mathbf{z}_\text{P}$ and jointly feed them, along with the time step $t$, into the transformer.
 Each transformer block consists of a self-attention, cross-attention, and feed-forward (FFN) modules.
 

@@ -21,7 +21,7 @@ Note that Scene Graph Detection in PSG includes the detection on stuff classes, 
 
 Following previous work \cite{tang2019learning, yu2020cogtree, yang2022panoptic}, we use Recall@K (R@K) and mean Recall@K (mR@K) as our metrics, where the former metric is dominated by high-frequency relations, while the latter assigns equal weight to all relation classes.
 
-\subsection{Implementation details}
+\subsection{Implementation Details}
 In our experiments, we follow the training strategy of PSGTR \cite{yang2022panoptic}.
 We use the AdamW optimizer \cite{loshchilov2017decoupled}, with a learning rate of $1e^{-4}$ and weight decay of $1e^{-4}$, except for the backbone, which is trained with a learning rate of $1e^{-5}$. For initialization, we use Mask2Former \cite{cheng2022masked} pretrained on COCO \cite{lin2014microsoft} to initialize our backbone and pixel decoder.
 Additionally, both the H-L and L-H decoders are initialized with Mask2Former's transformer decoder.
@@ -60,7 +60,7 @@ PSGFormer \cite{yang2022panoptic} & R50 & 18.0 & 14.8 & 19.6 & 17.0 & 20.1 & 17.
 
 
 
-\subsection{Comparison to the state-of-the-art}
+\subsection{Comparison to the State-of-the-Art}
 \label{hilo:sec:experiments:main_results}
 
 \noindent \textbf{PSG}. 
@@ -134,7 +134,7 @@ The visualization results show that our method can predict both high frequency a
 \label{hilo:fig:short}
 \end{figure*}
 
-\subsection{Ablation Studies}
+\subsection{Ablation Study}
 Consistent with this chapter, we use HiLo with a Resnet-50 backbone to perform ablation experiments on the PSG dataset.
 
 \begin{table}
@@ -158,7 +158,7 @@ PSGTR~\cite{yang2022panoptic} & - & 28.4 / 16.6 & 34.4 / 20.8 & 36.3 / 22.1 \\
 \label{hilo:tab:different_baselines}
 \end{table}
 
-\noindent \textbf{HiLo framework for different baselines}.
+\noindent \textbf{HiLo Framework for Different Baselines}.
 In this section we investigate whether our HiLo framework~(Sec.~\ref{hilo:sec:framework}) yields improvements for other baselines, rather than just the one presented in Sec.~\ref{hilo:sec:baseline}.
 Tab.~\ref{hilo:tab:different_baselines} shows the results for two baselines, with and without the HiLo framework.
 We observe that our biased baseline outperforms the previous PSGTR~\cite{yang2022panoptic} method on all metrics.
@@ -166,7 +166,7 @@ Furthermore, by applying the HiLo framework, we can substantially improve the pe
 It is worth mentioning that the HiLo framework improves recall and mean recall simultaneously, whereas other methods typically improve one metric at the cost of the other \cite{tang2020unbiased, yu2020cogtree}.
 
 
-\noindent \textbf{HiLo relation augmentation.}
+\noindent \textbf{HiLo Relation Augmentation.}
 We observe that out of 260,296 labeled triplets in the PSG dataset, only about 10\% of subject-object pairs have multiple relations, for which we can apply relation swapping~(Sec.~\ref{hilo:sec:framework:relation_generation}).
 After applying our proposed relation augmentation technique~(Sec.~\ref{hilo:sec:framework:relation_generation}), this ratio significantly increases to 40\%.
 Our experimental results in Tab.~\ref{hilo:tab:proportion_of_swappable_triplets} demonstrate that only applying the HiLo framework on 10\% already gives an improvement over the baseline from Tab.~\ref{hilo:tab:different_baselines}. As the number of swappable triplets increases due to augmentation, the model's performance is further enhanced, highlighting the potential of our method.
@@ -189,7 +189,7 @@ Relation Aug. & Multiple relations & R/mR@50 & R/mR@100 \\
 \label{hilo:tab:proportion_of_swappable_triplets}
 \end{table}
 
-\noindent \textbf{HiLo prediction alignment}.
+\noindent \textbf{HiLo Prediction Alignment}.
 We conduct ablation experiments on the subject-object consistency loss and relation consistency loss~(Sec.~\ref{hilo:sec:framework:prediction_alignment}), which are used to align the predictions from the high and low frequency branches.
 The results, as presented in Tab.~\ref{hilo:tab:prediction_alignment}, demonstrate that using both losses yields the best performance.
 It is worth mentioning that we have explored the margin in the relation consistency loss and found that setting the margin to zero leads to a small performance degradation.
@@ -216,7 +216,7 @@ Object & Relation & Margin & R/mR@50 & R/mR@100 \\
 \label{hilo:tab:prediction_alignment}
 \end{table}
 
-\noindent \textbf{HiLo inference fusion}.
+\noindent \textbf{HiLo Inference Fusion}.
 We ablate the inference fusion~(Sec.~\ref{hilo:sec:framework:inference_fusion}) and evaluate the performance of each branch's output separately.
 In Tab.~\ref{hilo:tab:inference_fusion}, experimental results suggest that fusion can effectively leverage the uniqueness of the high and low frequency branch predictions to achieve comprehensive improvements on all metrics.
 
@@ -238,7 +238,7 @@ H-L Result & L-H Result & R/mR@50 & R/mR@100 \\
 \label{hilo:tab:inference_fusion}
 \end{table}
 
-\noindent \textbf{Convergence speed analysis}.
+\noindent \textbf{Convergence Speed Analysis}.
 We evaluate the convergence of our model by assessing its performance on the validation set at various epochs, as illustrated in Fig.~\ref{hilo:fig:convergence_speed}.
 Our analysis reveals that our proposed method outperforms prior methods \cite{yang2022panoptic} both in terms of final performance and convergence speed.
 Specifically, PSGTR \cite{yang2022panoptic} achieves negligible performance in the initial 12 epochs, requiring 60 epochs to converge, as per the authors.
@@ -253,7 +253,7 @@ Our method converges significantly faster than previous methods.}
 \end{figure}
 
 
-\noindent \textbf{Masked relation attention}.
+\noindent \textbf{Masked Relation Attention}.
 We investigate the impact of different mask input types for cross-attention on the HiLo baseline~(Sec.~\ref{hilo:sec:baseline}) performance.
 Specifically, we compare two different attention focus regions, namely the subject-object region and the full image.
 The results are shown in Tab.~\ref{hilo:tab:masked_relation_attention}.

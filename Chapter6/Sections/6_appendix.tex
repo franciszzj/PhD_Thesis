@@ -125,7 +125,7 @@ i) As shown in Tab.~\ref{leffa:tab:ablation_dress_code}, our \leffa{} reduces FI
 ii) Tab.~\ref{leffa:tab:ablation_deep_fashion} further shows an FID reduction of -1.49 on pose transfer task.
 These results confirm that \leffa{} loss significantly improves controllable person image generation, enhancing both appearance and pose control.
 
-\noindent \textbf{Qualitative impact of our \leffa{} loss $\mathcal{L}_\text{leffa}$}.
+\noindent \textbf{Qualitative Impact of Our \leffa{} Loss $\mathcal{L}_\text{leffa}$}.
 In Fig.~\ref{leffa:fig:vis_ablation_v2}, we visualize attention maps with varying $\lambda_\text{leffa}$ to assess its impact on model training.
 The first row shows generated results with different $\lambda_{\text{leffa}}$ values, with $\lambda_{\text{leffa}} = 0$ indicating no $\mathcal{L}_{\text{leffa}}$.
 Rows 2 to 5 highlight reference key regions attended by the target query, marked by arrows of various colors.
@@ -146,11 +146,11 @@ However, when $\lambda_{\text{leffa}} > 10^{-3}$, the attention becomes overly n
 \end{figure*}
 
 
-\noindent \textbf{Effect of averaging attention map across multi-head}.
+\noindent \textbf{Effect of Averaging Attention Map Across Multi-Head}.
 Inspired by~\cite{darcet2023vision}, we average the attention maps across all heads before computing the \leffa{} loss.
 As shown in Tab.~\ref{leffa:tab:more_ablation} (\leffa{} w/o average $A$), computing the loss for each head individually degrades performance, emphasizing the role of redundancy in attention maps for better generalization.
 
-\noindent \textbf{Effect of upsampling flow fields}.
+\noindent \textbf{Effect of Upsampling Flow Fields}.
 To evaluate the impact of upsampling the flow fields to image resolution, we experiment with retaining their latent resolution for the \leffa{}, requiring the ground truth image to be downsampled.
 This resizing reduces detail, hindering accurate supervision.
 As shown in Tab.~\ref{leffa:tab:more_ablation} (\leffa{} w/o upsample $\mathcal{F}$), not upsampling the flow fields results in a performance drop, further supporting our viewpoint.
@@ -178,7 +178,7 @@ As shown in Tab.~\ref{leffa:tab:more_ablation} (\leffa{} w/o upsample $\mathcal{
 \section{Discussion}
 \label{leffa:sec:discussion}
 
-\noindent \textbf{Why does our diffusion-based baseline perform comparably to state-of-the-art methods?}
+\noindent \textbf{Why Does Our Diffusion-Based Baseline Perform Comparably to State-of-the-Art Methods?}
 Our baseline is similar to existing virtual try-on and pose transfer methods~\citep{choi2024improving, xu2024ootdiffusion, bhunia2023person, han2023controllable}, but we find that complex designs are unnecessary for strong performance.
 The key lies in making both UNets in the dual architecture fully trainable, as freezing one significantly degrades results.
 As shown in Tab.~\ref{leffa:tab:ablation_baseline}, freezing the reference UNet (as done in \citet{choi2024improving}) leads to a significant performance drop (FID reduction of -1.11/-1.25 for the paired/unpaired settings).
@@ -207,12 +207,12 @@ Making both the generative and reference UNets trainable is key to performance i
 \end{table}
 
 
-\noindent \textbf{Why not add $\mathcal{L}_{\text{leffa}}$ from the first training stage?}
+\noindent \textbf{Why Not Add $\mathcal{L}_{\text{leffa}}$ from the First Training Stage?}
 At the start of training, the attention maps are not well learned, and applying our \leffa{} loss too early forces the target query to prematurely attend to the reference key, hindering convergence rather than accelerating it.
 Instead, introducing our \leffa{} loss in a subsequent training stage significantly enhances performance, demonstrating its ability to correct inaccurate attention and guide the model toward more effective learning.
 
 
-\section{Limitation}
+\section{Limitations}
 While \leffa{} significantly improves controllable person image generation in appearance and pose control, it has several limitations. 
 First, it requires multi-stage training with the \leffa{} loss applied only in the final stage.
 In future work, we aim to design a single-stage model to simplify the training process.
