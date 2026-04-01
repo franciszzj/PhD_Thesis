@@ -1,66 +1,14 @@
-% Collected appendices from Chapter3--7.
-% NOTE: Do not modify appendix content; we only relocate it here.
+% Collected appendices from Chapters 3--6.
+% Chapter 7 does not have a standalone appendix file in the current thesis source.
 
 \chapter{Appendix for Chapter 3}
-\begingroup
-\let\appendix\relax
-\let\maketitlesupplementary\relax
-\let\origsetcounter\setcounter
-\renewcommand{\setcounter}[2]{%
-  \def\tempCounter{#1}%
-  \def\pageCounter{page}%
-  \ifx\tempCounter\pageCounter
-  \else
-    \origsetcounter{#1}{#2}%
-  \fi
-}
 \input{Chapter3/Sections/6_appendix}
-\endgroup
 
 \chapter{Appendix for Chapter 4}
-\begingroup
-\let\appendix\relax
-\let\maketitlesupplementary\relax
-\let\origsetcounter\setcounter
-\renewcommand{\setcounter}[2]{%
-  \def\tempCounter{#1}%
-  \def\pageCounter{page}%
-  \ifx\tempCounter\pageCounter
-  \else
-    \origsetcounter{#1}{#2}%
-  \fi
-}
 \input{Chapter4/Sections/6_appendix}
-\endgroup
 
 \chapter{Appendix for Chapter 5}
-\begingroup
-\let\appendix\relax
-\let\maketitlesupplementary\relax
-\let\origsetcounter\setcounter
-\renewcommand{\setcounter}[2]{%
-  \def\tempCounter{#1}%
-  \def\pageCounter{page}%
-  \ifx\tempCounter\pageCounter
-  \else
-    \origsetcounter{#1}{#2}%
-  \fi
-}
 \input{Chapter5/Sections/6_appendix}
-\endgroup
 
 \chapter{Appendix for Chapter 6}
-\begingroup
-\let\appendix\relax
-\providecommand{\maketitlesupplementary}{}
-\let\origsetcounter\setcounter
-\renewcommand{\setcounter}[2]{%
-  \def\tempCounter{#1}%
-  \def\pageCounter{page}%
-  \ifx\tempCounter\pageCounter
-  \else
-    \origsetcounter{#1}{#2}%
-  \fi
-}
 \input{Chapter6/Sections/6_appendix}
-\endgroup
