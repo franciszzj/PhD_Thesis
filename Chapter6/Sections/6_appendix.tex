@@ -122,25 +122,25 @@ i) As shown in Tab.~\ref{leffa:tab:ablation_dress_code}, our \leffa{} reduces FI
 ii) Tab.~\ref{leffa:tab:ablation_deep_fashion} further shows an FID reduction of -1.49 on pose transfer task.
 These results confirm that \leffa{} loss significantly improves controllable person image generation, enhancing both appearance and pose control.
 
-\noindent \textbf{Qualitative Impact of Our \leffa{} Loss $\mathcal{L}_\text{leffa}$}.
-In Fig.~\ref{leffa:fig:vis_ablation_v2}, we visualize attention maps with varying $\lambda_\text{leffa}$ to assess its impact on model training.
-The first row shows generated results with different $\lambda_{\text{leffa}}$ values, with $\lambda_{\text{leffa}} = 0$ indicating no $\mathcal{L}_{\text{leffa}}$.
-Rows 2 to 5 highlight reference key regions attended by the target query, marked by arrows of various colors.
-Without $\mathcal{L}{\text{leffa}}$, attention is dispersed.
-Increasing $\lambda_{\text{leffa}}$ improves focus, guiding the query to correct regions.
-However, when $\lambda_{\text{leffa}} > 10^{-3}$, the attention becomes overly narrow and less accurate, hindering image generation.
+% \noindent \textbf{Qualitative Impact of Our \leffa{} Loss $\mathcal{L}_\text{leffa}$}.
+% In Fig.~\ref{leffa:fig:vis_ablation_v2}, we visualize attention maps with varying $\lambda_\text{leffa}$ to assess its impact on model training.
+% The first row shows generated results with different $\lambda_{\text{leffa}}$ values, with $\lambda_{\text{leffa}} = 0$ indicating no $\mathcal{L}_{\text{leffa}}$.
+% Rows 2 to 5 highlight reference key regions attended by the target query, marked by arrows of various colors.
+% Without $\mathcal{L}{\text{leffa}}$, attention is dispersed.
+% Increasing $\lambda_{\text{leffa}}$ improves focus, guiding the query to correct regions.
+% However, when $\lambda_{\text{leffa}} > 10^{-3}$, the attention becomes overly narrow and less accurate, hindering image generation.
 
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/vis_ablation_v2_final.pdf}
-    \caption{
-    More visualizations of feature maps to assess the impact of \leffa{} loss.
-    The third column is the optimal setting used in this chapter.
-    }
-    \label{leffa:fig:vis_ablation_v2}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/vis_ablation_v2_final.pdf}
+%     \caption{
+%     More visualizations of feature maps to assess the impact of \leffa{} loss.
+%     The third column is the optimal setting used in this chapter.
+%     }
+%     \label{leffa:fig:vis_ablation_v2}
+% \end{figure*}
 
 
 \noindent \textbf{Effect of Averaging Attention Map Across Multi-Head}.
@@ -223,67 +223,67 @@ Third, our method struggles to preserve extremely fine-grained details, such as 
 It is worth noting that the issues mentioned above are not unique to our method but are also present in other methods.
 
 
-\section{More Qualitative Comparison}
-To further demonstrate the effectiveness of our \leffa{}, we conduct qualitative comparisons with other methods on the VITON-HD, DressCode, and DeepFashion datasets, as shown in Figs.~\ref{leffa:fig:supp_vis_1}--\ref{leffa:fig:supp_vis_6}.
-The results indicate that our \leffa{} not only generates images with higher overall quality but also significantly alleviates fine-grained detail distortion.
+% \section{More Qualitative Comparison}
+% To further demonstrate the effectiveness of our \leffa{}, we conduct qualitative comparisons with other methods on the VITON-HD, DressCode, and DeepFashion datasets, as shown in Figs.~\ref{leffa:fig:supp_vis_1}--\ref{leffa:fig:supp_vis_6}.
+% The results indicate that our \leffa{} not only generates images with higher overall quality but also significantly alleviates fine-grained detail distortion.
 
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_1.pdf}
-    \caption{
-    Qualitative visual results comparison with other methods on VITON-HD for virtual try-on (Part 1).
-    }
-    \label{leffa:fig:supp_vis_1}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_1.pdf}
+%     \caption{
+%     Qualitative visual results comparison with other methods on VITON-HD for virtual try-on (Part 1).
+%     }
+%     \label{leffa:fig:supp_vis_1}
+% \end{figure*}
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_2.pdf}
-    \caption{
-    Qualitative visual results comparison with other methods on VITON-HD for virtual try-on (Part 2).
-    }
-    \label{leffa:fig:supp_vis_2}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_2.pdf}
+%     \caption{
+%     Qualitative visual results comparison with other methods on VITON-HD for virtual try-on (Part 2).
+%     }
+%     \label{leffa:fig:supp_vis_2}
+% \end{figure*}
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_3.pdf}
-    \caption{
-    Qualitative visual results comparison with other methods on DressCode for virtual try-on (Part 1).
-    }
-    \label{leffa:fig:supp_vis_3}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_3.pdf}
+%     \caption{
+%     Qualitative visual results comparison with other methods on DressCode for virtual try-on (Part 1).
+%     }
+%     \label{leffa:fig:supp_vis_3}
+% \end{figure*}
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_4.pdf}
-    \caption{
-    Qualitative visual results comparison with other methods on DressCode for virtual try-on (Part 2).
-    }
-    \label{leffa:fig:supp_vis_4}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_4.pdf}
+%     \caption{
+%     Qualitative visual results comparison with other methods on DressCode for virtual try-on (Part 2).
+%     }
+%     \label{leffa:fig:supp_vis_4}
+% \end{figure*}
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_5.pdf}
-    \caption{
-    Qualitative visual results comparison with other methods on DeepFashion for pose transfer (Part 1).
-    }
-    \label{leffa:fig:supp_vis_5}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_5.pdf}
+%     \caption{
+%     Qualitative visual results comparison with other methods on DeepFashion for pose transfer (Part 1).
+%     }
+%     \label{leffa:fig:supp_vis_5}
+% \end{figure*}
 
-\begin{figure*}[t]
-    \centering
-    % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
-    \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_6.pdf}
-    \caption{
-    Qualitative visual results comparison with other methods on DeepFashion for pose transfer (Part 2).
-    }
-    \label{leffa:fig:supp_vis_6}
-\end{figure*}
+% \begin{figure*}[t]
+%     \centering
+%     % \fbox{\rule{0pt}{2in} \rule{1.0\linewidth}{0pt}}
+%     \includegraphics[width=0.95\linewidth]{Chapter6/Figures/supp_6.pdf}
+%     \caption{
+%     Qualitative visual results comparison with other methods on DeepFashion for pose transfer (Part 2).
+%     }
+%     \label{leffa:fig:supp_vis_6}
+% \end{figure*}
