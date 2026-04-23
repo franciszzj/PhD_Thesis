@@ -22,7 +22,7 @@ In this chapter, we focus on the PredCls and SGDet subtasks.
 The PredCls excludes the influence of segmentation performance and only compares the relation prediction performance, while the SGDet considers the combined results for both object segmentation and relation prediction.
 
 Furthermore, to validate our method's capability in open-set relation prediction, we divide the dataset into base relations and novel relations at a ratio of 7:3.
-For the PSG dataset, please refer to the supplementary material for the specific division method.
+For the PSG dataset, the specific division method is provided in Appendix~C.
 For the division of the VG dataset, we follow the practice in previous works~\cite{yu2023visually, chen2023expanding}.
 In the open-set scenarios, our model is trained with data only from base relations and tested on both base and novel relations.
 It is noteworthy that the test sets for open-set and closed-set are same.
@@ -189,7 +189,7 @@ To validate the efficacy of the selector, we set $\theta$ to 0, meaning that dur
 As shown in Tab.~\ref{openpsg:tab:ablation_rel_q_former}, we find that when we set $\theta$ to 0, the model performance is approximately the same.
 However, under these conditions, the model takes 20 times longer to run on the whole PSG test set.
 This indicates that our selector allows for a significant improvement in computational efficiency with a small sacrifice in performance.
-For more details, please refer to supplementary material.
+More details are provided in Appendix~C.
 
 
 \begin{table}[t]\small

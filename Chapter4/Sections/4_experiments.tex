@@ -373,7 +373,7 @@ Our original feature extraction is specifically designed on one side to focus on
 To further assess the effects of different LLMs and text encoders on model performance, we attempt to replace the GPT-4 with Llama3-8B~\citep{touvron2023llama} and the OpenAI Embedding Service with Bert~\citep{devlin2018bert}.
 When using Bert, we take the mean of the embeddings of all output tokens as the feature.
 The experimental results (Llama3-8B + Bert) in Tab.~\ref{vlprompt:tab:ablation_language_feature_extractor} reveal that using Llama3-8B as the LLM and Bert as the text encoder results in only a slight decrease in performance: -0.4 in R@100 and -0.5 in mR@100.
-We review the descriptions output by Llama3-8B and compare them with those from GPT-4, finding no significant differences in quality, more details can be found in supplementary materials.
+We review the descriptions output by Llama3-8B and compare them with those from GPT-4, finding no significant differences in quality; more details are provided in Appendix~B.
 This suggests that, with carefully designed prompts, open-source LLMs with reduced parameters also work for our method, thus validating the flexibility of our method.
 
 \noindent \textbf{Compress the Language Prompting Feature.}
