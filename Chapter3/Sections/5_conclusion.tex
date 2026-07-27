@@ -1,3 +1,31 @@
+\section{Limitations and Critical Reflection}
+\label{hilo:sec:limitations}
+The results above show that HiLo is a strong closed-set PSG framework. Several assumptions behind the method deserve closer examination, and some of them limit what the reported numbers can be taken to mean.
+
+\noindent \textbf{Frequency is a proxy for semantic overlap, not a measure of it.}
+The central construction of this chapter sorts the relations of a subject-object pair by training-set frequency and swaps neighboring labels to build the H-L and L-H views. This assumes that frequency order follows semantic granularity, so that the rarer predicate is the more specific one. The assumption is often reasonable, since \textit{standing on} is both rarer and more specific than \textit{on}. However, it does not always hold. Two predicates can have similar frequencies and still be semantically disjoint, such as \textit{beside} and \textit{looking at}, and swapping them adds supervision that granularity does not justify. The margin $m$ in the relation consistency loss (Sec.~\ref{hilo:sec:framework:prediction_alignment}) absorbs part of this mismatch, but $m$ is a single global constant while the degree of overlap varies from pair to pair. A more principled design would estimate overlap directly, for example from predicate co-occurrence, from an embedding of predicate semantics, or from annotator disagreement.
+
+\noindent \textbf{The relation augmentation step is self-referential.}
+We recover missing annotations by thresholding the predicted scores of a model that was trained on the original data (Sec.~\ref{hilo:sec:framework:relation_generation}). The biases of that model therefore decide which relations are added, and the procedure cannot recover a relation that the initial model never considers. This constraint is strongest in the tail, which is exactly where the augmentation is most needed. The procedure amplifies plausible but unannotated relations rather than discovering genuinely missed ones. Part of the gain reported in Sec.~\ref{hilo:sec:experiments:main_results} should therefore be read as better use of the label distribution the model has already learned, not only as better visual reasoning.
+
+\noindent \textbf{Pairs with a single annotation gain nothing.}
+The swapping module requires $K \geq 2$ relation labels per subject-object pair. Pairs with exactly one predicate, which form a large part of the dataset, pass through the module unchanged. For these pairs, HiLo helps only indirectly, through the stronger baseline and through the relations added by the augmentation step.
+
+\noindent \textbf{Evaluation bias: the metrics assume complete annotation, but the method assumes the opposite.}
+There is a tension between the premise of this chapter and its evaluation. The relation augmentation module exists because PSG annotations are incomplete, yet R@$K$ and mR@$K$ score predictions against those same incomplete annotations. A model that predicts a correct but unannotated relation is penalized twice: it receives no credit, and it also displaces an annotated relation from the top-$K$ list. This affects all compared methods equally, so it does not invalidate the ranking. It does mean that the absolute recall values understate performance by an unknown margin, and that this margin is probably largest for the tail predicates this chapter targets. It also means that mR@$K$ should not be read as a direct measure of unbiasedness. Since mR@$K$ rewards predicting rare predicates, a method can improve it by shifting its prior toward the tail without improving grounding at all. We report R@$K$ together with mR@$K$ to expose this trade-off, but no metric used here separates the two effects cleanly.
+
+\noindent \textbf{Inherited annotation bias.}
+PSG is built on COCO and COCO-Stuff images, and its vocabulary of 56 predicates was fixed by the dataset authors. Relations that annotators found salient are over-represented, while relations that are visually subtle, culturally specific, or outside the vocabulary are absent. No method trained and evaluated only on this benchmark, including HiLo, addresses the long-tail problem in general. What it addresses is the long tail \emph{of this annotation}. The experiments on VG-150 reduce this concern only partly, because VG shares much of the same photographic and annotation practice.
+
+%% ============================================================================
+%% TODO(failure-figure): Examiner request (Bilen preliminary report) -- add a
+%% qualitative figure showing representative FAILURE CASES for this chapter,
+%% and reference it from the paragraph above. Compare Chapter 4, which already
+%% has one (vlprompt:fig:failure_vis). Suggested label: hilo:fig:failure_vis
+%% ============================================================================
+\noindent \textbf{Cost and scope.}
+HiLo runs two transformer decoders in parallel, which increases decoder computation and memory over a single-branch baseline. The reported 18 hours on four A100 GPUs for 12 epochs is modest, but the doubling is intrinsic to the design rather than an implementation detail. The method also inherits the failure modes of its panoptic backbone. When Mask2Former merges two adjacent instances of the same category into one mask, every relation involving them is wrong, however well the relation decoders perform. Sec.~\ref{vlprompt:sec:experiments} documents this error mode for a closely related model. Finally, all results here concern single images, and nothing in the design addresses video or temporal relations.
+
 \section{Conclusion}
 
 This chapter established the first PSG contribution of the thesis: a closed-set framework that handles long-tail relations under relational semantic overlap by separating and then reconciling high- and low-frequency predictions.

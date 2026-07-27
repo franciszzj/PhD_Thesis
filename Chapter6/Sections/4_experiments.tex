@@ -20,7 +20,7 @@
 
 \noindent \textbf{Datasets.}
 To evaluate our method's capability in appearance and pose control, we conduct experiments on the virtual try-on and pose transfer tasks, respectively.
-For virtual try-on, we use the VITON-HD~\citep{choi2021viton} and DressCode~\citep{morelli2022dress} datasets; for pose transfer, we use DeepFashion~\citep{liu2016deepfashion}. More details are provided in Appendix~D.
+For virtual try-on, we use the VITON-HD~\citep{choi2021viton} and DressCode~\citep{morelli2022dress} datasets; for pose transfer, we use DeepFashion~\citep{liu2016deepfashion}. More details are provided in Appendix~\ref{app:chapter6}.
 
 \noindent \textbf{Metrics.}
 In virtual try-on, following previous methods~\citep{zhu2023tryondiffusion, gou2023taming, cui2023learning, cui2023street, zeng2024cat, ning2024picture, kim2024stableviton, xu2024ootdiffusion, choi2024improving, yang2024texture, chong2024catvton, yang2024d}, we evaluate the model under two settings: \textit{paired}, where the garment in the person image same as the garment image; and \textit{unpaired}, where the garments differ between the two images.
@@ -50,10 +50,10 @@ For \textit{virtual try-on}, we conduct experiments on VITON-HD~\citep{choi2021v
 In VITON-HD, our method significantly outperforms previous methods, achieving an FID reductions of -0.88/-0.5 in the paired/unpaired setting.
 In DressCode, our method also surpasses existing methods across all garment categories (upper body, lower body, and dresses), with an FID reductions of -1.93/-1.66 in the paired/unpaired setting.
 % Specifically, for the upper body category, it achieves an FID reductions of -2.33 (paired) and -0.91 (unpaired); for the lower body category, -2.94 (paired) and -2.55 (unpaired); and for dresses, -1.25 (paired) and -1.71 (unpaired).
-We also conduct evaluations for each garment category, with details provided in Appendix~D.
+We also conduct evaluations for each garment category, with details provided in Appendix~\ref{app:chapter6}.
 For \textit{pose transfer}, we conduct experiments on DeepFashion~\citep{liu2016deepfashion} at different resolutions, significantly outperforming previous methods.
 As shown in Tab.~\ref{leffa:tab:deepfashion}, our method achieves -0.54 and -1.61 reductions in FID at $256 \times 176$ and $512 \times 352$, respectively.
-While our model shows a minor SSIM gap over CFLD~\citep{lu2024coarse}, visual results and human study indicate substantial improvement over prior methods (see Fig.~\ref{leffa:fig:human_study} and Appendix~D).
+While our model shows a minor SSIM gap over CFLD~\citep{lu2024coarse}, visual results and human study indicate substantial improvement over prior methods (see Fig.~\ref{leffa:fig:human_study} and Appendix~\ref{app:chapter6}).
 
 
 \begin{table}[!t]
@@ -117,7 +117,7 @@ In the third row, our method generates evenly spaced buttons in the correct quan
 For \textit{pose transfer}, in the first to fourth rows, our method better predicts a plausible side/back-view image based on frontal information.
 Other rows also show that our method maintains fine details more effectively when altering the pose.
 The last row demonstrates that our method can generate vivid full-body images from half-body images.
-More comparisons are provided in Appendix~D.
+More comparisons are provided in Appendix~\ref{app:chapter6}.
 
 
 \begin{table}[!t]
@@ -362,6 +362,7 @@ At $\tau = 0.1$, the attention map becomes overly sparse, making optimization di
 
 
 \subsection{Human Study}
+\label{leffa:sec:human_study}
 We have observed that some evaluation metrics, such as FID, are highly sensitive to implementation details~\citep{heusel2017gans, kynkaanniemi2022role, peebles2023scalable} and may not accurately reflect image generation quality.
 To provide a more comprehensive evaluation, we conduct a human study comparing our \leffa{} with other methods.
 

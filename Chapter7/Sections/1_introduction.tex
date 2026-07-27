@@ -2,7 +2,7 @@
 \label{saber:sec:introduction}
 
 Building on the reference-preservation problem studied in Chapter~6, this chapter asks how the same idea can scale from single images to videos.
-The challenge is not only to preserve identity from references, but also to maintain that identity over time without relying on costly reference image--video--text triplets.
+The challenge is not only to preserve identity from references, but also to maintain that identity over time, and to do so without relying on costly reference image--video--text triplets. As in Chapter~6, supplying the reference is not enough. A model trained on video can satisfy its objective by copying neighboring frames, so the intended use of the reference has to be enforced by the training task itself.
 This chapter addresses that problem with a scalable zero-shot training strategy.
 
 Reference-to-video (R2V) generation synthesizes videos that align with a given text prompt while preserving the identity and appearance of subjects in reference images.
@@ -20,7 +20,7 @@ This design allows Saber to leverage abundant video-text datasets~\citep{chen202
 To this end, our method introduces a masked training strategy that uses randomly sampled and partially masked video frames as reference images during training, where the randomness of masking provides diverse reference conditions and improves generalization across subject categories.
 This process compels the model to learn identity- and appearance-consistent representations from the reference context, effectively simulating the R2V task without R2V data.
 This strategy is complemented by a tailored attention mechanism, guided by attention masks, which directs the model to focus on reference-aware features while suppressing background noise.
-To further enhance visual fidelity and mitigate the copy-paste artifacts which is common in reference-to-video generation~\cite{liu2025phantom, fei2025skyreels, hu2025hunyuancustom}, we integrate a series of spatial mask augmentations, effectively improving the visual quality of the generated videos.
+To further enhance visual fidelity and mitigate the copy-paste artifacts which is common in reference-to-video generation~\citep{liu2025phantom, fei2025skyreels, hu2025hunyuancustom}, we integrate a series of spatial mask augmentations, effectively improving the visual quality of the generated videos.
 
 Saber's design is inherently scalable.
 It naturally supports a varying number of reference images (see Fig.~\ref{saber:fig:teaser} and Fig.~\ref{saber:fig:vis_opens2v_eval}), without additional data preparation or modification to the training pipeline, allowing for richer, multi-subject customization.

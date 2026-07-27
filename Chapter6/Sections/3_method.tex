@@ -38,10 +38,10 @@ During training, $I_{\text{src}}$ and $I_{\text{tgt}}$ are the same image.
 The data preprocessing for each task is defined as follows:
 
 \begin{itemize}
-    \item For virtual try-on, following~\cite{choi2024improving, chong2024catvton}, we first extract a garment mask $I_\text{m} \in \{0, 1\}^{H \times W \times 1}$ from $I_\text{src}$ and construct a garment-agnostic image $I_\text{ga} \in \mathbb{R}^{H \times W \times 3} = I_\text{src} * (1 - I_\text{m})$.
+    \item For virtual try-on, following~\citep{choi2024improving, chong2024catvton}, we first extract a garment mask $I_\text{m} \in \{0, 1\}^{H \times W \times 1}$ from $I_\text{src}$ and construct a garment-agnostic image $I_\text{ga} \in \mathbb{R}^{H \times W \times 3} = I_\text{src} * (1 - I_\text{m})$.
     During training, we encode $I_\text{src}$ and $I_\text{ga}$ via the VAE encoder $\mathcal{E}(\cdot)$ yields $z_\text{0}$ and $z_\text{ga}$, and resize $I_\text{m}$ to latent space as $z_\text{m}$.
     We add noise to $z_\text{0}$ based on the sampled time step $t$ which produces $z_t$, and we channel concatenate it with $z_\text{ga}$ and $z_\text{m}$ to construct $\hat{z_t}$.
-    \item For pose transfer, following~\cite{han2023controllable}, we first extract a DensePose image~\citep{guler2018densepose} $I_\text{dp} \in \mathbb{R}^{H \times W \times 3}$ from $I_\text{src}$.
+    \item For pose transfer, following~\citep{han2023controllable}, we first extract a DensePose image~\citep{guler2018densepose} $I_\text{dp} \in \mathbb{R}^{H \times W \times 3}$ from $I_\text{src}$.
     During training, we encode $I_\text{src}$ with the VAE encoder $\mathcal{E}(\cdot)$, obtaining $z_\text{0}$, and resize the $I_\text{dp}$ to the latent resolution of $z_\text{dp}$.
     We add noise to $z_\text{0}$ at sampled time step $t$ to produce $z_t$, and we channel concatenate it with $z_\text{dp}$ to construct $\hat{z_t}$.
 \end{itemize}
@@ -55,7 +55,7 @@ Our goal is to leverage diffusion-based methods to preserve fine-grained details
 To achieve this, we propose the \leffa{} loss that alleviates detail distortion through learning flow fields in attention.
 To validate the effectiveness of \leffa{}, we first construct a unified diffusion-based baseline suitable for both virtual try-on and pose transfer tasks in Sec.~\ref{leffa:sec:baseline}.
 We then introduce the formulation of \leffa{} loss in Sec.~\ref{leffa:sec:leffa}.
-Lastly, we explain its integration into the model training in Sec.~\ref{leffa:sec:training}.
+Lastly, we explain its integration into the model training in Sec.~\ref{leffa:sec:training}. Fig.~\ref{leffa:fig:overview} gives an overview of the complete training pipeline, with the diffusion-based baseline on the left and the \leffa{} loss on the right.
 
 \subsection{Diffusion-Based Baseline}
 \label{leffa:sec:baseline}
@@ -84,7 +84,7 @@ Our goal is to preserve fine-grained details without textural distortion.
 Detail distortion arises when the target query in the attention layer fails to attend to the corresponding region of the reference key correctly.
 To address this, we propose the \leffa{} loss, which explicitly guides the target query to \textit{spatially focus} on the correct region of the reference key through supervision by learning flow fields in attention.
 
-Specifically, in the $l^{th}$ attention layer of the Generative UNet $\epsilon_{\theta_{\text{gen}}}(\cdot)$, we compute the attention map $A^{l}$ by using $F_{\text{gen}}^{l}$ as the query $Q$ and $F_{\text{ref}}^{l}$ as the key $K$, formulated as the dot-product attention defined in \cite{vaswani2017attention},
+Specifically, in the $l^{th}$ attention layer of the Generative UNet $\epsilon_{\theta_{\text{gen}}}(\cdot)$, we compute the attention map $A^{l}$ by using $F_{\text{gen}}^{l}$ as the query $Q$ and $F_{\text{ref}}^{l}$ as the key $K$, formulated as the dot-product attention defined in \citep{vaswani2017attention},
 \begin{equation}
     A^{l} = \texttt{softmax} \bigg( \frac{Q K^{\top}}{\sqrt{d}} / \tau \bigg),
 \end{equation}

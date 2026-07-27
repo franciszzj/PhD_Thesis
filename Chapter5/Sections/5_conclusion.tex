@@ -1,10 +1,37 @@
+\section{Limitations and Critical Reflection}
+\label{openpsg:sec:limitations}
+This chapter claims to move PSG from closed-set classification toward open-set relation prediction. That claim needs careful qualification, because the gap between what the method can do and what the experiments demonstrate is wider here than elsewhere in this thesis.
+
+\noindent \textbf{The quantitative protocol does not measure open-set prediction.}
+Our open-set evaluation splits the $56$ PSG predicates into base and novel subsets at a $7\!:\!3$ ratio, trains on base relations only, and reports R@$K$ and mR@$K$ on both subsets. This is the standard protocol in the open-vocabulary scene graph literature~\citep{yu2023visually, chen2023expanding}, and it does establish a real capability: the model can name relations it was never trained to predict. However, the novel predicates come from a vocabulary that was fixed in advance, and every prediction is scored against the same closed 56-way annotation used in the closed-set experiments. The protocol therefore measures \emph{held-out-vocabulary generalization}, which is weaker than open-set prediction as described in the introduction of this chapter.
+
+As a result, the capability this chapter is named for is not the capability the tables report. When OpenPSG predicts \textit{pop shove-it} for a person and a skateboard (Fig.~\ref{openpsg:fig:open_figure}), the prediction lies entirely outside the PSG vocabulary. It cannot appear in any ground-truth annotation, and under R@$K$ it counts as a false positive that also displaces a correct prediction from the top-$K$ list. Genuinely out-of-vocabulary predictions are therefore supported only by qualitative examples in this chapter. Selected examples cannot establish a rate, and we make no claim about how often such predictions are correct.
+
+\noindent \textbf{Paraphrase sensitivity is unresolved.}
+Scoring is exact-match over predicate strings. A model that outputs \textit{riding on} where the annotation says \textit{riding}, or \textit{seated on} where it says \textit{sitting on}, is scored as wrong. This penalty falls disproportionately on generative decoders such as ours. A classifier over a fixed list cannot produce a paraphrase, whereas an autoregressive decoder conditioned on free-form instructions produces whichever surface form the language model finds likely. Part of the gap between our closed-set and open-set numbers is therefore a measurement artifact rather than a modeling failure, and the metrics used here cannot separate the two. Resolving this requires an evaluation that accepts semantic equivalence, through synonym sets, embedding-space matching, or human adjudication of a sampled subset, and each option introduces its own arbitrariness. We regard this as the principal open problem in evaluating open-set PSG, and we return to it in Sec.~\ref{sec:future_open_world}.
+
+\noindent \textbf{Hallucination inherited from the decoder.}
+Relations are generated autoregressively by a frozen BLIP-2 decoder. The decoder is fluent by construction and produces a well-formed relation phrase for any pair it receives, including pairs between which no relation holds. Our relation existence estimation query is the defense against this, since it filters pairs before they reach the decoder. However, it is a learned binary filter trained on base relations with a fixed threshold ($\theta = 0.35$), and no later stage can recover from a false positive. Because the decoder never abstains, an unrelated pair that survives filtering receives a confident, plausible, and wrong relation. At the decoding stage the system has no way to express that no relation is evident. This is a structural gap for open-world deployment, where most entity pairs in a scene are genuinely unrelated.
+
+%% ============================================================================
+%% TODO(failure-figure): Examiner request (Bilen preliminary report) -- add a
+%% qualitative figure showing representative FAILURE CASES for this chapter,
+%% and reference it from the paragraph above. Compare Chapter 4, which already
+%% has one (vlprompt:fig:failure_vis). Suggested label: openpsg:fig:failure_vis
+%% ============================================================================
+\noindent \textbf{Frozen components bound the achievable performance.}
+We train only the relation query transformer and freeze the open-set segmenter (OpenSeeD) and the multimodal decoder (BLIP-2). This keeps training tractable on four A100 GPUs, but it also bounds the results of this chapter by two models that were chosen in 2024 and never adapted to this task. Segmentation errors propagate directly into the graph, as in Chapters~3 and~4, and the relation vocabulary is whatever the pretraining corpus of the decoder supports. That vocabulary is broad for common interactions and thin for technical, domain-specific, or culturally particular relations. The open-vocabulary claim of this chapter is therefore more precisely a claim about the vocabulary of BLIP-2.
+
+\noindent \textbf{Efficiency remains a constraint.}
+Pair filtering reduces the quadratic cost of relation prediction but does not remove it, and every surviving pair requires a forward pass through a large multimodal decoder. In dense scenes with many panoptic entities, which are exactly the scenes where a scene graph is most useful, the number of surviving pairs grows faster than the decoder budget allows. The threshold $\theta$ therefore trades recall against compute directly. We tuned it on the PSG validation distribution, and nothing guarantees that this operating point transfers to scenes of a different density.
+
 \section{Conclusion}
 \label{openpsg:sec:conclusion}
-This chapter completed the PSG line of the thesis by extending structured understanding from closed-set relation classification to open-set grounded relation prediction.
+This chapter completed the PSG line of the thesis by extending control over a scene description from closed-set relation classification to open-set grounded relation prediction.
 It formulated the open-set PSG task and introduced OpenPSG to accomplish open-set relation prediction.
 With the help of large multimodal models, our method employs an autoregressive approach to predict open-set relations.
 Additionally, we have developed a relation query transformer which contains pair feature extraction and relation existence estimation queries, one for extracting features of subject-object pairs, the other for predicting the existence of relations between them to filter out irrelevant pairs. 
 Furthermore, we design generation and judgement instructions to enable the multimodal relation decoder to predict open-set relations.
 Extensive experiments demonstrate that our method achieves excellent performance in open-set relation prediction.
 Together with Chapters~3 and~4, this chapter shows how PSG can be improved along three axes: long-tail robustness, language-assisted reasoning, and open-world generalization.
-The next chapter turns to controllable generation and studies how reference information can be preserved faithfully in person image synthesis.
+The next chapter turns to control in visual generation and studies how reference information can be preserved faithfully in person image synthesis.

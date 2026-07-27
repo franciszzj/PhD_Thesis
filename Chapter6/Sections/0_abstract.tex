@@ -1,9 +1,9 @@
-Part~II of the thesis turns from structured understanding to controllable generation.
+Part~II of the thesis turns from control in visual understanding to control in visual generation.
 This chapter studies reference-conditioned person image generation, where the central challenge is to preserve fine-grained appearance or pose information from a reference image while maintaining overall image quality.
 Prior methods often produce visually plausible results at a coarse level but still distort fine details such as textures, texts, and logos because the model does not attend to the correct reference regions.
 To address this, this chapter introduces \textbf{learning flow fields in attention} (\textbf{\leffa{}}), a regularization loss that explicitly guides target queries to attend to the correct reference keys during diffusion training.
 The loss is imposed directly on the attention map and can therefore improve correspondence without adding inference-time complexity.
-Experiments show that \leffa{} achieves state-of-the-art performance in both appearance control and pose control, while also generalizing to other diffusion-based generators.
+Experiments show that \leffa{} achieves state-of-the-art performance in both appearance control and pose control, while also generalizing to other diffusion-based generators; Fig.~\ref{leffa:fig:teaser} shows representative results for both tasks.
 This image-level reference-preservation mechanism then serves as the starting point for Chapter~7, which extends the problem to reference-to-video generation.
 
 \begin{figure}[t]

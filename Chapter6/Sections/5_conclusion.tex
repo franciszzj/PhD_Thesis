@@ -1,12 +1,36 @@
+\section{Limitations and Critical Reflection}
+\label{leffa:sec:limitations}
+\leffa{} improves detail preservation substantially and adds no inference cost, but the mechanism rests on assumptions that hold in the settings studied here and not necessarily beyond them.
+
+\noindent \textbf{The loss requires a warm-up, and therefore a multi-stage schedule.}
+\leffa{} can only be applied once the attention maps are meaningful. Applied from initialization, it forces target queries to commit to reference keys before either representation is informative, and convergence degrades rather than accelerates (Sec.~\ref{leffa:sec:discussion}). The method is therefore a finetuning objective rather than a training objective. We train the virtual try-on model progressively at $512 \times 384$ and $1024 \times 768$ before a final $10\text{k}$-step stage with the \leffa{} loss. This has a real cost. It rules out training from scratch with the objective, it complicates reproduction, and it introduces a hyperparameter, namely when to switch the loss on, for which we have no principled criterion beyond the observation that too early is harmful.
+
+\noindent \textbf{The supervisory signal assumes that a correspondence exists.}
+The loss warps the reference toward the target through the flow field induced by the attention map, and penalizes the residual. This is well posed when every target region has a source in the reference, which is broadly true for virtual try-on and pose transfer with a single garment or a single person. It is not well posed under occlusion, under a large viewpoint change that reveals unseen surfaces, or when the target legitimately contains content that the reference does not. In those regions the loss still produces a gradient, and that gradient asks the model to reconstruct something the reference does not contain. We did not isolate this effect experimentally. It is a plausible partial explanation for why the gains, although consistent, are larger in the paired settings than in the unpaired ones.
+
+\noindent \textbf{Dependence on off-the-shelf preprocessing.}
+Appearance control relies on garment segmentation to define the region to be replaced, and performance degrades when that segmentation is inaccurate. The failure is not graceful. A segmentation error changes which pixels the model must synthesize, so a mis-segmented collar or sleeve produces a visibly wrong composition however well correspondence is resolved. A mask-free formulation would remove this dependency and is the most direct extension of this chapter.
+
+\noindent \textbf{An architectural floor on fine detail.}
+The $8\times$ spatial compression of the latent autoencoder places a hard limit on the detail that can be recovered. Small text on a garment occupies fewer pixels than the latent grid can represent, so no amount of correspondence supervision restores it. \leffa{} improves \emph{which} reference region the model draws from, not the resolution at which it can draw. This limitation is shared with every latent diffusion method we compare against, and it should not be mistaken for something our loss addresses.
+
+% ============================================================================
+% TODO(failure-figure): Examiner request (Bilen preliminary report) -- add a
+% qualitative figure showing representative FAILURE CASES for this chapter,
+% and reference it from the paragraph above. Compare Chapter 4, which already
+% has one (vlprompt:fig:failure_vis). Suggested label: leffa:fig:failure_vis
+% ============================================================================
+\noindent \textbf{What the metrics can and cannot establish.}
+As noted in Sec.~\ref{leffa:sec:human_study}, FID is highly sensitive to implementation details~\citep{heusel2017gans, kynkaanniemi2022role, peebles2023scalable} and correlates only loosely with the property this chapter targets. Fine-grained detail distortion is a local and structured error, whereas FID is a distributional statistic over Inception features that is largely blind to whether a logo is legible or a stripe pattern is correct. The FID improvements we report are therefore weak evidence for the central claim of this chapter, and the human study carries more of the argument than the tables do, since our method is preferred most often in all four comparisons. That study also has limits. It uses 50 participants judging 90 cases, it asks for an overall quality preference rather than for the specific property under investigation, and it does not measure inter-rater agreement. A protocol that asked annotators to locate detail errors directly would test the claim more sharply. This gap between what the chapter argues and what the standard metrics measure is a general problem in controllable generation, and it motivates the evaluation directions in Sec.~\ref{sec:future_evaluation}.
+
+\noindent \textbf{Scope.}
+All results concern person images in three datasets (VITON-HD, DressCode, DeepFashion) with a broadly consistent capture style: a single subject, largely frontal, against a clean background. The generalization experiments show that the loss transfers across diffusion backbones, which is the claim we make. They do not show that it transfers across domains. Whether attention regularization helps for multi-subject scenes, cluttered backgrounds, or non-human references is untested here.
+
 \section{Conclusion}
 \label{leffa:sec:conclusion}
 This chapter established the first controllable-generation contribution of the thesis: explicit attention regularization for faithful reference-preserving person image generation.
 It introduced a regularization loss, learning flow fields in attention (\leffa{}), to enhance controllable person image generation.
 Our approach not only preserves high overall image quality but also mitigates fine-grained detail distortion.
 We validate the effectiveness and generalization ability of \leffa{} by integrating it with different diffusion-based methods, achieving significant qualitative and quantitative improvements in both virtual try-on and pose transfer tasks.
-Additionally, Appendix~D discusses further limitations of \leffa{}.
 These results show that improving correspondence inside the denoising process is sufficient to reduce detail distortion without adding extra inference modules.
 The next chapter extends this reference-preservation perspective from single images to videos, where identity must remain consistent across time as well as across views.
-
-% \section{Statement}
-% All experiments, data collection, and processing activities were conducted at King's College London. Meta was involved solely in an advisory role and NO experiments, data collection or processing activities were conducted on Meta infrastructure.

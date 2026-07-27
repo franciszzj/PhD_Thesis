@@ -144,7 +144,7 @@ These results confirm that \leffa{} loss significantly improves controllable per
 
 
 \noindent \textbf{Effect of Averaging Attention Map Across Multi-Head}.
-Inspired by~\cite{darcet2023vision}, we average the attention maps across all heads before computing the \leffa{} loss.
+Inspired by~\citep{darcet2023vision}, we average the attention maps across all heads before computing the \leffa{} loss.
 As shown in Tab.~\ref{leffa:tab:more_ablation} (\leffa{} w/o average $A$), computing the loss for each head individually degrades performance, emphasizing the role of redundancy in attention maps for better generalization.
 
 \noindent \textbf{Effect of Upsampling Flow Fields}.
@@ -211,16 +211,8 @@ At the start of training, the attention maps are not well learned, and applying 
 Instead, introducing our \leffa{} loss in a subsequent training stage significantly enhances performance, demonstrating its ability to correct inaccurate attention and guide the model toward more effective learning.
 
 
-\section{Limitations}
-While \leffa{} significantly improves controllable person image generation in appearance and pose control, it has several limitations. 
-First, it requires multi-stage training with the \leffa{} loss applied only in the final stage.
-In future work, we aim to design a single-stage model to simplify the training process.
-% Suggest to add something like: \leffa{} also encounters challenges commonly associated with using off-the-shelf backbones. For example, 
-Second, appearance control relies on garment segmentation, which impacts performance when segmentation is inaccurate.
-We plan to develop a mask-free approach to ensure high quality generation and preserve fine-grained details without distortion.
-Third, our method struggles to preserve extremely fine-grained details, such as small text, due to the $8\times$ resolution compression brought by the latent encoder in the latent diffusion model.
-% \brandon{We should clarify the 2 and 3 are the common issues, not our specific limitations.}
-It is worth noting that the issues mentioned above are not unique to our method but are also present in other methods.
+\section{Additional Notes on Limitations}
+Sec.~\ref{leffa:sec:limitations} discusses the limitations of \leffa{} in the main chapter. We note here only that three of the issues raised there concern off-the-shelf components: the reliance on garment segmentation for appearance control, the $8\times$ compression of the latent encoder, and the multi-stage training schedule. These issues are not unique to our method and are shared with other latent-diffusion approaches to this task.
 
 
 % \section{More Qualitative Comparison}

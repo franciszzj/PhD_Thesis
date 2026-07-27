@@ -4,17 +4,17 @@
 
 \subsection{Datasets}
 
-\noindent \textbf{Panoptic Scene Graph (PSG)} dataset~\cite{yang2022panoptic} is constructed based on the COCO dataset~\cite{lin2014microsoft, caesar2018coco}, consisting of 48,749 annotated images: 46,563 for training and 2,186 for testing. 
-It encompasses 80 ``thing'' object categories~\cite{lin2014microsoft} and 53 ``stuff'' object categories~\cite{caesar2018coco}, as well as 56 relation categories.
+\noindent \textbf{Panoptic Scene Graph (PSG)} dataset~\citep{yang2022panoptic} is constructed based on the COCO dataset~\citep{lin2014microsoft, caesar2018coco}, consisting of 48,749 annotated images: 46,563 for training and 2,186 for testing. 
+It encompasses 80 ``thing'' object categories~\citep{lin2014microsoft} and 53 ``stuff'' object categories~\citep{caesar2018coco}, as well as 56 relation categories.
 
-\noindent \textbf{Visual Genome (VG)} dataset~\cite{krishna2017visual} is a widely used dataset in the SGG task.
-To further validate our method, we follow previous works~\cite{yu2023visually, chen2023expanding} and test our method on the VG-150 variant, which contains 150 object categories and 50 relation categories.
+\noindent \textbf{Visual Genome (VG)} dataset~\citep{krishna2017visual} is a widely used dataset in the SGG task.
+To further validate our method, we follow previous works~\citep{yu2023visually, chen2023expanding} and test our method on the VG-150 variant, which contains 150 object categories and 50 relation categories.
 
 
 \subsection{Tasks and Metrics}
 
 \noindent \textbf{Tasks.}
-In both PSG and SGG, there are three distinct subtasks: Predicate Classification (PredCls), Scene Graph Classification (SGCls), and Scene Graph Detection (SGDet)~\cite{xu2017scene}.
+In both PSG and SGG, there are three distinct subtasks: Predicate Classification (PredCls), Scene Graph Classification (SGCls), and Scene Graph Detection (SGDet)~\citep{xu2017scene}.
 In PredCls, the categories and locations of objects within the image are given, and only the relation categories between the objects need to be predicted.
 SGCls requires predicting both the categories of objects and the relations between them, given the locations of objects within the image.
 SGDet requires the simultaneous prediction of object categories, locations, and relations between objects, based on the given image.
@@ -22,24 +22,24 @@ In this chapter, we focus on the PredCls and SGDet subtasks.
 The PredCls excludes the influence of segmentation performance and only compares the relation prediction performance, while the SGDet considers the combined results for both object segmentation and relation prediction.
 
 Furthermore, to validate our method's capability in open-set relation prediction, we divide the dataset into base relations and novel relations at a ratio of 7:3.
-For the PSG dataset, the specific division method is provided in Appendix~C.
-For the division of the VG dataset, we follow the practice in previous works~\cite{yu2023visually, chen2023expanding}.
+For the PSG dataset, the specific division method is provided in Appendix~\ref{app:chapter5}.
+For the division of the VG dataset, we follow the practice in previous works~\citep{yu2023visually, chen2023expanding}.
 In the open-set scenarios, our model is trained with data only from base relations and tested on both base and novel relations.
 It is noteworthy that the test sets for open-set and closed-set are same.
 
 \noindent \textbf{Metrics.}
-Following previous works~\cite{yang2022panoptic, zhou2023hilo}, we use Recall@K (R@K) and mean Recall@K (mR@K) as our evaluation metrics.
+Following previous works~\citep{yang2022panoptic, zhou2023hilo}, we use Recall@K (R@K) and mean Recall@K (mR@K) as our evaluation metrics.
 Additionally, in open-set scenarios, we also report the R@K and mR@K metrics for base and novel relations.
 
 
 \subsection{Implementation Details}
-In our experiments, we utilize the pretrained OpenSeeD~\cite{zhang2023simple} as the open-set object segmenter.
+In our experiments, we utilize the pretrained OpenSeeD~\citep{zhang2023simple} as the open-set object segmenter.
 The patch size $p$ of the patchify module is set to 8.
 Within the relation query transformer, the length $E$ of the pair feature extraction query is 32, and the threshold $\theta$ used to filter subject-object pairs is set to 0.35.
-In the multimodal relation decoder, we employ the decoder of BLIP-2~\cite{li2023blip}.
+In the multimodal relation decoder, we employ the decoder of BLIP-2~\citep{li2023blip}.
 During model training, the weight factor $\lambda$ for the loss is set to 10.
-We adopt the same data augmentation strategies as in previous methods~\cite{yang2022panoptic, zhou2023hilo}.
-To train our model, we use the AdamW~\cite{loshchilov2017decoupled} optimizer with a learning rate of $1e^{-4}$ and a weight decay of $5e^{-2}$.
+We adopt the same data augmentation strategies as in previous methods~\citep{yang2022panoptic, zhou2023hilo}.
+To train our model, we use the AdamW~\citep{loshchilov2017decoupled} optimizer with a learning rate of $1e^{-4}$ and a weight decay of $5e^{-2}$.
 Our model is trained for a total of 12 epochs, reducing the learning rate to $1e^{-5}$ at the $8_{th}$ epoch.
 The experimental platform uses four A100 GPUs.
 Note that during training we freeze the parameters of the object segmenter and multimodal relation decoder but only train the proposed RelQ-Former.
@@ -59,15 +59,15 @@ Note that during training we freeze the parameters of the object segmenter and m
         \midrule[1pt]
         ~ & \multicolumn{6}{c}{Train on all relations (closed-set)} \\
         \cmidrule{2-7}
-        IMP~\cite{xu2017scene} & 31.9/9.6~ & 36.8/10.9 & 38.9/11.6 & 16.5/6.5~ & 18.2/7.1~ & 18.6/7.2~ \\
-        Motifs~\cite{zellers2018neural} & 44.9/20.2 & 50.4/22.1 & 52.4/22.9 & 20.0/9.1~ & 21.7/9.6~ & 22.0/9.7~ \\
-        VCTree~\cite{tang2019learning} & 45.3/20.5 & 50.8/22.6 & 52.7/23.3 & 20.6/9.7~ & 22.1/10.2 & 22.5/10.2 \\
-        GPSNet~\cite{lin2020gps} & 31.5/13.2 & 39.9/16.4 & 44.7/18.3 & 17.8/7.0~ & 19.6/7.5~ & 20.1/7.7~ \\
-        PSGTR~\cite{yang2022panoptic} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 28.4/16.6 & 34.4/20.8 & 36.3/22.1 \\
-        PSGFormer~\cite{yang2022panoptic} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 18.0/14.8 & 19.6/17.0 & 20.1/17.6 \\
-        ADTrans~\cite{li2023panoptic} & ~~~--~/29.0 & ~~~--~/36.2 & ~~~--~/38.8 & 26.0/26.4 & 29.6/29.7 & 30.0/30.0 \\
-        PairNet~\cite{wang2023pair} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 29.6/24.7 & 35.6/28.5 & 39.6/30.6 \\
-        HiLo~\cite{zhou2023hilo} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 34.1/23.7 & 40.7/30.3 & 43.0/33.1 \\
+        IMP~\citep{xu2017scene} & 31.9/9.6~ & 36.8/10.9 & 38.9/11.6 & 16.5/6.5~ & 18.2/7.1~ & 18.6/7.2~ \\
+        Motifs~\citep{zellers2018neural} & 44.9/20.2 & 50.4/22.1 & 52.4/22.9 & 20.0/9.1~ & 21.7/9.6~ & 22.0/9.7~ \\
+        VCTree~\citep{tang2019learning} & 45.3/20.5 & 50.8/22.6 & 52.7/23.3 & 20.6/9.7~ & 22.1/10.2 & 22.5/10.2 \\
+        GPSNet~\citep{lin2020gps} & 31.5/13.2 & 39.9/16.4 & 44.7/18.3 & 17.8/7.0~ & 19.6/7.5~ & 20.1/7.7~ \\
+        PSGTR~\citep{yang2022panoptic} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 28.4/16.6 & 34.4/20.8 & 36.3/22.1 \\
+        PSGFormer~\citep{yang2022panoptic} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 18.0/14.8 & 19.6/17.0 & 20.1/17.6 \\
+        ADTrans~\citep{li2023panoptic} & ~~~--~/29.0 & ~~~--~/36.2 & ~~~--~/38.8 & 26.0/26.4 & 29.6/29.7 & 30.0/30.0 \\
+        PairNet~\citep{wang2023pair} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 29.6/24.7 & 35.6/28.5 & 39.6/30.6 \\
+        HiLo~\citep{zhou2023hilo} & ~--~/~--~ & ~--~/~--~ & ~--~/~--~ & 34.1/23.7 & 40.7/30.3 & 43.0/33.1 \\
 	\textbf{OpenPSG} & \textbf{55.1}/\textbf{39.2} & \textbf{70.6}/\textbf{53.8} & \textbf{79.3}/\textbf{63.8} & \textbf{38.1}/\textbf{32.3} & \textbf{46.8}/\textbf{40.9} & \textbf{52.0}/\textbf{50.1} \\
         \midrule[1pt]
         ~ & \multicolumn{6}{c}{Train on base relations (open-set)} \\
@@ -84,21 +84,21 @@ Note that during training we freeze the parameters of the object segmenter and m
 \noindent \textbf{PSG Dataset.}
 Tab.~\ref{openpsg:tab:psg_results} consists of two parts, comparing the performance of our method against previous methods in closed-set and open-set scenarios under the subtasks of predicate classification and scene graph detection.
 For the first part, in the closed-set scenario, our method significantly surpasses previous methods.
-For the predicate classification subtask, only methods that predict segmentation and relation separately are applicable~\cite{yang2022panoptic}, and our method achieves a substantial improvement compared to previous best results, for instance, a 26.6\% increase in R@100 and a 25.0\% increase in mR@100.
-For scene graph detection, our method also achieves a significant increase of 9.0\% over the best previous method~\cite{zhou2023hilo} in R@100 and a 17.0\% increase in mR@100.
+For the predicate classification subtask, only methods that predict segmentation and relation separately are applicable~\citep{yang2022panoptic}, and our method achieves a substantial improvement compared to previous best results, for instance, a 26.6\% increase in R@100 and a 25.0\% increase in mR@100.
+For scene graph detection, our method also achieves a significant increase of 9.0\% over the best previous method~\citep{zhou2023hilo} in R@100 and a 17.0\% increase in mR@100.
 This indicates that in the closed-set scenario, our method demonstrates significant performance improvements.
 For the second part, in the open-set scenario, we train the model only on base relations and test it on all relations.
 Notably, for predicate classification, our method even outperforms previous methods trained on all relations, which demonstrates the superiority of our method.
 For example, compared with previous best results, we achieve a 39\% improvement in R@100 and a 7.2\% improvement in mR@100.
-For the scene graph detection subtask, our method with judgement instruction remains very competitive compared to \cite{yang2022panoptic} trained on all relations.
+For the scene graph detection subtask, our method with judgement instruction remains very competitive compared to \citep{yang2022panoptic} trained on all relations.
 
 \noindent \textbf{VG Dataset.}
-To further validate our method on the VG dataset, we compare to two closed-set SGG methods~\cite{zellers2018neural, tang2019learning} and two recent open-set SGG works~\cite{yu2023visually, chen2023expanding}.
-Since our method relies on an object segmentation model while \cite{zellers2018neural, tang2019learning, yu2023visually, chen2023expanding} rely on an object detector, for a fair comparison, we only present the results for predicate classification subtask.
+To further validate our method on the VG dataset, we compare to two closed-set SGG methods~\citep{zellers2018neural, tang2019learning} and two recent open-set SGG works~\citep{yu2023visually, chen2023expanding}.
+Since our method relies on an object segmentation model while \citep{zellers2018neural, tang2019learning, yu2023visually, chen2023expanding} rely on an object detector, for a fair comparison, we only present the results for predicate classification subtask.
 Tab.~\ref{openpsg:tab:vg_results} shows the results in both closed-set and open-set scenarios.
-In the closed-set scenario, compared with previous closed-set methods~\cite{zellers2018neural, tang2019learning}, our method only performs a few points lower on R@50, yet yields significantly better results on the other metrics.
-In addition, compared with previous best open-set methods~\cite{yu2023visually, chen2023expanding}, our method improves by 29.0\% in R@100 and by 9.5\% in mR@100.
-In open-set scenario, our method improves upon\cite{yu2023visually, chen2023expanding} by 3.9\% in R@100 and by 5.4\% in mR@100.
+In the closed-set scenario, compared with previous closed-set methods~\citep{zellers2018neural, tang2019learning}, our method only performs a few points lower on R@50, yet yields significantly better results on the other metrics.
+In addition, compared with previous best open-set methods~\citep{yu2023visually, chen2023expanding}, our method improves by 29.0\% in R@100 and by 9.5\% in mR@100.
+In open-set scenario, our method improves upon\citep{yu2023visually, chen2023expanding} by 3.9\% in R@100 and by 5.4\% in mR@100.
 These results demonstrate the effectiveness of our method in both closed-set and open-set relation prediction.
 
 \begin{table}[t]\small
@@ -111,10 +111,10 @@ These results demonstrate the effectiveness of our method in both closed-set and
         \cmidrule{2-5}
         Method & R/mR@50 & R/mR@100 & R/mR@50 & R/mR@100 \\
         \midrule[1pt]
-        Motifs~\cite{zellers2018neural} & 65.2/15.9 & 67.1/17.2 & ~~~--~/~--~~ & ~~~--~/~--~~ \\
-        VCTree~\cite{tang2019learning} & 66.4/16.8 & 68.1/19.4 & ~~~--~/~--~~ & ~~~--~/~--~~ \\
-        Cacao+Epic~\cite{yu2023visually} & ~~~--~/39.0 & ~~~--~/40.8 & ~~~--~/16.5 & ~~~--~/21.8 \\
-        OvSGTR~\cite{chen2023expanding} & 36.4/~--~~ & 42.4/~--~~ & 22.9/~--~~ & 26.7/~--~~ \\
+        Motifs~\citep{zellers2018neural} & 65.2/15.9 & 67.1/17.2 & ~~~--~/~--~~ & ~~~--~/~--~~ \\
+        VCTree~\citep{tang2019learning} & 66.4/16.8 & 68.1/19.4 & ~~~--~/~--~~ & ~~~--~/~--~~ \\
+        Cacao+Epic~\citep{yu2023visually} & ~~~--~/39.0 & ~~~--~/40.8 & ~~~--~/16.5 & ~~~--~/21.8 \\
+        OvSGTR~\citep{chen2023expanding} & 36.4/~--~~ & 42.4/~--~~ & 22.9/~--~~ & 26.7/~--~~ \\
         \textbf{OpenPSG} & ~\textbf{60.2}/\textbf{45.8} & ~\textbf{71.4}/\textbf{50.3} & ~\textbf{25.7}/\textbf{21.5} & ~\textbf{30.6}/\textbf{27.2} \\
     \bottomrule[1.5pt]
     \end{tabular}
@@ -129,8 +129,8 @@ To eliminate interference, we validate the object segmenter and modules in RelQ-
 \noindent \textbf{Different Segmenters.}
 Our method is based on a pretrained segmenter.
 To verify the impact of different segmenters on model performance, we experiment with two options:
-the closed-set Mask2Former~\cite{cheng2022masked} and the open-set OpenSeeD~\cite{zhang2023simple}. 
-As shown in Tab.~\ref{openpsg:tab:segmenter}, OpenSeeD outperforms Mask2Former on the Panoptic Quality (PQ)~\cite{kirillov2019panoptic} metric (55.1 \vs 51.7) in PSG test set in closed-set senario.
+the closed-set Mask2Former~\citep{cheng2022masked} and the open-set OpenSeeD~\citep{zhang2023simple}. 
+As shown in Tab.~\ref{openpsg:tab:segmenter}, OpenSeeD outperforms Mask2Former on the Panoptic Quality (PQ)~\citep{kirillov2019panoptic} metric (55.1 \vs 51.7) in PSG test set in closed-set senario.
 For the predicate classification subtask, the results show that using OpenSeeD is slightly better than using Mask2Former, with R@100 higher by 0.4\% and mR@100 by 0.1\%.
 For the scene graph detection subtask, OpenSeeD is a better segmenter than Mask2Former, with an increase of 3.5\% in R@100 and 2.3\% in mR@100, due to its superior object segmentation capability (see PQ in Tab.~\ref{openpsg:tab:segmenter}).
 
@@ -145,8 +145,8 @@ For the scene graph detection subtask, OpenSeeD is a better segmenter than Mask2
         \cmidrule{2-8}
         Segmenter & PQ & R/mR@20 & R/mR@50 & R/mR@100 & R/mR@20 & R/mR@50 & R/mR@100 \\
         \midrule[1pt]
-        OpenSeeD~\cite{zhang2023simple} & \textbf{55.1} & \textbf{55.1/39.2} & \textbf{70.6/53.8} & \textbf{79.3/63.8} &  \textbf{38.1/32.3} & \textbf{46.8/40.9} & \textbf{51.9/50.1} \\
-        Mask2Former~\cite{cheng2022masked} & 51.7 & 54.8/39.1 & 70.4/52.9 & 78.9/63.7 &  36.1/30.3 & 44.8/38.4 & 48.4/47.8 \\
+        OpenSeeD~\citep{zhang2023simple} & \textbf{55.1} & \textbf{55.1/39.2} & \textbf{70.6/53.8} & \textbf{79.3/63.8} &  \textbf{38.1/32.3} & \textbf{46.8/40.9} & \textbf{51.9/50.1} \\
+        Mask2Former~\citep{cheng2022masked} & 51.7 & 54.8/39.1 & 70.4/52.9 & 78.9/63.7 &  36.1/30.3 & 44.8/38.4 & 48.4/47.8 \\
     \bottomrule[1.5pt]
     \end{tabular}
     }
@@ -189,7 +189,7 @@ To validate the efficacy of the selector, we set $\theta$ to 0, meaning that dur
 As shown in Tab.~\ref{openpsg:tab:ablation_rel_q_former}, we find that when we set $\theta$ to 0, the model performance is approximately the same.
 However, under these conditions, the model takes 20 times longer to run on the whole PSG test set.
 This indicates that our selector allows for a significant improvement in computational efficiency with a small sacrifice in performance.
-More details are provided in Appendix~C.
+More details are provided in Appendix~\ref{app:chapter5}.
 
 
 \begin{table}[t]\small

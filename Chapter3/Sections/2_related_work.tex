@@ -1,32 +1,42 @@
 \section{Related Work}
 
 \subsection{Scene Graph Generation}
-The Scene Graph Generation (SGG) \cite{lu2016visual} task plays a crucial role in connecting vision and language, and has received widespread attention in the computer vision community.
-Many methods have been proposed to improve the performance of SGG, which can be classified into three categories \cite{zhu2022scene}.
-The first is to introduce multi-modal information, such as appearance \cite{sadeghi2011recognition}, space \cite{zhu2017visual}, depth \cite{sharifzadeh2021improving}, and segmentation \cite{khandelwal2021segmentation}.
-The second is to introduce prior information and commonsense knowledge, such as statistical \cite{baier2017improving, dai2017detecting, zellers2018neural, chen2019knowledge} and language prior knowledge \cite{lu2016visual, liao2019natural, zhang2019large, hwang2018tensorize, dupty2020visual}.
-The third category involves designing different model structures, such as message passing \cite{li2017vip, dai2017detecting, li2017scene, zellers2018neural, gu2019scene, hu2022neural}, attention mechanisms \cite{zheng2019visual, qi2019attentive}, tree structures and visual translation \cite{zhang2017visual, hung2020contextual}. However, most of these methods are two-stage methods that cannot learn scene graphs end-to-end.
+The Scene Graph Generation (SGG) \citep{lu2016visual} task plays a crucial role in connecting vision and language, and has received widespread attention in the computer vision community.
+Many methods have been proposed to improve the performance of SGG, which can be classified into three categories \citep{zhu2022scene}.
+The first is to introduce multi-modal information, such as appearance \citep{sadeghi2011recognition}, space \citep{zhu2017visual}, depth \citep{sharifzadeh2021improving}, and segmentation \citep{khandelwal2021segmentation}.
+The second is to introduce prior information and commonsense knowledge, such as statistical \citep{baier2017improving, dai2017detecting, zellers2018neural, chen2019knowledge} and language prior knowledge \citep{lu2016visual, liao2019natural, zhang2019large, hwang2018tensorize, dupty2020visual}.
+The third category involves designing different model structures, such as message passing \citep{li2017vip, dai2017detecting, li2017scene, zellers2018neural, gu2019scene, hu2022neural}, attention mechanisms \citep{zheng2019visual, qi2019attentive}, tree structures and visual translation \citep{zhang2017visual, hung2020contextual}. However, most of these methods are two-stage methods that cannot learn scene graphs end-to-end.
 %
-In contrast, to improve the learning ability of SGG models, several methods based on transformers have been proposed, including SGTR \cite{li2022sgtr} and RelationFormer \cite{shit2022relationformer}. These are end-to-end trainable in a single stage.
+In contrast, to improve the learning ability of SGG models, several methods based on transformers have been proposed, including SGTR \citep{li2022sgtr} and RelationFormer \citep{shit2022relationformer}. These are end-to-end trainable in a single stage.
 
 \subsection{Unbiased Scene Graph Generation}
-Solving the long-tail problem in the SGG task has attracted considerable attention from researchers, and several unbiased methods \cite{tang2020unbiased, yu2020cogtree, chiou2021recovering, desai2021learning, guo2021general, li2021bipartite, dong2022stacked, goel2022not, li2022devil, li2022ppdl, deng2022hierarchical, zhang2022fine} have been proposed.
-These methods typically improve the model from the perspective of data re-sampling~\cite{li2021bipartite} or a class-balanced loss~\cite{kang2023skew}.
-BGNN~\cite{li2021bipartite} uses a two-layer re-sampling strategy to provide a more balanced data distribution during training, while CogTree \cite{yu2020cogtree} proposal exploits the semantic relation between different predicate classes to design a novel CogTree loss.
-HML~\cite{deng2022hierarchical} improves the model's ability to solve long-tail problems by designing a staged training process, and IETrans~\cite{zhang2022fine} proposes an internal and external transfer method to transfer high frequency relations to low frequency relations and recover missing relations to train the unbiased model.
+Solving the long-tail problem in the SGG task has attracted considerable attention from researchers, and several unbiased methods \citep{tang2020unbiased, yu2020cogtree, chiou2021recovering, desai2021learning, guo2021general, li2021bipartite, dong2022stacked, goel2022not, li2022devil, li2022ppdl, deng2022hierarchical, zhang2022fine} have been proposed.
+These methods typically improve the model from the perspective of data re-sampling~\citep{li2021bipartite} or a class-balanced loss~\citep{kang2023skew}.
+BGNN~\citep{li2021bipartite} uses a two-layer re-sampling strategy to provide a more balanced data distribution during training, while CogTree \citep{yu2020cogtree} proposal exploits the semantic relation between different predicate classes to design a novel CogTree loss.
+HML~\citep{deng2022hierarchical} improves the model's ability to solve long-tail problems by designing a staged training process, and IETrans~\citep{zhang2022fine} proposes an internal and external transfer method to transfer high frequency relations to low frequency relations and recover missing relations to train the unbiased model.
 %
-Dong~\etal~\cite{dong2022stacked} propose to group relations by their frequency and train specialized relation encoders for each group. 
+\citet{dong2022stacked} propose to group relations by their frequency and train specialized relation encoders for each group. 
 While these methods are able to mitigate the long-tail problem, they do not address relational semantic overlap.
 
 \subsection{Panoptic Scene Graph Generation}
-Contrary to SGG, the PSG task~\cite{yang2022panoptic} uses panoptic segmentation masks instead of bounding boxes to represent objects, resulting in a more comprehensive scene graph.
-PSGTR \cite{yang2022panoptic}, an end-to-end method based on the DETR structure, was proposed to construct a transformer-based PSG model.
-PSGFormer~\cite{yang2022panoptic} further improved on PSGTR by introducing Object \& Relation Query Learning Blocks and Query Matching Blocks. Their strong performance on most relation classes indicates that their method is implicitly unbiased. In contrast, our approach is the first to explicitly bias a PSG model, creating separate branches for low and high frequency relations, which are then fused together.
+Contrary to SGG, the PSG task~\citep{yang2022panoptic} uses panoptic segmentation masks instead of bounding boxes to represent objects, resulting in a more comprehensive scene graph.
+PSGTR \citep{yang2022panoptic}, an end-to-end method based on the DETR structure, was proposed to construct a transformer-based PSG model.
+PSGFormer~\citep{yang2022panoptic} further improved on PSGTR by introducing Object \& Relation Query Learning Blocks and Query Matching Blocks. Their strong performance on most relation classes indicates that their method is implicitly unbiased. In contrast, our approach is the first to explicitly bias a PSG model, creating separate branches for low and high frequency relations, which are then fused together.
 
-Since the scene graph in PSG is built upon the subjects, objects and their relations, strong panoptic segmentation~\cite{kirillov2019panoptic} is crucial for PSG.
+Since the scene graph in PSG is built upon the subjects, objects and their relations, strong panoptic segmentation~\citep{kirillov2019panoptic} is crucial for PSG.
 %
-Several DETR-based \cite{carion2020end} methods such as Deformable-DETR \cite{zhu2020deformable}, Segmenter \cite{strudel2021segmenter}, MaskFormer \cite{cheng2021per} and Mask2Former \cite{cheng2022masked} have recently pushed the envelope in panoptic segmentation.
+Several DETR-based \citep{carion2020end} methods such as Deformable-DETR \citep{zhu2020deformable}, Segmenter \citep{strudel2021segmenter}, MaskFormer \citep{cheng2021per} and Mask2Former \citep{cheng2022masked} have recently pushed the envelope in panoptic segmentation.
 %
 These methods have introduced deformable transformer encoders and decoders, as well as pixel decoders and multi-scale information to improve model performance and speed up convergence.
 %
 Our proposed baseline builds upon these techniques to further enhance the PSG performance and speed up model convergence.
+
+\subsection{Developments Since Publication}
+\label{hilo:sec:post_publication}
+HiLo appeared at ICCV 2023. It is useful to record how this problem has developed since then, because the field has partly adopted the diagnosis of this chapter and partly moved beyond its solution.
+
+The diagnosis has held up well. HiLo starts from the premise that the difficulty in long-tail PSG is not imbalance alone, but imbalance combined with \emph{semantic overlap} between predicates. Later work treats this premise as a starting point rather than a claim to be argued. ADTrans~\citep{li2024semantics} traces the overlap to the annotation process itself, observing that different annotators assign different predicates to the same object pair, and learns unbiased predicate prototypes to map biased annotations onto a consistent label set. This is a more direct attack on the same problem. HiLo works around inconsistent annotation by training two complementary views of it, whereas ADTrans tries to repair the annotation. DSGG~\citep{hayder2024dsgg} follows a related direction, and the fair-ranking study of \citet{lorenz2024fair} argues that part of the apparent progress on this benchmark comes from inconsistent evaluation practice. That caution applies to the comparisons in this chapter as much as to any other.
+
+The solution has aged less well. HiLo answers a labeling problem with an architectural design, and later work has moved the answer into the data or the objective instead. More importantly, the field has shifted toward generative formulations. SGG-R$^3$~\citep{feng2026sggr3} treats relation prediction as next-token generation with a multimodal large language model, and handles the long tail through frequency-adaptive predicate weighting and a reinforcement-learning reward that balances relation coverage against precision. A model that generates predicates instead of classifying them removes the head/tail split that the HiLo architecture is built on, because there are no fixed branches when there is no fixed label space. In this sense the progression of this thesis anticipates that of the field, since Chapter~5 makes exactly this move.
+
+Two observations from this chapter therefore remain useful, even though the specific architecture does not. The first is that treating overlapping predicates as label noise discards information, and that supervision which represents several granularities explicitly recovers it. ADTrans and the coverage-oriented rewards of SGG-R$^3$ both restate this point with different machinery. The second is methodological: reporting R@$K$ and mR@$K$ together, and treating a gain in one at the cost of the other as a finding rather than a nuisance. The fair-ranking critique~\citep{lorenz2024fair} suggests that this practice is still not universal. For a researcher entering this area now, the two-branch construction is mainly of historical interest, while the diagnosis of semantic overlap and the use of paired metrics remain relevant.

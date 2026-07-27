@@ -31,15 +31,15 @@ Finally, only those object pairs being judged to likely have a relation are sent
 
 \subsection{Object Segmenter}
 \label{openpsg:sec:object_segmenter}
-Given an image $I$, we utilize the pretrained open-set object segmenter (\eg, OpenSeeD~\cite{zhang2023simple}) to predict the objects $O$ within the image and the whole-image visual feature $F_I \in \mathbb{R}^{h \times w \times D}$. 
+Given an image $I$, we utilize the pretrained open-set object segmenter (\eg, OpenSeeD~\citep{zhang2023simple}) to predict the objects $O$ within the image and the whole-image visual feature $F_I \in \mathbb{R}^{h \times w \times D}$. 
 Here, $h$ and $w$ represent the height and width of $F_I$, and $D$ denotes the feature dimension.
-The segmenter has a similar architecture to Mask2Former~\cite{cheng2022masked} includeing a pixel decoder.
+The segmenter has a similar architecture to Mask2Former~\citep{cheng2022masked} includeing a pixel decoder.
 The whole-image visual feature $F_I$ refers to the visual feature output by the pixel decoder.
 Below, we develop the patchify module and pairwise module to process the output of the segmenter, generating the input for RelQ-Former. 
 
 \subsubsection{Patchify Module.}
 Patchify module aims to serialize visual feature $F_I$ and object masks $m$, enabling them to be processed as inputs by the RelQ-Former (Sec.~\ref{openpsg:sec:rel_q_former}).
-Similar to the input patchify layer of vision transformer (ViT)~\cite{dosovitskiy2020image}, we utilize a single convolution layer to transform the extracted $F_I$ into a sequence of visual tokens $F_{Iseq} \in \mathbb{R}^{L \times D}$, where $L$ is the number of patches and $D$ is the feature dimension.
+Similar to the input patchify layer of vision transformer (ViT)~\citep{dosovitskiy2020image}, we utilize a single convolution layer to transform the extracted $F_I$ into a sequence of visual tokens $F_{Iseq} \in \mathbb{R}^{L \times D}$, where $L$ is the number of patches and $D$ is the feature dimension.
 When the kernel size and stride of the convolution layer are both $p$, $L$ is calculated as $L = \frac{h}{p} \times \frac{w}{p}$.
 Simultaneously, we employ nearest neighbor interpolation to each extracted object's mask $m_i$, where the size of $m_i$ is of height $\frac{h}{p}$ and width $\frac{w}{p}$, and then reshape it to a one-dimensional vector with the length $L$.
 After processing all masks in the same way, we obtain the mask sequence $m_{seq} \in \{0, 1\}^{N \times L}$ for all objects.
@@ -59,11 +59,11 @@ This approach facilitates the extraction of subject-object pair features and ass
 
 \subsubsection{Pair Feature Extraction Query.}
 The objective of the pair feature extraction query is to extract corresponding subject-object pair features from the whole image visual feature based on the subject-object pair masks.
-A common extraction method involves mask pooling~\cite{dai2015convolutional}, which extracts features for the target subject-object pair, treating each area on the subject-object pair equally.
+A common extraction method involves mask pooling~\citep{dai2015convolutional}, which extracts features for the target subject-object pair, treating each area on the subject-object pair equally.
 However, for features used in relation prediction, they should focus more on areas where interactions between objects occur. 
 By leveraging attention mechanisms, we facilitate interactions among visual tokens representing different areas within the visual feature sequence $F_{Iseq}$ of a subject-object pair.
 This way can enhance areas that are crucial for relation predictions.
-Furthermore, inspired by \cite{liu2023improved}, we design an instruction to assist the this learnable query in understanding its purpose for extracting subject-object pair features. 
+Furthermore, inspired by \citep{liu2023improved}, we design an instruction to assist the this learnable query in understanding its purpose for extracting subject-object pair features. 
 
 Specifically, for each subject-object pair $(o_i, o_j)$, we first input the pair feature extraction query $Q^{feat} \in \mathbb{R}^{E \times D}$ into a self-attention layer ($SA(\cdot)$), along with the pair instruction designed specifically for the pair feature extraction query.
 This pair instruction is processed through a tokenizer layer to obtain $F_{Inst}^{feat} \in \mathbb{R}^{X^{feat} \times D}$, which specifies the function of the pair feature extraction query, namely ``Extracting subject-object ($c_i$, $c_j$) features from visual features according to the mask''.
@@ -108,7 +108,7 @@ Compared to predicting for all subject-object pairs, this can enables a 20$\time
 \subsection{Multimodal Relation Decoder}
 \label{openpsg:sec:rel_decoder}
 Multimodal relation decoder aims to utilize the subject-object pair feature $F_I^{i, j}$ extracted by the aforementioned modules, combined with an instruction guiding it to achieve open-set relation prediction.
-Inspired by \cite{yue2023object, yu2023towards}, we first design a \textit{generation instruction} to perform open-set relation prediction in an autoregressive manner.
+Inspired by \citep{yue2023object, yu2023towards}, we first design a \textit{generation instruction} to perform open-set relation prediction in an autoregressive manner.
 This works well, yet we find that it tends to favor common relations more or less.
 Therefore, we further design a \textit{judgement instruction}, leveraging the LMMs' strong analytical and judgment capabilities.
 The judgement instruction also utilizes an autoregressive manner but to judge whether a specific relation exists between objects, thereby simplifying the complexity of open-set relation prediction.
@@ -116,7 +116,7 @@ Next, we specify the two instructions, respectively.
 
 \subsubsection{Generation Instruction.}
 \label{openpsg:sec:generation_inst}
-For the generation instruction, we follow the instruction design used in open-set object recognition~\cite{yu2023towards}, utilizing ``What are the relations between $c_i$ and $c_j$?''.
+For the generation instruction, we follow the instruction design used in open-set object recognition~\citep{yu2023towards}, utilizing ``What are the relations between $c_i$ and $c_j$?''.
 Here, $c_i$ and $c_j$ respectively refers to the name of the subject and object.
 We convert this instruction into features $F_{inst}^{gen} \in \mathbb{R}^{X^{gen} \times D}$ using the tokenizer, where $X^{gen}$ is the token number of the generation instruction.
 We input the features of this generation instruction $F_{inst}^{gen}$ together with the subject-object pair features $F_{I}^{pair(i,j)}$ into the multimodal relation decoder $Dec(\cdot)$, predicting all possible relations in an autoregressive way, formulated as 

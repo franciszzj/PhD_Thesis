@@ -1,20 +1,42 @@
-% \section{Limitations}
-% \label{saber:sec:limitations}
+\section{Limitations and Critical Reflection}
+\label{saber:sec:limitations}
+Saber shows that reference-to-video generation can be learned without reference image-video-text triplets, which is the central claim of this chapter. Several aspects of the design and the evaluation limit how far that claim reaches.
 
+\noindent \textbf{References come from the target video, and augmentation only partly breaks the shortcut.}
+This is the most important assumption in the chapter and deserves the closest scrutiny. During training, the reference is a masked crop of a frame taken from the same video that the model must reconstruct. A model could therefore satisfy the training objective by copying pixels instead of representing identity. This is the copy-paste shortcut that the R2V literature has encountered repeatedly~\citep{liu2025phantom, fei2025skyreels, hu2025hunyuancustom}. Our spatial mask augmentation (Sec.~\ref{saber:sec:masked_frames}) is the defense against it. Applying the same geometric transform to the frame and its mask displaces the reference relative to its source, so a naive spatial copy no longer reconstructs the target.
+
+The defense is real but incomplete, for a specific reason. Our augmentations are geometric, so they disrupt \emph{spatial} correspondence. They do not disrupt \emph{photometric} correspondence. The reference and the target still show the same subject at the same moment, under the same illumination, captured by the same camera with the same color response, sensor noise, and compression artifacts. A model that matched on low-level appearance statistics rather than on identity would still be rewarded during training, and our objective gives no signal that discourages this. At inference the reference is a genuinely independent image, with different lighting, a different camera, and usually a different moment, so any capability that rests on those shared statistics does not transfer.
+
+We do not have a clean experiment that separates these two hypotheses. The strongest indirect evidence that Saber learns more than a copy operation is that it works in the zero-shot setting at all, since that setting requires crossing exactly the train-test gap described above, and that it attains the highest NexusScore ($47.22\%$) of all compared methods, including those trained on explicit R2V data. Even so, a stronger test would decorrelate references photometrically as well as geometrically, or would measure the train-test gap directly as a function of augmentation strength. The absence of such an experiment is a genuine gap in this chapter.
+
+\noindent \textbf{Identity fidelity for faces still trails explicitly supervised methods.}
+Saber attains the best total score on OpenS2V-Eval, but not on every component. Its FaceSim of $49.89\%$ falls below VACE-14B ($55.09\%$) and BindWeave ($53.71\%$), both of which are trained on curated R2V triplets, and its Aesthetics score of $42.42\%$ is mid-range. This pattern follows from the method. Random masks sample whatever a video happens to contain, so faces receive no special weight during training, whereas curated R2V datasets are heavily human-centric by construction. The advantage of Saber is breadth of subject category, and its disadvantage is depth on the category that existing datasets over-represent. Where human identity is the requirement, a curated dataset remains the better choice. The honest reading of our results is that removing the data bottleneck trades some face fidelity for substantially wider generalization.
+
+%% ============================================================================
+%% TODO(failure-figure): Examiner request (Bilen preliminary report) -- add a
+%% qualitative figure showing representative FAILURE CASES for this chapter,
+%% and reference it from the paragraph above. Compare Chapter 4, which already
+%% has one (vlprompt:fig:failure_vis). Suggested label: saber:fig:failure_vis
+%% ============================================================================
+\noindent \textbf{Multi-reference behavior degrades rather than saturating.}
+Saber supports a varying number of references without retraining, but performance collapses when that number grows large, for example to $12$, producing fragmented compositions in which references are placed side by side rather than integrated coherently. This is a limitation of the fusion mechanism rather than of the training strategy. Nothing in the attention design distinguishes references that depict the same subject from references that depict different ones, so the model has no basis for deciding whether to merge or to separate them. Stronger multi-reference fusion is the natural next step, either by grouping references by subject explicitly, or by an attention structure that reasons over reference sets rather than concatenated tokens.
+
+\noindent \textbf{Motion control is out of scope.}
+The method targets identity preservation and visual coherence. Fine-grained motion control, and temporal consistency under complex or compositional prompts, remain challenging and are not addressed by anything in the design. The masked reconstruction objective teaches the model what should stay the same across frames. It says nothing about what should change, or how.
+
+\noindent \textbf{A single benchmark carries the quantitative argument.}
+All quantitative comparison rests on OpenS2V-Eval~\citep{yuan2025opens2v}. This is the standard benchmark for R2V and the one our baselines report on, so the comparison is fair. However, its component metrics are themselves model-based, since NexusScore, GmeScore, and FaceSim are computed with pretrained networks. They are therefore vulnerable to the same distribution shifts as the generators they judge, and a total score that aggregates eight such metrics is sensitive to weighting choices that we did not set. There is also a specific asymmetry worth naming. The reference images in the benchmark are drawn from a distribution closer to that of curated R2V datasets than to our masked training frames, which works against Saber rather than for it. Corroboration on a second, independently constructed benchmark would strengthen the claim, and no such benchmark currently exists.
+
+\noindent \textbf{Cost and dependencies.}
+Saber is finetuned from Wan2.1-14B~\citep{wan2025wan} and uses $50$ denoising steps at inference, so generation remains expensive despite the savings in data construction. Inference also depends on an off-the-shelf foreground segmenter to prepare the reference, which reintroduces at test time the kind of preprocessing dependency that Chapter~6 identifies as a weakness (Sec.~\ref{leffa:sec:limitations}). Removing the data bottleneck has therefore not removed the compute or pipeline bottlenecks.
 
 \section{Conclusion}
 \label{saber:sec:conclusion}
 
-This chapter completes the controllable-generation part of the thesis by extending reference-preserving generation from images to videos.
+This chapter completes the visual generation part of the thesis by extending reference-preserving generation from images to videos.
 It presents Saber, a scalable zero-shot framework for reference-to-video generation that eliminates the need for explicit R2V datasets.
 Trained solely on large-scale video-text pairs, Saber leverages a masked training strategy, a tailored attention mechanism, and mask augmentation to achieve identity-consistent, natural, and coherent video generation.
 It further scales to multiple references, supporting both multi-identity and multi-view inputs without additional data preparation or changes to the training pipeline.
 Extensive experiments on the OpenS2V-Eval benchmark demonstrate that Saber consistently outperforms methods trained on explicit R2V data.
 These results show that effective R2V models can be trained from scalable video-text supervision without dedicated triplet datasets.
-Chapter~8 then returns to the thesis level to summarize both parts and discuss broader limitations and future research directions.
-
-\noindent \textbf{Limitations.}
-While Saber achieves strong zero-shot performance and scalability, several limitations remain.
-First, R2V generation may collapse when the number of reference images increases significantly (\eg, $12$), resulting in fragmented compositions where references are combined without coherent understanding.
-Second, Saber primarily focuses on identity preservation and visual coherence, while fine-grained motion control and temporal consistency under complex prompts remain challenging.
-These failure cases indicate the need for stronger multi-reference fusion and adaptive temporal guidance; these broader research directions are discussed in Chapter~8.
+Chapter~8 then returns to the thesis level to summarize both parts and to synthesize the limitations identified across all five technical chapters.

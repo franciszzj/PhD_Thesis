@@ -2,28 +2,28 @@
 
 \subsection{Datasets}
 
-\noindent \textbf{Panoptic Scene Graph Generation (PSG)~\cite{yang2022panoptic}}.
+\noindent \textbf{Panoptic Scene Graph Generation (PSG)~\citep{yang2022panoptic}}.
 This is the first Panoptic Scene Graph generation dataset. It has a total of 48,749 labeled images including 2,177 test images and 46,572 training images.
-The object categories comprise 80 thing classes and 53 stuff classes, which is the same as the COCO \cite{lin2014microsoft} and COCO-Stuff datasets \cite{caesar2018coco}.
-The relation categories comprise 56 classes, including positional relations, common object-object relations, common actions, human actions, actions in the traffic scene, actions in the sports scene and interactions between backgrounds~\cite{yang2022panoptic}. 
+The object categories comprise 80 thing classes and 53 stuff classes, which is the same as the COCO \citep{lin2014microsoft} and COCO-Stuff datasets \citep{caesar2018coco}.
+The relation categories comprise 56 classes, including positional relations, common object-object relations, common actions, human actions, actions in the traffic scene, actions in the sports scene and interactions between backgrounds~\citep{yang2022panoptic}. 
 
-\noindent \textbf{Visual Genome (VG)} \cite{krishna2017visual}.
+\noindent \textbf{Visual Genome (VG)} \citep{krishna2017visual}.
 VG is a widely used benchmark dataset for Scene Graph Generation.
-Following previous work \cite{zellers2018neural, chen2019counterfactual}, we adopt the widely accepted split, VG-150, which contains 150 object categories and 50 relation categories.
+Following previous work \citep{zellers2018neural, chen2019counterfactual}, we adopt the widely accepted split, VG-150, which contains 150 object categories and 50 relation categories.
 The object categories cover a wide range of classes, such as \textit{animals}, \textit{vehicles} and \textit{household items}.
 The relation categories include both spatial and semantic classes, such as \textit{on}, \textit{in} and \textit{wearing}.
 
 \subsection{Tasks and Metrics}
-Three subtasks have been proposed for the SGG and PSG tasks, which are \emph{Predicate Classification}, \emph{Scene Graph Classification} and \emph{Scene Graph Detection}~\cite{xu2017scene}.
-We focus on Scene Graph Detection for both datasets, since it is the most comprehensive and addressed by \cite{yang2022panoptic}. This subtask
+Three subtasks have been proposed for the SGG and PSG tasks, which are \emph{Predicate Classification}, \emph{Scene Graph Classification} and \emph{Scene Graph Detection}~\citep{xu2017scene}.
+We focus on Scene Graph Detection for both datasets, since it is the most comprehensive and addressed by \citep{yang2022panoptic}. This subtask
 requires the model to first localize the objects and then predict the object classes and relations.
 Note that Scene Graph Detection in PSG includes the detection on stuff classes, while in SGG it does not.
 
-Following previous work \cite{tang2019learning, yu2020cogtree, yang2022panoptic}, we use Recall@K (R@K) and mean Recall@K (mR@K) as our metrics, where the former metric is dominated by high-frequency relations, while the latter assigns equal weight to all relation classes.
+Following previous work \citep{tang2019learning, yu2020cogtree, yang2022panoptic}, we use Recall@K (R@K) and mean Recall@K (mR@K) as our metrics, where the former metric is dominated by high-frequency relations, while the latter assigns equal weight to all relation classes.
 
 \subsection{Implementation Details}
-In our experiments, we follow the training strategy of PSGTR \cite{yang2022panoptic}.
-We use the AdamW optimizer \cite{loshchilov2017decoupled}, with a learning rate of $1e^{-4}$ and weight decay of $1e^{-4}$, except for the backbone, which is trained with a learning rate of $1e^{-5}$. For initialization, we use Mask2Former \cite{cheng2022masked} pretrained on COCO \cite{lin2014microsoft} to initialize our backbone and pixel decoder.
+In our experiments, we follow the training strategy of PSGTR \citep{yang2022panoptic}.
+We use the AdamW optimizer \citep{loshchilov2017decoupled}, with a learning rate of $1e^{-4}$ and weight decay of $1e^{-4}$, except for the backbone, which is trained with a learning rate of $1e^{-5}$. For initialization, we use Mask2Former \citep{cheng2022masked} pretrained on COCO \citep{lin2014microsoft} to initialize our backbone and pixel decoder.
 Additionally, both the H-L and L-H decoders are initialized with Mask2Former's transformer decoder.
 To ensure consistent comparison with PSGTR, we adopted the same data augmentation settings.
 Our model is trained for 12 epochs with a step scheduler at epoch 10, taking approximately 18 hours to train on four A100 GPUs with a batch size of 1 for each GPU.
@@ -41,13 +41,13 @@ Our method shows superior performance compared to all previous methods.
 \toprule[1.5pt]
 Method & Backbone & R@20 & mR@20 & R@50 & mR@50 & R@100 & mR@100 \\
 \midrule
-IMP \cite{xu2017scene} & R50 & 16.5 & 6.5 & 18.2 & 7.1 & 18.6 & 7.2 \\
-MOTIF \cite{zellers2018neural} & R50 & 20.0 & 9.1 & 21.7 & 9.6 & 22.0 & 9.7 \\
-VCTree \cite{tang2019learning} & R50 & 20.6 & 9.7 & 22.1 & 10.2 & 22.5 & 10.2 \\
-GPSNet \cite{lin2020gps} & R50 & 17.8 & 7.0 & 19.6 & 7.5 & 20.1 & 7.7 \\
+IMP \citep{xu2017scene} & R50 & 16.5 & 6.5 & 18.2 & 7.1 & 18.6 & 7.2 \\
+MOTIF \citep{zellers2018neural} & R50 & 20.0 & 9.1 & 21.7 & 9.6 & 22.0 & 9.7 \\
+VCTree \citep{tang2019learning} & R50 & 20.6 & 9.7 & 22.1 & 10.2 & 22.5 & 10.2 \\
+GPSNet \citep{lin2020gps} & R50 & 17.8 & 7.0 & 19.6 & 7.5 & 20.1 & 7.7 \\
 \midrule
-PSGTR \cite{yang2022panoptic} & R50 & 28.4 & 16.6 & 34.4 & 20.8 & 36.3 & 22.1 \\
-PSGFormer \cite{yang2022panoptic} & R50 & 18.0 & 14.8 & 19.6 & 17.0 & 20.1 & 17.6 \\
+PSGTR \citep{yang2022panoptic} & R50 & 28.4 & 16.6 & 34.4 & 20.8 & 36.3 & 22.1 \\
+PSGFormer \citep{yang2022panoptic} & R50 & 18.0 & 14.8 & 19.6 & 17.0 & 20.1 & 17.6 \\
 \textbf{HiLo (ours)} & R50 & 34.1 & 23.7 & 40.7 & 30.3 & 43.0 & 33.1 \\
 \textbf{HiLo (ours)} & Swin-B & 38.5 & 28.3 & 46.2 & 35.3 & 49.6 & 39.1 \\
 \textbf{HiLo (ours)} & Swin-L & \textbf{40.6} & \textbf{29.7} & \textbf{48.7} & \textbf{37.6} & \textbf{51.4} & \textbf{40.9} \\
@@ -64,28 +64,28 @@ PSGFormer \cite{yang2022panoptic} & R50 & 18.0 & 14.8 & 19.6 & 17.0 & 20.1 & 17.
 \label{hilo:sec:experiments:main_results}
 
 \noindent \textbf{PSG}. 
-Tab.~\ref{hilo:tab:psg_main_results} reports the performance of our method compared to the state-of-the-art on the PSG dataset~\cite{yang2022panoptic}.
+Tab.~\ref{hilo:tab:psg_main_results} reports the performance of our method compared to the state-of-the-art on the PSG dataset~\citep{yang2022panoptic}.
 We separate the methods into two groups. 
-The first are two-stage methods consisting of a separate segmentor and relation predictor, which are modified for the PSG task in \cite{yang2022panoptic}.
+The first are two-stage methods consisting of a separate segmentor and relation predictor, which are modified for the PSG task in \citep{yang2022panoptic}.
 The second are one-stage end-to-end methods, which are able to simultaneously predict panoptic segmentation and relations.
 Our method belongs to the second category.
-For a fair comparison between the different methods, we use the same Resnet-50 \cite{he2016deep} backbone.
+For a fair comparison between the different methods, we use the same Resnet-50 \citep{he2016deep} backbone.
 %
 Our method shows superior performance compared to all previous methods.
-Particularly, it outperforms the previous best-performing method PSGTR \cite{yang2022panoptic} by a large margin, \ie +6\% in R@100 and +11\% in mR@100.
-Our model is able to converge within only 12 epochs of training, whereas PSGTR \cite{yang2022panoptic} is trained for 60 epochs.
+Particularly, it outperforms the previous best-performing method PSGTR \citep{yang2022panoptic} by a large margin, \ie +6\% in R@100 and +11\% in mR@100.
+Our model is able to converge within only 12 epochs of training, whereas PSGTR \citep{yang2022panoptic} is trained for 60 epochs.
 %
-We also evaluate our method using pre-trained transformer-based backbones, \ie Swin-B and Swin-L~\cite{liu2021swin}, with the latter being a bigger model.
+We also evaluate our method using pre-trained transformer-based backbones, \ie Swin-B and Swin-L~\citep{liu2021swin}, with the latter being a bigger model.
 Our results are consistently improved over all metrics due the powerful feature representation ability of the transformer.
 
 \noindent \textbf{SGG}.
 Here we study whether our approach that was developed for the PSG task can also be applied to the SGG task.
 In Tab.~\ref{hilo:tab:vg_main_results}, we conduct experiments on the VG-150 dataset.
-Following IETrans~\cite{zhang2022fine}, we extend our \emph{unbiased} HiLo framework (Sec.~\ref{hilo:sec:framework}) without our PSG-specific baseline (Sec.~\ref{hilo:sec:baseline}) to four state-of-the-art \emph{biased} SGG methods, namely MOTIF \cite{zellers2018neural}, VCTree \cite{tang2019learning}, Transformer \cite{tang2020unbiased} and GPSNet \cite{lin2020gps}, using the implementation of \cite{zhang2022fine}.
+Following IETrans~\citep{zhang2022fine}, we extend our \emph{unbiased} HiLo framework (Sec.~\ref{hilo:sec:framework}) without our PSG-specific baseline (Sec.~\ref{hilo:sec:baseline}) to four state-of-the-art \emph{biased} SGG methods, namely MOTIF \citep{zellers2018neural}, VCTree \citep{tang2019learning}, Transformer \citep{tang2020unbiased} and GPSNet \citep{lin2020gps}, using the implementation of \citep{zhang2022fine}.
 %
-Compared to the unbiased IETrans \cite{zhang2022fine} method, our method improves mean recall without sacrificing recall, demonstrating its effectiveness in enhancing the performance of low-frequency relations.
+Compared to the unbiased IETrans \citep{zhang2022fine} method, our method improves mean recall without sacrificing recall, demonstrating its effectiveness in enhancing the performance of low-frequency relations.
 %
-Compared to the biased baselines \cite{zellers2018neural, tang2019learning, tang2020unbiased, lin2020gps}, our method achieves a significantly larger mean recall, while still maintaining an acceptable recall.
+Compared to the biased baselines \citep{zellers2018neural, tang2019learning, tang2020unbiased, lin2020gps}, our method achieves a significantly larger mean recall, while still maintaining an acceptable recall.
 %
 This indicates that our method can improve the performance of low-frequency relations while also taking into account the performance of high-frequency relations.
 %
@@ -94,27 +94,27 @@ It also shows that the HiLo framework is a general technique that yields systema
 \begin{table}
 \centering
 \setlength{\tabcolsep}{7pt}
-\caption{Comparison between our HiLo framework and other methods on the VG-150 dataset. Similar to \cite{zhang2022fine}, we apply IETrans and our own method on top of four leading baselines.
+\caption{Comparison between our HiLo framework and other methods on the VG-150 dataset. Similar to \citep{zhang2022fine}, we apply IETrans and our own method on top of four leading baselines.
 }
 \resizebox{0.5\linewidth}{!}{
 \begin{tabular}{l|cc}
 \toprule[1.5pt]
 Method & R/mR@50 & R/mR@100 \\
 \midrule
-MOTIF \cite{zellers2018neural} & \textbf{31.0} / 6.7 & \textbf{35.1} / 7.7 \\
-\quad +IETrans \cite{zhang2022fine} & 26.4 / 12.4 & 30.6 / 14.9 \\
+MOTIF \citep{zellers2018neural} & \textbf{31.0} / 6.7 & \textbf{35.1} / 7.7 \\
+\quad +IETrans \citep{zhang2022fine} & 26.4 / 12.4 & 30.6 / 14.9 \\
 \quad \textbf{+HiLo (ours)} & 26.2 / \textbf{14.7} & 30.3 / \textbf{17.7}  \\
 \midrule
-VCTree \cite{tang2019learning} & \textbf{30.2} / 6.7 & \textbf{34.6} / 8.0 \\
-\quad +IETrans \cite{zhang2022fine} & 25.4 / 11.5 & 29.3 / 14.0 \\
+VCTree \citep{tang2019learning} & \textbf{30.2} / 6.7 & \textbf{34.6} / 8.0 \\
+\quad +IETrans \citep{zhang2022fine} & 25.4 / 11.5 & 29.3 / 14.0 \\
 \quad \textbf{+HiLo (ours)} & 27.1 / \textbf{12.9} & 29.8 / \textbf{15.2} \\
 \midrule
-Transformer \cite{tang2020unbiased} & \textbf{30.0} / 7.4 & \textbf{34.3} / 8.8 \\
-\quad +IETrans \cite{zhang2022fine} & 25.5 / 12.5 & 29.6 / 15.0 \\
+Transformer \citep{tang2020unbiased} & \textbf{30.0} / 7.4 & \textbf{34.3} / 8.8 \\
+\quad +IETrans \citep{zhang2022fine} & 25.5 / 12.5 & 29.6 / 15.0 \\
 \quad \textbf{+HiLo (ours)} & 25.4 / \textbf{14.6} & 29.2 / \textbf{17.6} \\
 \midrule
-GPSNet \cite{lin2020gps} & \textbf{30.3} / 5.9 & \textbf{35.0} / 7.1 \\
-\quad +IETrans \cite{zhang2022fine} & 25.9 / 14.6 & 28.1 / 16.5 \\
+GPSNet \citep{lin2020gps} & \textbf{30.3} / 5.9 & \textbf{35.0} / 7.1 \\
+\quad +IETrans \citep{zhang2022fine} & 25.9 / 14.6 & 28.1 / 16.5 \\
 \quad \textbf{+HiLo (ours)} & 25.6 / \textbf{15.8} & 27.9 / \textbf{18.0} \\
 \bottomrule[1.5pt]
 \end{tabular}
@@ -134,6 +134,9 @@ The visualization results show that our method can predict both high frequency a
 \label{hilo:fig:short}
 \end{figure*}
 
+\noindent \textbf{Qualitative Results}.
+Fig.~\ref{hilo:fig:short} compares the panoptic segmentations and top-20 predicted triplets of our method against the ground truth. The highlighted triplets are the subject-object pairs carrying multiple relations, with high-frequency relations marked in blue and low-frequency relations in red. The examples show the behavior that the two-branch design is intended to produce: for a single pair, the model recovers both the generic relation and the more specific one, rather than committing to one granularity as biased and unbiased baselines respectively do (see also Fig.~\ref{hilo:fig:motivation}).
+
 \subsection{Ablation Study}
 Consistent with this chapter, we use HiLo with a Resnet-50 backbone to perform ablation experiments on the PSG dataset.
 
@@ -150,8 +153,8 @@ Baseline  & HiLo & R/mR@20 & R/mR@50 & R/mR@100 \\
 HiLo baseline & \checkmark & \textbf{34.1} / \textbf{23.7} & \textbf{40.7} / \textbf{30.3} & \textbf{43.0} / \textbf{33.1} \\
 HiLo baseline & - & 32.6 / 20.9 & 38.0 / 27.4 & 38.9 / 28.4 \\
 \midrule
-PSGTR~\cite{yang2022panoptic} & \checkmark & \textbf{30.1} / \textbf{20.2} & \textbf{36.6} / \textbf{23.9} & \textbf{38.3} / \textbf{24.5} \\
-PSGTR~\cite{yang2022panoptic} & - & 28.4 / 16.6 & 34.4 / 20.8 & 36.3 / 22.1 \\
+PSGTR~\citep{yang2022panoptic} & \checkmark & \textbf{30.1} / \textbf{20.2} & \textbf{36.6} / \textbf{23.9} & \textbf{38.3} / \textbf{24.5} \\
+PSGTR~\citep{yang2022panoptic} & - & 28.4 / 16.6 & 34.4 / 20.8 & 36.3 / 22.1 \\
 \bottomrule[1.5pt]
 \end{tabular}
 }
@@ -161,9 +164,9 @@ PSGTR~\cite{yang2022panoptic} & - & 28.4 / 16.6 & 34.4 / 20.8 & 36.3 / 22.1 \\
 \noindent \textbf{HiLo Framework for Different Baselines}.
 In this section we investigate whether our HiLo framework~(Sec.~\ref{hilo:sec:framework}) yields improvements for other baselines, rather than just the one presented in Sec.~\ref{hilo:sec:baseline}.
 Tab.~\ref{hilo:tab:different_baselines} shows the results for two baselines, with and without the HiLo framework.
-We observe that our biased baseline outperforms the previous PSGTR~\cite{yang2022panoptic} method on all metrics.
+We observe that our biased baseline outperforms the previous PSGTR~\citep{yang2022panoptic} method on all metrics.
 Furthermore, by applying the HiLo framework, we can substantially improve the performance over both baselines.
-It is worth mentioning that the HiLo framework improves recall and mean recall simultaneously, whereas other methods typically improve one metric at the cost of the other \cite{tang2020unbiased, yu2020cogtree}.
+It is worth mentioning that the HiLo framework improves recall and mean recall simultaneously, whereas other methods typically improve one metric at the cost of the other \citep{tang2020unbiased, yu2020cogtree}.
 
 
 \noindent \textbf{HiLo Relation Augmentation.}
@@ -240,8 +243,8 @@ H-L Result & L-H Result & R/mR@50 & R/mR@100 \\
 
 \noindent \textbf{Convergence Speed Analysis}.
 We evaluate the convergence of our model by assessing its performance on the validation set at various epochs, as illustrated in Fig.~\ref{hilo:fig:convergence_speed}.
-Our analysis reveals that our proposed method outperforms prior methods \cite{yang2022panoptic} both in terms of final performance and convergence speed.
-Specifically, PSGTR \cite{yang2022panoptic} achieves negligible performance in the initial 12 epochs, requiring 60 epochs to converge, as per the authors.
+Our analysis reveals that our proposed method outperforms prior methods \citep{yang2022panoptic} both in terms of final performance and convergence speed.
+Specifically, PSGTR \citep{yang2022panoptic} achieves negligible performance in the initial 12 epochs, requiring 60 epochs to converge, as per the authors.
 In contrast, our HiLo method achieves better results in just 12 epochs, indicating its superior convergence speed.
 
 \begin{figure}[h]

@@ -20,8 +20,9 @@ c) In addition to task losses for PSG, we propose HiLo prediction alignment, whi
 
 \subsection{HiLo Baseline}
 \label{hilo:sec:baseline}
+Fig.~\ref{hilo:fig:baseline} gives an overview of the complete framework, including the relation swapping module, the two parallel decoders, and the consistency losses that align them. We first describe the baseline on which the framework is built.
 High-quality panoptic segmentation is crucial for achieving good PSG performance.
-We build our method upon recent advances in DETR-based panoptic segmentation, namely Mask2Former \cite{cheng2022masked}.
+We build our method upon recent advances in DETR-based panoptic segmentation, namely Mask2Former \citep{cheng2022masked}.
 Below we present its structure, as well as our proposed modifications for the PSG task.  
 
 \noindent \textbf{Mask2Former}.
@@ -34,18 +35,18 @@ On top of the transformer decoder, there are two task heads including a linear c
 The mask prediction is obtained by taking the dot product of the mask embedding $\mathcal{E}$ with the scale feature of the highest resolution in the multi-scale features $\mathcal{\widetilde F}$.
 
 \noindent \textbf{Triplet Queries}.
-The original query in Mask2Former is to predict the object. In order to predict both subject, object and their relation, we develop the triplet queries $\mathcal{Q}^{t}$ inspired by \cite{yang2022panoptic} into our baseline.
+The original query in Mask2Former is to predict the object. In order to predict both subject, object and their relation, we develop the triplet queries $\mathcal{Q}^{t}$ inspired by \citep{yang2022panoptic} into our baseline.
 Each query predicts a triplet that includes subject, object, and relation.
 Accordingly, our task heads comprise three linear classifiers. Each classifier is responsible for predicting the class probability for subject, object or relation, respectively. 
 Moreover, we devise two MLPs to generate mask embeddings for the subject and object, denoted by $\mathcal{E}^s$ and $\mathcal{E}^o$. We use them to compute the dot product with the scale feature of the highest resolution in multi-scale feature $\mathcal{\widetilde F}$ and obtain the mask prediction for the subject and object, respectively.
 
 \noindent \textbf{Masked Relation Attention}.
-\cite{cheng2022masked} proposes a transformer decoder variant with masked attention, which extracts spatial features by adding the predicted mask of the object from the previous decoder layer's mask prediction.
+\citep{cheng2022masked} proposes a transformer decoder variant with masked attention, which extracts spatial features by adding the predicted mask of the object from the previous decoder layer's mask prediction.
 It makes the model focus on the object-related area in the feature map.
 To adapt this scheme to the PSG task, for each relation, we extend the masked attention to take the union of the binary masks of the subject and object as input, which represents the pixels corresponding to the relation.
 
 \noindent \textbf{Network Training}.
-We adopt the same losses as PSGTR~\cite{yang2022panoptic}, including cross-entropy loss $\mathcal{L}_{so\_cls}$ for object classification of subject-object pairs and a combination $\mathcal{L}_{so\_mask}$ of focal loss and dice loss to jointly supervise mask learning.
+We adopt the same losses as PSGTR~\citep{yang2022panoptic}, including cross-entropy loss $\mathcal{L}_{so\_cls}$ for object classification of subject-object pairs and a combination $\mathcal{L}_{so\_mask}$ of focal loss and dice loss to jointly supervise mask learning.
 To supervise the relations, we use the cross-entropy loss $\mathcal{L}_{rel\_cls}$.
 The baseline loss with (${\lambda}_{1} = 1$, ${\lambda}_{2} = 1$, ${\lambda}_{3} = 4$) is thus:
 \begin{align}
@@ -61,11 +62,11 @@ The key insight of our HiLo is to build a model that can take into account both 
 \label{hilo:sec:framework:relation_generation}
 In the PSG task, multiple relations can be used to describe the connection between a subject and an object from different perspectives, such as \emph{spatial} relations, \emph{actions} and \emph{prepositions}. Since the subject, object and their relative position in the image are fixed, all these relations share the same visual information.
 %
-This is reflected in the PSG dataset~\cite{yang2022panoptic} where many subject-object pairs are annotated with multiple relation labels. These relation labels are of different frequencies in the dataset. In this section we introduce the HiLo relation generation module to prepare two sets of training data, biasing towards high and low-frequency relations respectively.
+This is reflected in the PSG dataset~\citep{yang2022panoptic} where many subject-object pairs are annotated with multiple relation labels. These relation labels are of different frequencies in the dataset. In this section we introduce the HiLo relation generation module to prepare two sets of training data, biasing towards high and low-frequency relations respectively.
 
 \noindent \textbf{Relation Augmentation}. 
-Similar to~\cite{goel2022not}, we observe that there are many missing relation annotations in the PSG dataset~\cite{yang2022panoptic}.
-To add the missing relation annotations, we design a relation augmentation scheme that is inspired by IETrans \cite{zhang2022fine}, which converts high-frequency relations to low-frequency relations and adds a relation to a subject-object pair that has no relation.
+Similar to~\citep{goel2022not}, we observe that there are many missing relation annotations in the PSG dataset~\citep{yang2022panoptic}.
+To add the missing relation annotations, we design a relation augmentation scheme that is inspired by IETrans \citep{zhang2022fine}, which converts high-frequency relations to low-frequency relations and adds a relation to a subject-object pair that has no relation.
 %
 We adapt it by first training our baseline as a biased model using the original annotated data. For every subject-object pair in the training set, we use this model to predict the relation scores for all predefined relation categories: 
 \begin{itemize}
@@ -87,7 +88,7 @@ Given a triplet ($s, o, r_k$), we replace its relation label $r_k$ with that of 
 %
 Hence, we obtain two new sets of triplets, denoted by $\mathcal T^\text{H-L}$ and $\mathcal T^\text{L-H}$.  We devise two parallel decoders from the shared encoder of our backbone. They are learned with the H-L and L-H data, respectively.
 %
-The H-L and L-H decoders favour the predictions for low and high-frequency relations, respectively. Despite their difference, for the corresponding triplet query in the two decoders, their predictions are highly correlated: on one hand, the subject and object predictions should be the same; on the other hand, the distribution of relation predictions should be overlapping.  Below we first build the query correspondence in the two decoders and then introduce the HiLo subject-object and relation consistency loss to align the predictions from two the decoders. 
+The H-L and L-H decoders favor the predictions for low and high-frequency relations, respectively. Despite their difference, for the corresponding triplet query in the two decoders, their predictions are highly correlated: on one hand, the subject and object predictions should be the same; on the other hand, the distribution of relation predictions should be overlapping.  Below we first build the query correspondence in the two decoders and then introduce the HiLo subject-object and relation consistency loss to align the predictions from two the decoders. 
 
 \subsubsection{HiLo Prediction Alignment}
 \label{hilo:sec:framework:prediction_alignment}
@@ -143,7 +144,7 @@ The final loss $\mathcal{L}$ is thus:
 
 \subsubsection{HiLo Inference Fusion}
 \label{hilo:sec:framework:inference_fusion}
-The H-L and L-H decoders favour low-frequency relation prediction and high-frequency relation prediction, respectively. 
+The H-L and L-H decoders favor low-frequency relation prediction and high-frequency relation prediction, respectively. 
 To combine the strength of both during inference, we introduce the HiLo inference fusion module. 
 %
 Specifically, we denote by $\mathcal G^\text{H-L}$ and $\mathcal G^\text{L-H}$ the predicted panoptic scene graphs from H-L and L-H decoders, respectively.
