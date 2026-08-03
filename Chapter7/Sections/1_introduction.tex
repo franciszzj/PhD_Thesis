@@ -1,8 +1,8 @@
 \section{Introduction}
 \label{saber:sec:introduction}
 
-Building on the reference-preservation problem studied in Chapter~6, this chapter asks how the same idea can scale from single images to videos.
-The challenge is not only to preserve identity from references, but also to maintain that identity over time, and to do so without relying on costly reference image--video--text triplets. As in Chapter~6, supplying the reference is not enough. A model trained on video can satisfy its objective by copying neighboring frames, so the intended use of the reference has to be enforced by the training task itself.
+Building on the spatial correspondence studied in Chapter~6, this chapter asks how reference-conditioned generation can preserve identity over time.
+The task-relevant structure is now temporal: the subject should remain identifiable across frames while its pose, viewpoint, and surroundings may change. Learning this structure without costly reference image--video--text triplets is difficult because a model trained on ordinary videos can reduce reconstruction loss by copying neighboring frames. The training task must therefore discourage this shortcut while requiring reference-aware identity propagation.
 This chapter addresses that problem with a scalable zero-shot training strategy.
 
 Reference-to-video (R2V) generation synthesizes videos that align with a given text prompt while preserving the identity and appearance of subjects in reference images.

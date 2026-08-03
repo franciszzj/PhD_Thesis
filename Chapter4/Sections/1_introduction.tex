@@ -1,8 +1,8 @@
 \section{Introduction}
 \label{vlprompt:sec:introduction}
 
-Building on Chapter~3, this chapter addresses a second obstacle to controllable relation prediction: rare and ambiguous relations are often difficult to resolve from visual evidence alone.
-The setting remains closed-set PSG, but the goal now is to widen the control interface with language priors. As Section~\ref{sec:unifying_argument} notes, supplying those priors is not sufficient on its own, so this chapter also has to teach the model when to trust them.
+Building on Chapter~3, this chapter addresses a second obstacle to learning relational structure: rare and ambiguous relations are often difficult to resolve from visual evidence alone.
+The setting remains closed-set PSG, but the model now incorporates language-derived relational knowledge. Under the argument in Section~\ref{sec:unifying_argument}, access to this knowledge is insufficient unless it is aligned with the relevant object pair and grounded in visual evidence. This chapter therefore learns when and how language features should inform relation prediction.
 
 Panoptic scene graph generation (PSG)~\citep{yang2022panoptic} extends scene graph generation (SGG)~\citep{lu2016visual} by incorporating panoptic segmentation~\citep{kirillov2019panoptic} to capture richer and more detailed representations of images, including both ``thing''~\citep{lin2014microsoft} and ``stuff''~\citep{caesar2018coco} object classes.
 PSG constructs a directed graph to represent an image, where nodes signify objects and edges capture the relations between objects.

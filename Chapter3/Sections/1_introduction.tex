@@ -1,8 +1,8 @@
 \section{Introduction}
 \label{hilo:sec:introduction}
 
-Chapter~3 opens the visual understanding part of the thesis. In the terms of Section~\ref{sec:unifying_argument}, relation prediction is the interface through which a scene can be controlled, since a relation is the smallest unit of a scene description that a user can ask about or verify. This chapter addresses the first obstacle to that control: a model given a vocabulary of $56$ predicates has no incentive to use the rare ones, and predicts frequent predicates almost exclusively.
-The goal of this chapter is therefore to establish a strong closed-set PSG formulation that recovers both common and rare predicates, before the later chapters add language priors and open-set capability.
+Chapter~3 opens the visual-understanding part of the thesis by studying how learning can reflect the relational structure of a scene when predicate annotations are long-tailed and semantically overlapping. A vocabulary of $56$ predicates makes the label space explicit, but standard empirical risk minimization still allows frequent predicates to dominate the learned representation. The resulting model captures only a biased projection of the annotated graph structure.
+The goal of this chapter is therefore to establish a strong closed-set PSG formulation that recovers both common and rare predicates. HiLo makes the head--tail organization of the predicate space operational through complementary branches and consistency constraints, before the later chapters incorporate language-derived structure and open-set capability.
 
 Scene Graph Generation (SGG)~\citep{lu2016visual} is a crucial task in image scene understanding that extracts triplets in the form of subjects, objects and their relations to build a scene graph. 
 Subjects and objects are represented with bounding boxes.

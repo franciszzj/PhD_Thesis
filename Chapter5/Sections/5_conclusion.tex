@@ -27,11 +27,11 @@ Pair filtering reduces the quadratic cost of relation prediction but does not re
 
 \section{Conclusion}
 \label{openpsg:sec:conclusion}
-This chapter completed the PSG line of the thesis by extending control over a scene description from closed-set relation classification to open-set grounded relation prediction.
+This chapter completed the PSG line of the thesis by extending its relational representation from closed-set classification toward open-set grounded prediction.
 It formulated the open-set PSG task and introduced OpenPSG to accomplish open-set relation prediction.
 With the help of large multimodal models, our method employs an autoregressive approach to predict open-set relations.
 Additionally, we have developed a relation query transformer which contains pair feature extraction and relation existence estimation queries, one for extracting features of subject-object pairs, the other for predicting the existence of relations between them to filter out irrelevant pairs. 
 Furthermore, we design generation and judgement instructions to enable the multimodal relation decoder to predict open-set relations.
 Extensive experiments demonstrate that our method achieves excellent performance in open-set relation prediction.
 Together with Chapters~3 and~4, this chapter shows how PSG can be improved along three axes: long-tail robustness, language-assisted reasoning, and open-world generalization.
-The next chapter turns to control in visual generation and studies how reference information can be preserved faithfully in person image synthesis.
+The next chapter turns to visual generation and studies how spatial correspondence can support faithful reference preservation in person image synthesis.
