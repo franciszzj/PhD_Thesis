@@ -2,7 +2,7 @@
 \label{saber:sec:introduction}
 
 Building on the spatial correspondence studied in Chapter~6, this chapter asks how reference-conditioned generation can preserve identity over time.
-The task-relevant structure is now temporal: the subject should remain identifiable across frames while its pose, viewpoint, and surroundings may change. Learning this structure without costly reference image--video--text triplets is difficult because a model trained on ordinary videos can reduce reconstruction loss by copying neighboring frames. The training task must therefore discourage this shortcut while requiring reference-aware identity propagation.
+The structure with which learning must align is now temporal: the subject should remain identifiable across frames while its pose, viewpoint, and surroundings may change. Learning this structure without costly reference image--video--text triplets is difficult because a model trained on ordinary videos can reduce reconstruction loss by copying neighboring frames. The training task must therefore discourage this shortcut while requiring reference-aware identity propagation.
 This chapter addresses that problem with a scalable zero-shot training strategy.
 
 Reference-to-video (R2V) generation synthesizes videos that align with a given text prompt while preserving the identity and appearance of subjects in reference images.
